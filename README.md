@@ -1,4 +1,4 @@
-# PyTorch for Deep Learning: Solving Partial Differential Equations
+# Partial Differential Equations with Deep-Learning
 
 ## Overview
 
@@ -12,7 +12,6 @@ PyTorch is a popular open-source deep learning library developed by Facebook's A
 
 Before installing PyTorch, it is essential to ensure that you have a compatible version of Python installed. PyTorch supports Python versions 3.6, 3.7, 3.8, and 3.9. Open a terminal or command prompt and run the following command to check your Python version:
 
-```bash
 python --version
 
 Make sure the output shows a compatible Python version.
@@ -25,7 +24,6 @@ PyTorch can be installed using different methods, such as pip, conda, or buildin
 
 Creating a virtual environment is a good practice for isolating your Python dependencies. Open a terminal or command prompt and run the following commands to create and activate a virtual environment (replace myenv with your desired environment name):
 
-```bash
 # Create a virtual environment
 python -m venv myenv
 # Activate the virtual environment
@@ -38,7 +36,6 @@ source myenv/bin/activate
 
 With the virtual environment activated (if you created one), run the following command to install PyTorch using pip:
 
-```bash
 pip install torch torchvision
 
 This command will install the latest stable version of PyTorch and its dependencies.
@@ -47,7 +44,6 @@ This command will install the latest stable version of PyTorch and its dependenc
 
 To verify that PyTorch is installed correctly, run the following Python code in a Python interpreter or Jupyter notebook:
 
-```bash
 import torch
 # Check PyTorch version
 print("PyTorch version:", torch.__version__)
