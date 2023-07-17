@@ -32,7 +32,7 @@ class Model(nn.Module):
         return output
 
 T = 2
-epochs = 1e3
+epochs = 2e3
 gamma1 = 100.
 gamma2 = 100.
     
@@ -51,8 +51,8 @@ def random_IC_points(n=32):
 
 model = Model()
 
-learning_rate = 0.005
-max_epochs = 1000
+learning_rate = 0.001
+max_epochs = 2000
 
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 convergence_data = torch.empty((max_epochs), device=device)
@@ -75,12 +75,12 @@ for epoch in range(int(epochs)):
                                create_graph=True,
                                grad_outputs=torch.ones_like(u_x)
                                )[0]
-    residual = - u_xx - 0.1*(4.0*torch.pi)*torch.sin(2.0*torch.pi*x)
+    residual = - u_xx - (2.0*torch.pi)**2*torch.sin(2.0*torch.pi*x)
     loss_dom = torch.mean(torch.pow(residual,2))
     # BC
-    x_bc = random_BC_points(T)
-    #print(x_bc)
-    #u_bc = torch.tensor([[-1.],[1.]])
+    # x_bc = random_BC_points(T)
+    # print(x_bc)
+    x_bc = torch.tensor([[0.],[1.]],requires_grad=True)
     u_bc       = model(x_bc)
     loss_bc    = torch.mean(torch.pow(u_bc - 0.,2))
     # LOSS
@@ -108,10 +108,10 @@ for t_i in np.linspace(0,2,11):
     #
     plt.figure()
     plt.plot(x,nn_sol,label='nn')
-    exact_sol = 0.1*torch.sin(2.0*torch.pi*x)
+    exact_sol = torch.sin(2.0*torch.pi*x)
     plt.plot(x,exact_sol,label='exact sol')
     plt.title(r'$t_i$:'+str(t_i))
-    plt.ylim(-0.15,0.15)
+    plt.ylim(-1.1,1.1)
     plt.legend()
     plt.savefig('exact_plot.png')
     print('Plots saved successfully.')
