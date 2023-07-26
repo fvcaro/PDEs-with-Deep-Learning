@@ -1,9 +1,11 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.optim.lr_scheduler import StepLR
+import torch.optim.lr_scheduler as lr_scheduler
 from matplotlib import pyplot as plt
+import numpy as np
 
+# 1D heat equation
 class PINN(nn.Module):
     def __init__(self, input_size, hidden_sizes, output_size, act=nn.ReLU(), device=torch.device("cpu")):
         super(PINN, self).__init__()
@@ -17,15 +19,12 @@ class PINN(nn.Module):
         self.activation = act.to(device)
         self.device = device
 
-    def forward(self, x):
+    def forward(self, x, t):
+        inputs = torch.cat([x, t], axis=1)  # Concatenate x and t
         for layer in self.layers[:-1]:
-            x = self.activation(layer(x))
-        output = self.layers[-1](x)
+            inputs = self.activation(layer(inputs))
+        output = self.layers[-1](inputs)
         return output
-
-def random_domain_points(n):
-    x = torch.rand(n, 1, requires_grad=True)
-    return x
 
 if torch.cuda.is_available():
     device = torch.device("cuda")
@@ -34,71 +33,98 @@ else:
     device = torch.device("cpu")
     print('CUDA is not available. Using CPU.')
 
-pinn = PINN(1, [10, 50, 50, 50, 10], 1, act=torch.nn.Sigmoid(), device=device)
+pinn = PINN(2, [64, 128, 128, 128, 64], 1, act=torch.nn.Tanh(), device=device)
 print(pinn)
 
-learning_rate = 0.01
+epochs = int(3e3)
+learning_rate = 1e-4
 optimizer = optim.Adam(pinn.parameters(), lr=learning_rate)
-scheduler = StepLR(optimizer, step_size=1000, gamma=0.1)  # Learning rate scheduler
+# Define the CosineAnnealingLR scheduler with warm-up
+warmup_epochs = 1000
+cosine_epochs = epochs - warmup_epochs
+scheduler = lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=cosine_epochs, T_mult=1, eta_min=1e-6) # Learning rate scheduler
 
-epochs = int(2e3)
 convergence_data = torch.empty((epochs), device=device)
 
+T = 2
 gamma1 = 100.
+gamma2 = 100.
+
+def random_domain_points(T, n=2048):
+    x = torch.rand(n,1,requires_grad=True)
+    t = T*torch.rand(n,1,requires_grad=True)
+    return x, t
+
+def random_BC_points(T, n=128):
+    x = torch.randint(2, (n,1), dtype=torch.float32, requires_grad=True)
+    t = T*torch.rand(n,1,requires_grad=True)
+    return x, t
+
+def random_IC_points(n=32):
+    x = torch.rand(n,1,requires_grad=True)
+    t = T*torch.zeros(n,1,requires_grad=True)
+    return x, t
+
 loss_list = []
+for epoch in range(int(epochs)):
+    optimizer.zero_grad() # to make the gradients zero
+    #
+    x, t = random_domain_points(T)
+    u = pinn(x, t)
+    # Derivatives
+    u_t = torch.autograd.grad(outputs=u, 
+                              inputs=t,
+                              create_graph=True,
+                              grad_outputs=torch.ones_like(u)
+                              )[0]
+    u_x = torch.autograd.grad(outputs=u, 
+                              inputs=x,
+                              create_graph=True,
+                              grad_outputs=torch.ones_like(u)
+                              )[0]
+    u_xx = torch.autograd.grad(outputs=u_x, 
+                               inputs=x,
+                               create_graph=True,
+                               grad_outputs=torch.ones_like(u_x)
+                               )[0]
+    residual = u_t - u_xx
+    loss_dom = torch.mean(torch.pow(residual,2))
+    # BC
+    x_bc, t_bc = random_BC_points(T)
+    u_bc = pinn(x_bc, t_bc)
+    loss_bc = torch.mean(torch.pow(u_bc - 0.,2))
+    # IC
+    x_ic, t_ic = random_IC_points()
+    u_ic = pinn(x_ic, t_ic)
+    loss_ic = torch.mean(torch.pow(u_ic - torch.sin(torch.pi*x_ic),2))
+    # LOSS
+    loss = loss_dom + gamma1*loss_bc + gamma2*loss_ic
+    loss_list.append(loss.detach().numpy())
+    loss.backward() # This is for computing gradients using backward propagation
+    optimizer.step() 
+    scheduler.step()  # Update learning rate
 
-try:
-    for epoch in range(epochs):
-        optimizer.zero_grad()  # Set gradients to zero
-
-        # Random domain points
-        x = random_domain_points(2048).to(device)
-        u = pinn(x)
-
-        # Compute derivatives
-        u_x = torch.autograd.grad(outputs=u, inputs=x, create_graph=True,
-                                  grad_outputs=torch.ones_like(u))[0]
-        u_xx = torch.autograd.grad(outputs=u_x, inputs=x, create_graph=True,
-                                   grad_outputs=torch.ones_like(u_x))[0]
-
-        # Compute the residual and loss in the domain
-        residual = -u_xx - 4.*(torch.pi**2)*torch.sin(2.*torch.pi*x)
-        loss_dom = torch.mean(torch.pow(residual, 2))
-
-        # Compute the loss at the boundary
-        x_bc = torch.tensor([[0.], [1.]], requires_grad=True).to(device)
-        u_bc = pinn(x_bc)
-        loss_bc = torch.mean(torch.pow(u_bc - 0., 2))
-
-        # Total loss
-        loss = loss_dom + gamma1 * loss_bc
-        loss_list.append(loss.item())
-
-        # Backpropagation and optimization
-        loss.backward()
-        optimizer.step()
-        scheduler.step()  # Update learning rate
-
-        convergence_data[epoch] = loss.item()
-
-        if epoch % 100 == 0:
-            print(f"Epoch: {epoch} - Loss: {loss.item():>7f} - Learning Rate: {scheduler.get_last_lr()[0]:>7f}")
-
-except KeyboardInterrupt:
-    pass
+    # Store loss into convergence_data and print loss and learning rate every 100 epochs
+    convergence_data[epoch] = loss.item()
+    if epoch % 100 == 0:
+        print(f"Epoch: {epoch} - Loss: {loss.item():>7f} - Learning Rate: {scheduler.get_last_lr()[0]:>7f}")
 
 plt.semilogy(loss_list)
 plt.savefig('loss_plot.png')
 
-x = torch.linspace(0, 1, 126).view(-1, 1).to(device)
-nn_sol = pinn(x).detach().cpu().numpy()
+x = torch.linspace(0,1,126).view(-1,1)
 
-plt.figure()
-plt.plot(x.cpu().numpy(), nn_sol, label='nn')
-exact_sol = torch.sin(2.*torch.pi*x).cpu().numpy()
-plt.plot(x.cpu().numpy(), exact_sol, label='exact sol')
-plt.ylim(-1.1, 1.1)
-plt.legend()
-plt.savefig('exact_plot.png')
+for idx, t_i in enumerate(np.linspace(0,2,11)):
+    t = t_i * torch.ones_like(x)
+    nn_sol = pinn(x,t).detach().numpy()
+    
+    plt.figure()
+    plt.plot(x, nn_sol, label='nn')
+    exact_sol = torch.sin(torch.pi*x) * torch.exp(-torch.pi**2*t)
+    plt.plot(x, exact_sol, label='exact sol')
+    plt.title(r'$t_i$:' + str(t_i))
+    plt.legend()
+
+    plt.savefig(f'exact_plot_{idx}.png')  # save with a unique name
 
 print('Plots saved successfully.')
