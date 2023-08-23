@@ -4,18 +4,18 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import StepLR
 from matplotlib import pyplot as plt
 
+# Modify the PINN class to accept a different number of nodes in each the hidden layers
 class PINN(nn.Module):
-    def __init__(self, input_size, hidden_sizes, output_size, act=nn.ReLU(), device=torch.device("cpu")):
+    def __init__(self, input_size, hidden_sizes, output_size, act=nn.ReLU()):
         super(PINN, self).__init__()
 
         self.layers = nn.ModuleList()
         layer_sizes = [input_size] + hidden_sizes + [output_size]
 
         for i in range(len(layer_sizes) - 1):
-            self.layers.append(nn.Linear(layer_sizes[i], layer_sizes[i+1]).to(device))
+            self.layers.append(nn.Linear(layer_sizes[i], layer_sizes[i+1]))
 
-        self.activation = act.to(device)
-        self.device = device
+        self.activation = act
 
     def forward(self, x):
         for layer in self.layers[:-1]:
@@ -34,14 +34,15 @@ else:
     device = torch.device("cpu")
     print('CUDA is not available. Using CPU.')
 
-pinn = PINN(1, [64, 128, 128, 128, 64], 1, act=torch.nn.Sigmoid(), device=device)
+# Print the PINN architecture
+pinn = PINN(1, [10, 50, 50, 50, 10], 1, act=torch.nn.Sigmoid()).to(device)
 print(pinn)
 
 learning_rate = 0.01
 optimizer = optim.Adam(pinn.parameters(), lr=learning_rate)
 scheduler = StepLR(optimizer, step_size=1000, gamma=0.1)  # Learning rate scheduler
 
-epochs = int(2e3)
+epochs = int(1e2)
 convergence_data = torch.empty((epochs), device=device)
 
 gamma1 = 100.
@@ -60,9 +61,9 @@ try:
                                   grad_outputs=torch.ones_like(u))[0]
         u_xx = torch.autograd.grad(outputs=u_x, inputs=x, create_graph=True,
                                    grad_outputs=torch.ones_like(u_x))[0]
-
+        
         # Compute the residual and loss in the domain
-        residual = -u_xx - 4.*(torch.pi**2)*torch.sin(2.*torch.pi*x)
+        residual = -u_xx - (2.0 * torch.pi) ** 2 * torch.sin(2.0 * torch.pi * x)
         loss_dom = torch.mean(torch.pow(residual, 2))
 
         # Compute the loss at the boundary
@@ -73,7 +74,7 @@ try:
         # Total loss
         loss = loss_dom + gamma1 * loss_bc
         loss_list.append(loss.item())
-
+        
         # Backpropagation and optimization
         loss.backward()
         optimizer.step()
@@ -94,9 +95,9 @@ x = torch.linspace(0, 1, 126).view(-1, 1).to(device)
 nn_sol = pinn(x).detach().cpu().numpy()
 
 plt.figure()
-plt.plot(x.cpu().numpy(), nn_sol, label='nn')
-exact_sol = torch.sin(2.*torch.pi*x).cpu().numpy()
-plt.plot(x.cpu().numpy(), exact_sol, label='exact sol')
+plt.plot(x.cpu(), nn_sol, label='nn')
+exact_sol = torch.sin(2.0 * torch.pi * x)
+plt.plot(x.cpu(), exact_sol, label='exact sol')
 plt.ylim(-1.1, 1.1)
 plt.legend()
 plt.savefig('exact_plot.png')

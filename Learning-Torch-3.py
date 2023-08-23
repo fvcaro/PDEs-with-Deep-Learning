@@ -33,10 +33,10 @@ else:
     device = torch.device("cpu")
     print('CUDA is not available. Using CPU.')
 
-pinn = PINN(2, [64, 128, 128, 128, 64], 1, act=torch.nn.Tanh(), device=device)
+pinn = PINN(2, [64, 128, 128, 128, 64], 1, act=nn.Tanh(), device=device)
 print(pinn)
 
-epochs = int(3e3)
+epochs = int(1e5)
 learning_rate = 1e-4
 optimizer = optim.Adam(pinn.parameters(), lr=learning_rate)
 # Define the CosineAnnealingLR scheduler with warm-up
