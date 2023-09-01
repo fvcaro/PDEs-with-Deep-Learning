@@ -61,10 +61,10 @@ else:
     device = torch.device("cpu")
     print('CUDA is not available. Using CPU.')
 
-pinn = PINN(2, [64, 128, 128, 128, 64], 1, act=torch.nn.ReLU(), device=device)
+pinn = PINN(2, [64, 128, 128, 128, 64], 1, act=torch.nn.Sigmoid(), device=device)
 print(pinn)
 
-learning_rate = 0.01
+learning_rate = 3e-3
 optimizer = optim.Adam(pinn.parameters(), lr=learning_rate)
 scheduler = StepLR(optimizer, step_size=2000, gamma=0.1)  # Learning rate scheduler
 
@@ -82,12 +82,20 @@ try:
         x = x.to(device)
 
         u = pinn(x)
-        gradients = torch.autograd.grad(u, x, torch.ones_like(u), create_graph=True, retain_graph=True)[0]
-        u_xx = []
-        u_yy = []
+        gradients = torch.autograd.grad(outputs = u, 
+										inputs = x, 
+										grad_outputs = torch.ones_like(u), 
+										create_graph=True, 
+										retain_graph=True)[0]
 
-        u_xx_aux = torch.autograd.grad(gradients[:, 0], x, torch.ones_like(gradients[:, 0]), create_graph=True)[0]
-        u_yy_aux = torch.autograd.grad(gradients[:, 1], x, torch.ones_like(gradients[:, 1]), create_graph=True)[0]
+        u_xx_aux = torch.autograd.grad(outputs = gradients[:, 0], 
+									   inputs = x, 
+									   grad_outputs = torch.ones_like(gradients[:, 0]), 
+									   create_graph = True)[0]
+        u_yy_aux = torch.autograd.grad(outputs = gradients[:, 1], 
+		                               inputs = x, 
+									   grad_outputs = torch.ones_like(gradients[:, 1]), 
+									   create_graph = True)[0]
         u_xx=u_xx_aux[:,0]
         u_yy=u_yy_aux[:,1]
 

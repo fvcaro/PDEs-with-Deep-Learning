@@ -17,6 +17,13 @@ a = 2.0  # Value of a
 b = 1.0  # Value of b
 c = 0.5  # Value of c
 
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+    print('Device:', device)
+else:
+    device = torch.device("cpu")
+    print('CUDA is not available. Using CPU.')
+
 model = Model(a, b, c)
 
 x = torch.tensor([[1.0, 0.1]], dtype=torch.float, requires_grad=True)  # 2D input (x, y)
