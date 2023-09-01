@@ -1,11 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torch.optim.lr_scheduler as lr_scheduler
+from torch.optim.lr_scheduler import StepLR
 from matplotlib import pyplot as plt
 import numpy as np
 
-# 1D heat equation
 class PINN(nn.Module):
     def __init__(self, input_size, hidden_sizes, output_size, act=nn.ReLU(), device=torch.device("cpu")):
         super(PINN, self).__init__()
@@ -19,12 +18,41 @@ class PINN(nn.Module):
         self.activation = act.to(device)
         self.device = device
 
-    def forward(self, x, t):
-        inputs = torch.cat([x, t], axis=1)  # Concatenate x and t
+    def forward(self, x):
         for layer in self.layers[:-1]:
-            inputs = self.activation(layer(inputs))
-        output = self.layers[-1](inputs)
+            x = self.activation(layer(x))
+        output = self.layers[-1](x)
         return output
+    
+def random_dom_points(n):
+    x = torch.rand(n, 2)
+    x.requires_grad = True
+    return x
+
+def random_bc_points(n):
+    n_ = int(n/4)
+    x1 = torch.rand(n_,1)
+    y1 = torch.zeros(n_,1)
+    #
+    x2 = torch.ones(n_,1)
+    y2 = torch.rand(n_,1)
+    #
+    x3 = torch.rand(n_,1)
+    y3 = torch.ones(n_,1)
+    #
+    x4 = torch.zeros(n_,1)
+    y4 = torch.rand(n_,1)
+    x = torch.cat((x1,x2,x3,x4),0)
+    y = torch.cat((y1,y2,y3,y4),0)
+    x.requires_grad = True
+    y.requires_grad = True
+    return x,y
+
+def f(x, y):
+    return 8 * (np.pi**2) * torch.sin(2 * np.pi * x) * torch.sin(2 * np.pi * y)
+
+def exact_solution(x, y):
+    return torch.sin(2 * np.pi * x) * torch.sin(2 * np.pi * y)
 
 if torch.cuda.is_available():
     device = torch.device("cuda")
@@ -33,98 +61,84 @@ else:
     device = torch.device("cpu")
     print('CUDA is not available. Using CPU.')
 
-pinn = PINN(2, [64, 128, 128, 128, 64], 1, act=nn.Tanh(), device=device)
+pinn = PINN(2, [64, 128, 128, 128, 64], 1, act=torch.nn.ReLU(), device=device)
 print(pinn)
 
-epochs = int(1e5)
-learning_rate = 1e-4
+learning_rate = 0.01
 optimizer = optim.Adam(pinn.parameters(), lr=learning_rate)
-# Define the CosineAnnealingLR scheduler with warm-up
-warmup_epochs = 1000
-cosine_epochs = epochs - warmup_epochs
-scheduler = lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=cosine_epochs, T_mult=1, eta_min=1e-6) # Learning rate scheduler
+scheduler = StepLR(optimizer, step_size=2000, gamma=0.1)  # Learning rate scheduler
 
+epochs = int(2e3)
 convergence_data = torch.empty((epochs), device=device)
 
-T = 2
-gamma1 = 100.
-gamma2 = 100.
-
-def random_domain_points(T, n=2048):
-    x = torch.rand(n,1,requires_grad=True)
-    t = T*torch.rand(n,1,requires_grad=True)
-    return x, t
-
-def random_BC_points(T, n=128):
-    x = torch.randint(2, (n,1), dtype=torch.float32, requires_grad=True)
-    t = T*torch.rand(n,1,requires_grad=True)
-    return x, t
-
-def random_IC_points(n=32):
-    x = torch.rand(n,1,requires_grad=True)
-    t = T*torch.zeros(n,1,requires_grad=True)
-    return x, t
-
+gamma1 = 500.
 loss_list = []
-for epoch in range(int(epochs)):
-    optimizer.zero_grad() # to make the gradients zero
-    #
-    x, t = random_domain_points(T)
-    u = pinn(x, t)
-    # Derivatives
-    u_t = torch.autograd.grad(outputs=u, 
-                              inputs=t,
-                              create_graph=True,
-                              grad_outputs=torch.ones_like(u)
-                              )[0]
-    u_x = torch.autograd.grad(outputs=u, 
-                              inputs=x,
-                              create_graph=True,
-                              grad_outputs=torch.ones_like(u)
-                              )[0]
-    u_xx = torch.autograd.grad(outputs=u_x, 
-                               inputs=x,
-                               create_graph=True,
-                               grad_outputs=torch.ones_like(u_x)
-                               )[0]
-    residual = u_t - u_xx
-    loss_dom = torch.mean(torch.pow(residual,2))
-    # BC
-    x_bc, t_bc = random_BC_points(T)
-    u_bc = pinn(x_bc, t_bc)
-    loss_bc = torch.mean(torch.pow(u_bc - 0.,2))
-    # IC
-    x_ic, t_ic = random_IC_points()
-    u_ic = pinn(x_ic, t_ic)
-    loss_ic = torch.mean(torch.pow(u_ic - torch.sin(torch.pi*x_ic),2))
-    # LOSS
-    loss = loss_dom + gamma1*loss_bc + gamma2*loss_ic
-    loss_list.append(loss.detach().numpy())
-    loss.backward() # This is for computing gradients using backward propagation
-    optimizer.step() 
-    scheduler.step()  # Update learning rate
 
-    # Store loss into convergence_data and print loss and learning rate every 100 epochs
-    convergence_data[epoch] = loss.item()
-    if epoch % 100 == 0:
-        print(f"Epoch: {epoch} - Loss: {loss.item():>7f} - Learning Rate: {scheduler.get_last_lr()[0]:>7f}")
+try:
+    for epoch in range(epochs):
+        optimizer.zero_grad()
+
+        x = random_dom_points(4096)
+        x = x.to(device)
+
+        u = pinn(x)
+        gradients = torch.autograd.grad(u, x, torch.ones_like(u), create_graph=True, retain_graph=True)[0]
+        u_xx = []
+        u_yy = []
+
+        u_xx_aux = torch.autograd.grad(gradients[:, 0], x, torch.ones_like(gradients[:, 0]), create_graph=True)[0]
+        u_yy_aux = torch.autograd.grad(gradients[:, 1], x, torch.ones_like(gradients[:, 1]), create_graph=True)[0]
+        u_xx=u_xx_aux[:,0]
+        u_yy=u_yy_aux[:,1]
+
+        residual = -(u_xx + u_yy).view(-1, 1) - f(x[:, 0], x[:, 1]).view(-1, 1)
+        loss_dom = torch.mean(torch.pow(residual, 2))
+
+        # Loss function (2nd component)
+        x_bc,y_bc = random_bc_points(64)
+        bc=torch.cat((x_bc,y_bc),1)
+        u_bc = pinn(bc)
+        loss_bc = torch.mean((u_bc - 0.)**2)
+
+        loss = loss_dom + gamma1 * loss_bc
+        loss_list.append(loss.item())
+
+        loss.backward()
+        optimizer.step()
+        scheduler.step()
+
+        convergence_data[epoch] = loss.item()
+
+        if epoch % 100 == 0:
+            print(f"Epoch: {epoch} - Loss: {loss.item():>7f} - Learning Rate: {scheduler.get_last_lr()[0]:>7f}")
+
+except KeyboardInterrupt:
+    pass
 
 plt.semilogy(loss_list)
 plt.savefig('loss_plot.png')
 
-x = torch.linspace(0,1,126).view(-1,1)
+# Plotting the 2D solution
+n_points = 1000
+x, y = torch.meshgrid(torch.linspace(0, 1, n_points), torch.linspace(0, 1, n_points))
+xy = torch.stack([x.reshape(-1), y.reshape(-1)], dim=1).to(device)
+nn_sol = pinn(xy).detach().cpu().numpy().reshape(n_points, n_points)
+exact_sol = exact_solution(x, y).numpy()
 
-for idx, t_i in enumerate(np.linspace(0,2,11)):
-    t = t_i * torch.ones_like(x)
-    nn_sol = pinn(x,t).detach().numpy()
-    
-    plt.figure()
-    plt.plot(x, nn_sol, label='nn')
-    exact_sol = torch.sin(torch.pi*x) * torch.exp(-torch.pi**2*t)
-    plt.plot(x, exact_sol, label='exact sol')
-    plt.title(r'$t_i$:' + str(t_i))
-    plt.legend()
+plt.figure()
+plt.contourf(x.numpy(), y.numpy(), nn_sol, levels=100, cmap='viridis')
+plt.colorbar(label='PINN Solution')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('PINN Solution')
+plt.savefig('pinn_solution.png')
 
-    plt.savefig(f'exact_plot_{idx}.png')  # save with a unique name
+plt.figure()
+plt.contourf(x.numpy(), y.numpy(), exact_sol, levels=100, cmap='viridis')
+plt.colorbar(label='Exact Solution')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Exact Solution')
+plt.savefig('exact_solution.png')
 
 print('Plots saved successfully.')
