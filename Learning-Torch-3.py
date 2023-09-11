@@ -66,9 +66,9 @@ print(pinn)
 
 learning_rate = 3e-3
 optimizer = optim.Adam(pinn.parameters(), lr=learning_rate)
-scheduler = StepLR(optimizer, step_size=2000, gamma=0.1)  # Learning rate scheduler
+scheduler = StepLR(optimizer, step_size=20000, gamma=0.01)  # Learning rate scheduler
 
-epochs = int(2e3)
+epochs = int(1e5)
 convergence_data = torch.empty((epochs), device=device)
 
 gamma1 = 500.
