@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torch.optim.lr_scheduler as lr_scheduler
+from torch.optim.lr_scheduler import StepLR
 from matplotlib import pyplot as plt
 import numpy as np
 
@@ -33,17 +33,14 @@ else:
     device = torch.device("cpu")
     print('CUDA is not available. Using CPU.')
 
-pinn = PINN(2, [64, 128, 128, 128, 64], 1, act=nn.Tanh(), device=device)
+pinn = PINN(2, [64, 128, 128, 128, 64], 1, act=nn.Sigmoid(), device=device)
 print(pinn)
 
-epochs = int(1e5)
-learning_rate = 1e-4
+learning_rate = 3e-3
 optimizer = optim.Adam(pinn.parameters(), lr=learning_rate)
-# Define the CosineAnnealingLR scheduler with warm-up
-warmup_epochs = 1000
-cosine_epochs = epochs - warmup_epochs
-scheduler = lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=cosine_epochs, T_mult=1, eta_min=1e-6) # Learning rate scheduler
+scheduler = StepLR(optimizer, step_size=3000, gamma=1e-5)  # Learning rate scheduler
 
+epochs = int(7e3)
 convergence_data = torch.empty((epochs), device=device)
 
 T = 2

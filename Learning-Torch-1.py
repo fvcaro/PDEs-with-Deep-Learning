@@ -35,14 +35,14 @@ else:
     device = torch.device("cpu")
     print('CUDA is not available. Using CPU.')
 
-pinn = PINN(1, [64, 128, 128, 128, 64], 1, act=torch.nn.Sigmoid(), device=device)
+pinn = PINN(1, [64, 128, 128, 128, 64], 1, act=nn.Sigmoid(), device=device)
 print(pinn)
 
 learning_rate = 0.01
 optimizer = optim.Adam(pinn.parameters(), lr=learning_rate)
-scheduler = StepLR(optimizer, step_size=1000, gamma=0.1)  # Learning rate scheduler
+scheduler = StepLR(optimizer, step_size=2000, gamma=0.01)  # Learning rate scheduler
 
-epochs = int(2e3)
+epochs = int(5e3)
 convergence_data = torch.empty((epochs), device=device)
 
 gamma1 = 100.
