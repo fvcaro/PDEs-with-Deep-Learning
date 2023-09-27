@@ -36,9 +36,9 @@ else:
 pinn = PINN(2, [64, 128, 128, 128, 64], 1, act=nn.Sigmoid(), device=device)
 print(pinn)
 
-learning_rate = 3e-2
+learning_rate = 1e-2
 optimizer = optim.Adam(pinn.parameters(), lr=learning_rate)
-scheduler = StepLR(optimizer, step_size=3000, gamma=1e-3)
+scheduler = StepLR(optimizer, step_size=3000, gamma=1e-1)
 
 epochs = int(9e3)
 convergence_data = torch.empty((epochs), device=device)
@@ -101,10 +101,11 @@ for epoch in range(int(epochs)):
     
     loss = loss_dom + boundary_condition_weight * loss_bc + initial_condition_weight * loss_ic
     
-    loss_list.append(loss.detach().numpy())
-    loss_domain_list.append(loss_dom.detach().numpy())
-    loss_bc_list.append(loss_bc.detach().numpy())
-    loss_ic_list.append(loss_ic.detach().numpy())
+    #loss_list.append(loss.detach().numpy())
+    loss_list.append(loss.detach().cpu().numpy())
+    loss_domain_list.append(loss_dom.detach().cpu().numpy())
+    loss_bc_list.append(loss_bc.detach().cpu().numpy())
+    loss_ic_list.append(loss_ic.detach().cpu().numpy()) 
     
     loss.backward()
     optimizer.step()
@@ -127,16 +128,16 @@ plt.ylabel('Loss Value')
 plt.grid(True, which="both", ls="--")
 plt.savefig('individual_losses_plot.png')
 
-x = torch.linspace(0, 1, 126).view(-1, 1)
+x = torch.linspace(0, 1, 126).view(-1, 1).to(device)
 
 for idx, t_i in enumerate(np.linspace(0, 2, 11)):
     t = t_i * torch.ones_like(x)
-    nn_sol = pinn(x, t).detach().numpy()
+    nn_sol = pinn(x, t).detach().cpu().numpy()
     
     plt.figure()
-    plt.plot(x, nn_sol, label='nn')
+    plt.plot(x.cpu().numpy(), nn_sol, label='nn')
     exact_sol = torch.sin(torch.pi * x) * torch.exp(-torch.pi**2 * t)
-    plt.plot(x, exact_sol, label='exact sol')
+    plt.plot(x.cpu().numpy(), exact_sol.cpu().numpy(), label='exact sol')
     plt.title(r'$t_i$:' + str(t_i))
     plt.legend()
 
