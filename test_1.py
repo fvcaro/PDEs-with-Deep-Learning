@@ -116,18 +116,18 @@ def initial_loss(pinn: PINN, x_domain, t_domain, INITIAL_SHAPE):
     total_loss = loss_u.pow(2).mean() + loss_ut.pow(2).mean()
     return total_loss
 
-def random_domain_points(LENGTH,TOTAL_TIME,n=8192):
-    x = (2*LENGTH)*(torch.rand(n,1,requires_grad=True) - 0.5).to(device)
-    t = TOTAL_TIME*torch.rand(n,1,requires_grad=True).to(device)
+def random_domain_points(LENGTH, TOTAL_TIME, n=8192, device=torch.device("cpu")):
+    x = (2*LENGTH)*torch.rand(n, 1, device=device, requires_grad=True) - LENGTH 
+    t = TOTAL_TIME * torch.rand(n, 1, device=device, requires_grad=True)
     return x, t
 
-def random_IC_points(LENGTH,n=128):
-    x = (2*LENGTH)*(torch.rand(n,1,requires_grad=True) - 0.5).to(device)
-    t = TOTAL_TIME*torch.rand(n,1,requires_grad=True).to(device)
+def random_IC_points(LENGTH, n=128, device=torch.device("cpu")):
+    x = 2*LENGTH*torch.rand(n, 1, device=device, requires_grad=True) - LENGTH 
+    t = torch.zeros(n, 1, device=device, requires_grad=True)
     return x, t
 
-x, t        = random_domain_points(LENGTH,TOTAL_TIME, n=DOM_POINTS)
-x_ic, t_ic  = random_IC_points(LENGTH, n=IC_POINTS)
+x, t        = random_domain_points(LENGTH,TOTAL_TIME, n=DOM_POINTS, device=device)
+x_ic, t_ic  = random_IC_points(LENGTH, n=IC_POINTS, device=device)
 
 plt.figure()
 plt.plot(x.detach().cpu().numpy(), t.detach().cpu().numpy(), 'o', ms=1)
@@ -137,6 +137,7 @@ plt.savefig(save_filename, dpi=300)
 plt.close()  # Close the figure to release resources
 
 ## Running code
+torch.manual_seed(42)
 pinn = PINN(LAYERS, NEURONS_PER_LAYER, act=nn.Tanh()).to(device)
 print(pinn)
 
@@ -145,7 +146,6 @@ scheduler = StepLR(optimizer, step_size=2000, gamma=1., verbose=False)  # Learni
 
 loss_list = []
 t0 = time()
-# Initial training set
 
 for epochs in epochs_list:
     for epoch in range(int(epochs)):
@@ -160,3 +160,15 @@ for epochs in epochs_list:
         if epoch % 1000 == 0:
             print(f"Epoch: {epoch} - Loss: {loss.item():>7f} - Learning Rate: {scheduler.get_last_lr()[0]:>7f}")
 print('computing time',(time() - t0)/60,'[min]') 
+
+# Plotting individual losses
+plt.figure(figsize=(10, 6))
+plt.semilogy(loss_list, label='Total Loss')
+plt.legend()
+plt.title('Loss Evolution')
+plt.xlabel('Epochs')
+plt.ylabel('Loss Value')
+plt.grid(True, which="both", ls="--")
+save_filename = os.path.join(save_dir, 'loss.png')
+plt.savefig(save_filename, dpi=300)
+plt.close()

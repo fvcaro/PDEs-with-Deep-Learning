@@ -65,7 +65,7 @@ scheduler = StepLR(optimizer, step_size=3000, gamma=1e-1)
 # optimizer.step(closure)
 
 # epochs_list = [6000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,20000]
-epochs_list = [2000,2000]
+epochs_list = [1500]
 
 # convergence_data = torch.empty((epochs), device=device)
 
