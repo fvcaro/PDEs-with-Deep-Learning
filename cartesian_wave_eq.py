@@ -16,9 +16,10 @@ c = 1.
 def exact_sol_f(x,t,x0=x0,A=A,c=c):
     aux = torch.exp(-A*((x - x0) - c*t)**2)/2 + torch.exp(-A*((x - x0) + c*t)**2)/2
     return aux
-
-epochs_list = [6000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,20000]
-# epochs_list = [1000,100,100,100,100]
+#
+# epochs_list = [6000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,20000]
+epochs_list = [600]
+#
 gamma1 = 100.
 gamma2 = 100.
 #
@@ -118,7 +119,7 @@ def random_BC_points(b,T,n=512):
     x = (2*b)*(torch.ones((n,1),dtype=torch.float32,requires_grad=True) - 0.5)
     t = T*torch.rand(n,1,requires_grad=True)
     return x,t
-def random_IC_points(b,n=1024):
+def random_IC_points(b,n=128):
     x = (2*b)*(torch.rand(n,1,requires_grad=True) - 0.5)
     t = torch.zeros(n,1,requires_grad=True)
     return x,t
@@ -142,19 +143,17 @@ plt.plot(x,exact_sol,label='exact sol',color='tab:orange')
 plt.legend()
 save_filename = os.path.join(save_dir, 'wave_Exact_sol.png')
 plt.savefig(save_filename, dpi=300)
-plt.show()
+plt.close()  # Close the figure to release resources
 
 r,t        = random_domain_points(L,T,n=dom_points)
 #r_bc, t_bc = random_BC_points(L,T,n=bc_points)
 r_ic, t_ic = random_IC_points(L,n=ic_points)
-# 
-plt.figure()
 plt.plot(r.detach().numpy(),t.detach().numpy(),'o',ms=1)
 #plt.plot(r_bc.detach().numpy(),t_bc.detach().numpy(),'o')
 plt.plot(r_ic.detach().numpy(),t_ic.detach().numpy(),'o',ms=1)
 save_filename = os.path.join(save_dir, 'points.png')
 plt.savefig(save_filename, dpi=300)
-plt.show()
+plt.close()  # Close the figure to release resources
 
 loss_list = []
 t0 = time()
@@ -199,7 +198,7 @@ for epochs in epochs_list:
     #
     idx_dom = torch.where(loss_dom_aux >= loss_dom_aux.sort(0)[0][-500])
     #idx_bc  = torch.where(loss_bc_aux >= loss_bc_aux.sort(0)[0][-10])
-    idx_ic  = torch.where(loss_ic_aux >= loss_ic_aux.sort(0)[0][-100])
+    idx_ic  = torch.where(loss_ic_aux >= loss_ic_aux.sort(0)[0][-50])
     #
     r_aux = r_[idx_dom].view(-1,1)
     #print(r_[idx_dom])
@@ -219,7 +218,7 @@ for epochs in epochs_list:
     #
     # keep editing from here (code the criteria to select the point with biggest loss value)
     #
-print('computing time',(time() - t0)/60,'[min]')  
+print('computing time',(time() - t0)/60,'[min]')   
 
 plt.figure()
 plt.plot(r.detach().numpy(),t.detach().numpy(),'o',ms=1)
@@ -227,7 +226,7 @@ plt.plot(r.detach().numpy(),t.detach().numpy(),'o',ms=1)
 plt.plot(r_ic.detach().numpy(),t_ic.detach().numpy(),'o',ms=1)
 save_filename = os.path.join(save_dir, 'new_points.png')
 plt.savefig(save_filename, dpi=300)
-plt.show()
+plt.close()  # Close the figure to release resources
 
 # Plotting individual losses
 plt.figure(figsize=(10, 6))
@@ -242,7 +241,7 @@ plt.ylabel('Loss Value')
 plt.grid(True, which="both", ls="--")
 save_filename = os.path.join(save_dir, 'individual_loss.png')
 plt.savefig(save_filename, dpi=300)
-plt.show()
+plt.close()  # Close the figure to release resources
 
 for t_i in np.linspace(0,T,11):
     t = t_i*torch.ones_like(x)
@@ -267,17 +266,17 @@ for t_i in np.linspace(0,T,11):
     plt.savefig(save_filename, dpi=300)  # You can adjust the dpi (dots per inch) for higher resolution
     plt.close()  # Close the figure to release resources
 
-# from matplotlib.animation import FuncAnimation
-# plt.style.use('seaborn-pastel')
+from matplotlib.animation import FuncAnimation
+plt.style.use('seaborn-pastel')
 
-# fig = plt.figure(figsize=(8,6))
-# ax = plt.axes(xlim=(-L+10, L-10), ylim=(-.2, 1.))
-# line, = ax.plot([], [], lw=3)
+fig = plt.figure(figsize=(8,6))
+ax = plt.axes(xlim=(-L+10, L-10), ylim=(-.2, 1.))
+line, = ax.plot([], [], lw=3)
 
-# x = np.linspace(-L,L,512)
-# y = A*np.exp(-(A*(x)**2))
-# #
-# plt.plot(x,y,color='tab:orange',label='initial condition')
+x = np.linspace(-L,L,512)
+y = A*np.exp(-(A*(x)**2))
+#
+plt.plot(x,y,color='tab:orange',label='initial condition')
 
 # def init():
 #     #
@@ -294,5 +293,5 @@ for t_i in np.linspace(0,T,11):
 
 # anim = FuncAnimation(fig, animate, init_func=init,
 #                                frames=2000, interval=30, blit=True)
-# save_fig = os.path.join(save_dir, 'cartesian_wave_eq_adaptive_sampling.gif')
-# anim.save(save_fig, writer='imagemagick')
+# save_filename = os.path.join(save_dir, 'cartesian_wave.gif')
+# anim.save(save_filename, writer='imagemagick')
