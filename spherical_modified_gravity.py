@@ -15,8 +15,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print('device:', device)
 
 R = 40
-T = 20
-v = 1
+T = 25
+# v = 1
 A = 1
 delta = 1
 r_0 = 15
@@ -25,11 +25,16 @@ u_0 = 0
 GAMMA1 = 10.
 GAMMA2 = 10.
 #
-TRAIN_DOM_POINTS = 2048
+SIGMA=1.
+# GAMMA=1.e-6 # small perturbation
+# GAMMA=1.e-5 # bigger perturbation
+GAMMA=1.e-4 # extra perturbation
+#
+TRAIN_DOM_POINTS = 8192
 TRAIN_BC_POINTS  = 64
 TRAIN_IC_POINTS  = 32
 
-VALID_DOM_POINTS = 16384
+VALID_DOM_POINTS = 65536
 VALID_BC_POINTS  = 256
 VALID_IC_POINTS  = 128
 
@@ -40,8 +45,8 @@ IC_NEW_POINTS  = 16
 LEARNING_RATE = 0.001
 
 STOP_CRITERIA = 0.0001
-ITER_MAX = 2 # 100 # Set a reasonable maximum number of iterations
-EPOCHS = 100
+ITER_MAX = 100 # Set a reasonable maximum number of iterations
+EPOCHS = 10000
 
 class Model(nn.Module):
     def __init__(self) -> None:
@@ -89,8 +94,11 @@ def loss_1(r, t):
 
     X = (u_r)**2 - (u_t)**2
 
+    K_2_XX = der_K_XX(X, sigma=SIGMA, gamma=GAMMA)
+    K_1_X  = der_K_X(X, sigma=SIGMA, gamma=GAMMA)
+
     # Residual
-    residual = 2*r*der_K_XX(X, sigma=1., gamma=1.)*u_rr*(u_r)**2 - 4*r*der_K_XX(X, sigma=1., gamma=1.)*u_t*u_tr*u_r + 2*r*der_K_XX(X, sigma=1., gamma=1.)*(u_t)**2*u_tt + 2*der_K_X(X, sigma=1., gamma=1.)*u_r + u_rr - u_tt
+    residual = 2*r*K_2_XX*u_rr*(u_r)**2 - 4*r*K_2_XX*u_t*u_tr*u_r + 2*r*K_2_XX*(u_t)**2*u_tt + K_1_X*(2*u_r + r*u_rr - r*u_tt)
 
     return residual
 
@@ -109,7 +117,7 @@ def loss_2_L(r, t):
 # def loss_2_L(r, t):
 #     u = model(r, t)
     
-#     # Left Boundary Condition (u(0, t) = 0)
+#     # Left Boundary Condition (u(t, 0) = 0)
 #     loss_left_bc = u**2
 
 #     loss_bc = loss_left_bc
@@ -350,7 +358,7 @@ from matplotlib.animation import FuncAnimation
 # plt.style.use('seaborn-pastel')
 
 fig = plt.figure(figsize=(8,6))
-ax = plt.axes(xlim=(0, R), ylim=(-1., 1.))
+ax = plt.axes(xlim=(0, R), ylim=(-2., 2.))
 line2, = ax.plot([], [], 
                  color='tab:blue',
                  lw=2,
@@ -385,7 +393,7 @@ def animate(i):
     t = i
 #     y_np = np.exp(-A*((x_np - x0) - c*t)**2)/2 + np.exp(-A*((x_np - x0) + c*t)**2)/2
 #     #####################################################
-    x_tr = torch.linspace(-R,R,512).view(-1,1)
+    x_tr = torch.linspace(0,R,512).view(-1,1)
     x_tr = x_tr.to(device)
 #     #
     t_tr = t*torch.ones_like(x_tr)
@@ -397,7 +405,7 @@ def animate(i):
 
 anim = FuncAnimation(fig, animate, 
                      init_func=init,
-                     frames=np.linspace(0, 20, 41), 
+                     frames=np.linspace(0, 25, 51), 
                      blit=True
                     )
 save_filename = os.path.join(save_dir, 'final_wave_animation_gpu.gif')
@@ -405,3 +413,5 @@ anim.save(save_filename, writer='imagemagick')
 
 # python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
 # CUDA_VISIBLE_DEVICES=0 python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
+
+# CUDA_VISIBLE_DEVICES=1 python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
