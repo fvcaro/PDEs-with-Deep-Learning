@@ -12,6 +12,7 @@ sns.set_style("whitegrid")
 print('torch version:', torch.__version__)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = "cpu"
 print('device:', device)
 
 R = 40
@@ -28,7 +29,8 @@ GAMMA2 = 10.
 SIGMA=1.
 # GAMMA=1.e-6 # small perturbation
 # GAMMA=1.e-5 # bigger perturbation
-GAMMA=1.e-4 # extra perturbation
+# GAMMA=1.e-4 # extra perturbation
+GAMMA=0. # just wave_eq
 #
 TRAIN_DOM_POINTS = 8192
 TRAIN_BC_POINTS  = 64
@@ -49,25 +51,37 @@ ITER_MAX = 100 # Set a reasonable maximum number of iterations
 EPOCHS = 10000
 
 class Model(nn.Module):
-    def __init__(self) -> None:
-        super(Model,self).__init__()
-        self.layer01 = torch.nn.Linear(2,20)
-        self.layer02 = torch.nn.Linear(20,50)
-        self.layer03 = torch.nn.Linear(50,50)
-        self.layer04 = torch.nn.Linear(50,50)
-        self.layer05 = torch.nn.Linear(50,20)
-        self.layer06 = torch.nn.Linear(20,1)
-    
-    def forward(self,x,t):
-        inputs      = torch.cat([x,t], axis=1)
-        out_layer01 = torch.tanh(self.layer01(inputs))
-        out_layer02 = torch.tanh(self.layer02(out_layer01))
-        out_layer03 = torch.tanh(self.layer03(out_layer02))
-        out_layer04 = torch.tanh(self.layer04(out_layer03))
-        out_layer05 = torch.tanh(self.layer05(out_layer04))
-        out_layer06 = self.layer06(out_layer05)
-        output      = out_layer06
-        return output
+    def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
+        super(Model, self).__init__()
+        self.layers = nn.ModuleList()
+        self.activation = activation
+        self.seed = seed
+        # Fix seed for reproducibility
+        torch.manual_seed(seed)
+        #
+        for i in range(len(layer_sizes) - 1):
+            self.layers.append(nn.Linear(layer_sizes[i], layer_sizes[i+1]))
+            # Adding activation function for all but the last layer
+            if i < len(layer_sizes) - 2:
+                self.layers.append(self.activation)  
+        # Initialize weights using Glorot initialization
+        self.init_weights()  
+    #
+    def init_weights(self):
+        for layer in self.layers:
+            if isinstance(layer, nn.Linear):
+                # Glorot initialization
+                nn.init.xavier_uniform_(layer.weight)  
+                # Initialize bias to zeros
+                nn.init.constant_(layer.bias, 0.0)  
+    #
+    def forward(self, x, y):
+        #
+        inputs = torch.cat([x, y], axis=1)
+        #
+        for layer in self.layers:
+            inputs = layer(inputs)
+        return inputs
 
 def K(X, sigma=1., gamma=1.):
     K = -sigma/2.*X - gamma/8.*X**3
@@ -114,16 +128,6 @@ def loss_2_L(r, t):
 
     return loss_bc
 
-# def loss_2_L(r, t):
-#     u = model(r, t)
-    
-#     # Left Boundary Condition (u(t, 0) = 0)
-#     loss_left_bc = u**2
-
-#     loss_bc = loss_left_bc
-
-#     return loss_bc
-
 def loss_2_R(r, t):
     u = model(r, t)
     # Derivatives
@@ -167,8 +171,9 @@ def random_IC_points(R, n=128):
     t = torch.zeros(n, 1, device=device, requires_grad=True)
     return r, t
 
-torch.manual_seed(42)
-model = Model().to(device)
+layer_sizes = [2,128,128,128,1]
+activation = nn.Tanh()
+model = Model(layer_sizes,activation).to(device)
 
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
@@ -187,8 +192,8 @@ r_ic, t_ic     = random_IC_points(R,n=TRAIN_IC_POINTS)
 print("Sizes: r={}, t={}, r_bc_L={}, t_bc_L={}, r_bc_R={}, t_bc_R={}, r_ic={}, t_ic={}".format(
     r.size(), t.size(), r_bc_L.size(), t_bc_L.size(), r_bc_R.size(), t_bc_R.size(), r_ic.size(), t_ic.size()))
 plt.plot(r.detach().cpu().numpy(),t.detach().cpu().numpy(),'o',ms=1)
-plt.plot(r_bc_L.detach().cpu().numpy(),t_bc_L.detach().cpu().numpy(),'o')
-plt.plot(r_bc_R.detach().cpu().numpy(),t_bc_R.detach().cpu().numpy(),'o')
+plt.plot(r_bc_L.detach().cpu().numpy(),t_bc_L.detach().cpu().numpy(),'o', ms=1)
+plt.plot(r_bc_R.detach().cpu().numpy(),t_bc_R.detach().cpu().numpy(),'o', ms=1)
 plt.plot(r_ic.detach().cpu().numpy(), t_ic.detach().cpu().numpy(), 'o', ms=1)
 save_filename = os.path.join(save_dir, 'points.png')
 plt.savefig(save_filename, dpi=300)
@@ -215,7 +220,8 @@ while stop_criteria > STOP_CRITERIA and iteration < ITER_MAX:
         # RESIDUAL ################################################################ 
         residual = loss_1(r, t)
         residual_r = torch.autograd.grad(residual, r, create_graph=True, grad_outputs=torch.ones_like(residual))[0]
-        loss_dom = torch.mean(residual**2 + residual_r**2)
+        residual_t = torch.autograd.grad(residual, t, create_graph=True, grad_outputs=torch.ones_like(residual))[0]
+        loss_dom = torch.mean(residual**2 + residual_r**2) # + residual_t**2
         # BC ######################################################################
         loss_bc_L  =  torch.mean(loss_2_L(r_bc_L,t_bc_L))
         loss_bc_R  =  torch.mean(loss_2_R(r_bc_R,t_bc_R))
@@ -224,10 +230,10 @@ while stop_criteria > STOP_CRITERIA and iteration < ITER_MAX:
         # LOSS ####################################################################
         loss = loss_dom + GAMMA1*loss_bc_L + GAMMA1*loss_bc_R + GAMMA2*loss_ic # + loss_dom_t 
         # Calculate and append individual losses to their respective lists
-        loss_dom_list.append(loss_dom.cpu().detach().numpy())
-        loss_bc_L_list.append(loss_bc_L.cpu().detach().numpy())
-        loss_bc_R_list.append(loss_bc_R.cpu().detach().numpy())
-        loss_ic_list.append(loss_ic.cpu().detach().numpy())
+        loss_dom_list.append(loss_dom.item())
+        loss_bc_L_list.append(loss_bc_L.item())
+        loss_bc_R_list.append(loss_bc_R.item())
+        loss_ic_list.append(loss_ic.item())
 
         loss.backward(retain_graph=True) # This is for computing gradients using backward propagation
         optimizer.step() # 
@@ -308,8 +314,8 @@ np.savez('adaptive_sampling_points',r=r.cpu().detach().numpy(),
                                     )
 plt.figure()
 plt.plot(r.detach().cpu().numpy(),t.detach().cpu().numpy(),'o',ms=1)
-plt.plot(r_bc_L.detach().cpu().numpy(),t_bc_L.detach().cpu().numpy(),'o')
-plt.plot(r_bc_R.detach().cpu().numpy(),t_bc_R.detach().cpu().numpy(),'o')
+plt.plot(r_bc_L.detach().cpu().numpy(),t_bc_L.detach().cpu().numpy(),'o', ms=1)
+plt.plot(r_bc_R.detach().cpu().numpy(),t_bc_R.detach().cpu().numpy(),'o', ms=1)
 plt.plot(r_ic.detach().cpu().numpy(), t_ic.detach().cpu().numpy(), 'o', ms=1)
 save_filename = os.path.join(save_dir, 'new_points.png')
 plt.savefig(save_filename, dpi=600, facecolor=None, edgecolor=None,
