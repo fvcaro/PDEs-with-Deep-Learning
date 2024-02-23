@@ -13,30 +13,44 @@ dt = 0.02
 dx = 0.05
 
 class Model(nn.Module):
-    def __init__(self) -> None:
-        super(Model,self).__init__()
-        self.layer01 = torch.nn.Linear(2,20)
-        self.layer02 = torch.nn.Linear(20,50)
-        self.layer03 = torch.nn.Linear(50,50)
-        self.layer04 = torch.nn.Linear(50,50)
-        self.layer05 = torch.nn.Linear(50,20)
-        self.layer06 = torch.nn.Linear(20,1)
-    
-    def forward(self,x,t):
-        inputs      = torch.cat([x,t], axis=1)
-        out_layer01 = torch.tanh(self.layer01(inputs))
-        out_layer02 = torch.tanh(self.layer02(out_layer01))
-        out_layer03 = torch.tanh(self.layer03(out_layer02))
-        out_layer04 = torch.tanh(self.layer04(out_layer03))
-        out_layer05 = torch.tanh(self.layer05(out_layer04))
-        out_layer06 = self.layer06(out_layer05)
-        output      = out_layer06
-        return output
+    def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
+        super(Model, self).__init__()
+        self.layers = nn.ModuleList()
+        self.activation = activation
+        self.seed = seed
+        # Fix seed for reproducibility
+        torch.manual_seed(seed)
+        #
+        for i in range(len(layer_sizes) - 1):
+            self.layers.append(nn.Linear(layer_sizes[i], layer_sizes[i+1]))
+            # Adding activation function for all but the last layer
+            if i < len(layer_sizes) - 2:
+                self.layers.append(self.activation)  
+        # Initialize weights using Glorot initialization
+        self.init_weights()  
+    #
+    def init_weights(self):
+        for layer in self.layers:
+            if isinstance(layer, nn.Linear):
+                # Glorot initialization
+                nn.init.xavier_uniform_(layer.weight)  
+                # Initialize bias to zeros
+                nn.init.constant_(layer.bias, 0.0)  
+    #
+    def forward(self, x, y):
+        #
+        inputs = torch.cat([x, y], axis=1)
+        #
+        for layer in self.layers:
+            inputs = layer(inputs)
+        return inputs
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print('device:', device)
 
-model = Model().to(device)
+layer_sizes = [2,128,128,128,1]
+activation = nn.Tanh()
+model = Model(layer_sizes,activation).to(device)
 model.load_state_dict(torch.load('trained_model_gpu_spherical',map_location=torch.device(device)))
 model.eval()
 
