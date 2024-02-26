@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-from torch.optim.lr_scheduler import CosineAnnealingLR
 from matplotlib import pyplot as plt
 import numpy as np
 from time import time
@@ -79,64 +78,3 @@ for idx, t_i in enumerate(np.linspace(0, T, int(T/dt)+1)):
     np.savetxt(filename, np.concatenate((x_, u_, u_x_, u_t_), axis=1), fmt='%.18e')
 
 # CUDA_VISIBLE_DEVICES=1 python post_pro.py
-
-# # Define a directory to save the figures
-# save_dir = 'Figs'
-# os.makedirs(save_dir, exist_ok=True)
-
-# from matplotlib.animation import FuncAnimation
-# # plt.style.use('seaborn-pastel')
-
-# fig = plt.figure(figsize=(8,6))
-# ax = plt.axes(xlim=(0, R), ylim=(-2., 2.))
-# line2, = ax.plot([], [], 
-#                  color='tab:blue',
-#                  lw=2,
-#                  linestyle='--',
-#                  label='pinn sol'
-#                 )
-# ax.text(0.1, 0.9, 
-#         "t = ", 
-#         bbox={'facecolor': 'white',
-#               'alpha': 0.5, 
-#               'pad': 5},
-#         transform=ax.transAxes, 
-#         ha="center")
-# #
-# ax.legend()
-# # #
-# def init():
-#     #
-#     line2.set_data([], [])
-#     return line2,
-# def animate(i):
-#     #####################################################
-#     ax.text(0.1, 0.9, 
-#             "t= %d" % i,
-#             bbox={'facecolor': 'white', 
-#                   'alpha': 0.5, 
-#                   'pad': 5},
-#             transform=ax.transAxes, 
-#             ha="center")
-# #     #####################################################
-# #     x_np = np.linspace(-R,R,512)
-#     t = i
-# #     y_np = np.exp(-A*((x_np - x0) - c*t)**2)/2 + np.exp(-A*((x_np - x0) + c*t)**2)/2
-# #     #####################################################
-#     x_tr = torch.linspace(0,R,512).view(-1,1)
-#     x_tr = x_tr.to(device)
-# #     #
-#     t_tr = t*torch.ones_like(x_tr)
-#     t_tr = t_tr.to(device)
-#     y_tr = model(x_tr,t_tr).cpu().detach().numpy()
-# #     #
-#     line2.set_data(x_tr.cpu().detach().numpy(), y_tr)
-#     return line2,
-
-# anim = FuncAnimation(fig, animate, 
-#                      init_func=init,
-#                      frames=np.linspace(0, 25, 51), 
-#                      blit=True
-#                     )
-# save_filename = os.path.join(save_dir, 'final_wave_animation_gpu_test.gif')
-# anim.save(save_filename, writer='imagemagick')

@@ -418,6 +418,6 @@ save_filename = os.path.join(save_dir, 'final_wave_animation_gpu.gif')
 anim.save(save_filename, writer='imagemagick')
 
 # python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
-# CUDA_VISIBLE_DEVICES=0 python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
+# CUDA_VISIBLE_DEVICES=0,1 python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
 
 # CUDA_VISIBLE_DEVICES=1 python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
