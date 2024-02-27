@@ -249,7 +249,10 @@ while stop_criteria > STOP_CRITERIA and iteration < ITER_MAX:
     r_ic_, t_ic_  = random_IC_points(R,n=VALID_IC_POINTS)
     #
     residual_ = loss_1(r_, t_)
-    loss_dom_aux  = residual_**2
+    residual_r_ = torch.autograd.grad(residual_, r_, create_graph=True, grad_outputs=torch.ones_like(residual_))[0]
+    # residual_t_ = torch.autograd.grad(residual_, t_, create_graph=True, grad_outputs=torch.ones_like(residual_))[0]
+    #
+    loss_dom_aux  = residual_**2 + residual_r_**2
     loss_bc_L_aux = loss_2_L(r_bc_L_,t_bc_L_)
     loss_bc_R_aux = loss_2_R(r_bc_R_,t_bc_R_)
     loss_ic_aux   = loss_3(r_ic_,t_ic_)   
@@ -415,9 +418,9 @@ anim = FuncAnimation(fig, animate,
                      blit=True
                     )
 save_filename = os.path.join(save_dir, 'final_wave_animation_gpu.gif')
-anim.save(save_filename, writer='imagemagick')
+anim.save(save_filename, writer='pillow')
 
 # python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
-# CUDA_VISIBLE_DEVICES=0,1 python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
+# CUDA_VISIBLE_DEVICES=0 python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
 
 # CUDA_VISIBLE_DEVICES=1 python spherical_modified_gravity.py > log_modified_gravity_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &

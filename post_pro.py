@@ -1,10 +1,7 @@
 import torch
 import torch.nn as nn
-from matplotlib import pyplot as plt
 import numpy as np
-from time import time
 import os
-import seaborn as sns
 
 R = 40
 T = 25
