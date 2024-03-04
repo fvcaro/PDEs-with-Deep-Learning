@@ -29,7 +29,7 @@ GAMMA2 = 10.
 SIGMA=1.
 # GAMMA=1.e-6 # small perturbation
 # GAMMA=1.e-5 # bigger perturbation
-# GAMMA=1.e-4 # extra perturbation
+# GAMMA=1.e-4 # EXTRA perturbation
 GAMMA=0. # just wave_eq
 #
 TRAIN_DOM_POINTS = 8192
@@ -84,15 +84,15 @@ class Model(nn.Module):
         return inputs
 
 def K(X, sigma=1., gamma=1.):
-    K = -sigma/2.*X - gamma/8.*X**3
+    K = -(sigma/2.)*X - (gamma/8.)*X**3
     return K
 
 def der_K_X(X, sigma=1., gamma=1.):
-    K_X = -sigma/2. - 3*gamma/8.*X**2
+    K_X = -sigma/2. - 3*(gamma/8.)*X**2
     return K_X
 
 def der_K_XX(X, sigma=1., gamma=1.):
-    K_XX = - 3*gamma/4.*X
+    K_XX = - (3*gamma/4.)*X
     return K_XX
 
 def loss_1(r, t):
