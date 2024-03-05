@@ -1,0 +1,1204 @@
+torch version: 2.2.0
+device: cuda
+Sizes: r=torch.Size([8192, 1]), t=torch.Size([8192, 1]), r_bc_L=torch.Size([64, 1]), t_bc_L=torch.Size([64, 1]), r_bc_R=torch.Size([64, 1]), t_bc_R=torch.Size([64, 1]), r_ic=torch.Size([32, 1]), t_ic=torch.Size([32, 1])
+Epoch: 0 - Loss: 6.299887e-01 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.396429e-01 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 6.491846e-02 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.789992e-02 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.422648e-02 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.801967e-02 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.568504e-02 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 7.589994e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 5.940596e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 4.875519e-03 - Learning Rate: 9.142238e-04
+Iteration 1: Best criteria        . Loss: 1.0
+Iteration 1: Stop criteria not met. Loss: 1.3324053287506104
+Epoch: 0 - Loss: 6.796335e-01 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.862756e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.712703e-02 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.662691e-02 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.639325e-02 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.626072e-02 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.610588e-02 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.600154e-02 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.591965e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.175983e-02 - Learning Rate: 9.142238e-04
+Iteration 2: Best criteria        . Loss: 1.0
+Iteration 2: Stop criteria not met. Loss: 2.961759328842163
+Epoch: 0 - Loss: 3.510244e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.107998e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.029847e-02 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.994014e-02 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.970895e-02 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.954492e-02 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.935747e-02 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.948345e-02 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.847238e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.175960e-02 - Learning Rate: 9.142238e-04
+Iteration 3: Best criteria        . Loss: 1.0
+Iteration 3: Stop criteria not met. Loss: 14.167243003845215
+Epoch: 0 - Loss: 8.933788e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.587390e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.191170e-02 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.138796e-02 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.094466e-02 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.057435e-02 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.017329e-02 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.965361e-02 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.900941e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.852903e-02 - Learning Rate: 9.142238e-04
+Iteration 4: Best criteria        . Loss: 1.0
+Iteration 4: Stop criteria not met. Loss: 3.0432369709014893
+Epoch: 0 - Loss: 4.198351e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.185970e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.078082e-02 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.909329e-02 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.800732e-02 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.732651e-02 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.661153e-02 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.608496e-02 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.849563e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.446099e-02 - Learning Rate: 9.142238e-04
+Iteration 5: Best criteria        . Loss: 1.0
+Iteration 5: Stop criteria not met. Loss: 6.223482131958008
+Epoch: 0 - Loss: 4.337326e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.915215e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.614793e-02 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.508481e-02 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.427116e-02 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.369626e-02 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.301112e-02 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.235538e-02 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.254356e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.260197e-02 - Learning Rate: 9.142238e-04
+Iteration 6: Best criteria        . Loss: 1.0
+Iteration 6: Stop criteria not met. Loss: 1.4522626399993896
+Epoch: 0 - Loss: 1.924177e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.352610e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.223977e-02 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.137412e-02 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.070186e-02 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.023542e-02 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 9.716215e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 9.176289e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 8.770933e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 8.649622e-03 - Learning Rate: 9.142238e-04
+Iteration 7: Best criteria        . Loss: 1.0
+Iteration 7: Stop criteria not met. Loss: 1.5812937021255493
+Epoch: 0 - Loss: 2.622229e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 9.944068e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 9.052324e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 8.434427e-03 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 7.960358e-03 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.634386e-03 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 7.289466e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 8.164354e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 7.874845e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 9.174898e-03 - Learning Rate: 9.142238e-04
+Iteration 8: Best criteria        . Loss: 0.40170589089393616
+Iteration 8: Stop criteria not met. Loss: 0.40170589089393616
+Epoch: 0 - Loss: 1.177365e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 8.198401e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 6.331008e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 5.875324e-03 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 5.528497e-03 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 5.292694e-03 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 5.333072e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 6.074557e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 5.520689e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 8.200684e-03 - Learning Rate: 9.142238e-04
+Iteration 9: Best criteria        . Loss: 0.25398313999176025
+Iteration 9: Stop criteria not met. Loss: 0.25398313999176025
+Epoch: 0 - Loss: 7.411529e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.005544e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 6.544567e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 4.253911e-03 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 3.991665e-03 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 3.817190e-03 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.619805e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 4.536999e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.626541e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 3.939104e-03 - Learning Rate: 9.142238e-04
+Iteration 10: Best criteria        . Loss: 0.1860773265361786
+Iteration 10: Stop criteria not met. Loss: 0.1860773265361786
+Epoch: 0 - Loss: 6.570434e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 8.128279e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.548508e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.185458e-03 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.995355e-03 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.871319e-03 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.816939e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 4.075245e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.088552e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 9.471959e-03 - Learning Rate: 9.142238e-04
+Iteration 11: Best criteria        . Loss: 0.1860773265361786
+Iteration 11: Stop criteria not met. Loss: 0.21887429058551788
+Epoch: 0 - Loss: 2.952424e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 4.260147e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.631167e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.352861e-03 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.219270e-03 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.132245e-03 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 4.750112e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 2.713970e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.904953e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.273464e-02 - Learning Rate: 9.142238e-04
+Iteration 12: Best criteria        . Loss: 0.1373598277568817
+Iteration 12: Stop criteria not met. Loss: 0.1373598277568817
+Epoch: 0 - Loss: 3.081048e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.422018e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.126690e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.864769e-03 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.759268e-03 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.691405e-03 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.757919e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.728414e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.737112e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 5.012132e-03 - Learning Rate: 9.142238e-04
+Iteration 13: Best criteria        . Loss: 0.08410648256540298
+Iteration 13: Stop criteria not met. Loss: 0.08410648256540298
+Epoch: 0 - Loss: 1.582785e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.276424e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.761171e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.600277e-03 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.508595e-03 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.450969e-03 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.559656e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 2.254046e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 5.180677e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.055028e-02 - Learning Rate: 9.142238e-04
+Iteration 14: Best criteria        . Loss: 0.08410648256540298
+Iteration 14: Stop criteria not met. Loss: 0.12771935760974884
+Epoch: 0 - Loss: 1.773404e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.654019e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.496291e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.367996e-03 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.289027e-03 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.240084e-03 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.385116e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.977655e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.175929e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 6.425872e-03 - Learning Rate: 9.142238e-04
+Iteration 15: Best criteria        . Loss: 0.0678774043917656
+Iteration 15: Stop criteria not met. Loss: 0.0678774043917656
+Epoch: 0 - Loss: 3.443623e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.493726e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.403362e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.216865e-03 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.141933e-03 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.095831e-03 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.280946e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.902896e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.592221e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 4.780804e-02 - Learning Rate: 9.142238e-04
+Iteration 16: Best criteria        . Loss: 0.03634711354970932
+Iteration 16: Stop criteria not met. Loss: 0.03634711354970932
+Epoch: 0 - Loss: 1.887908e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.163708e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 7.661286e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.073356e-03 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.009994e-03 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 9.706932e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.527659e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.205949e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.369477e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 5.962017e-03 - Learning Rate: 9.142238e-04
+Iteration 17: Best criteria        . Loss: 0.03634711354970932
+Iteration 17: Stop criteria not met. Loss: 0.040108535438776016
+Epoch: 0 - Loss: 6.347298e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.169308e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.795307e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 9.051619e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.507178e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 8.170874e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 8.085208e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.803305e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.132264e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 3.894329e-02 - Learning Rate: 9.142238e-04
+Iteration 18: Best criteria        . Loss: 0.017575658857822418
+Iteration 18: Stop criteria not met. Loss: 0.017575658857822418
+Epoch: 0 - Loss: 3.793060e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.790914e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.183216e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 8.069739e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 7.569593e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.263813e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.495534e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 6.929152e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.457582e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 4.077490e-03 - Learning Rate: 9.142238e-04
+Iteration 19: Best criteria        . Loss: 0.017575658857822418
+Iteration 19: Stop criteria not met. Loss: 0.04334140196442604
+Epoch: 0 - Loss: 7.108568e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.036204e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.099781e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 7.020686e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 6.562033e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 6.284970e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 6.077210e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.574680e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.285169e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.048946e-02 - Learning Rate: 9.142238e-04
+Iteration 20: Best criteria        . Loss: 0.017575658857822418
+Iteration 20: Stop criteria not met. Loss: 0.050577886402606964
+Epoch: 0 - Loss: 5.621775e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 4.347048e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 7.278720e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 6.366207e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 5.950609e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 5.701086e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.185169e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.755917e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 7.922793e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 9.937845e-04 - Learning Rate: 9.142238e-04
+Iteration 21: Best criteria        . Loss: 0.017575658857822418
+Iteration 21: Stop criteria not met. Loss: 0.03669621795415878
+Epoch: 0 - Loss: 5.246386e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.827203e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.970475e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 5.915698e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 5.508084e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 5.268195e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 5.554856e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.224675e-02 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.016085e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.641735e-02 - Learning Rate: 9.142238e-04
+Iteration 22: Best criteria        . Loss: 0.017575658857822418
+Iteration 22: Stop criteria not met. Loss: 0.07262271642684937
+Epoch: 0 - Loss: 2.150230e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 8.021406e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 6.471543e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 5.282435e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 4.922085e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 4.708550e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 8.185839e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.525395e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.122086e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.816344e-03 - Learning Rate: 9.142238e-04
+Iteration 23: Best criteria        . Loss: 0.017575658857822418
+Iteration 23: Stop criteria not met. Loss: 0.03553861007094383
+Epoch: 0 - Loss: 5.060923e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.583442e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 5.697393e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 4.917996e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 4.586605e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 4.388823e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 7.012076e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.156965e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.886574e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.471433e-03 - Learning Rate: 9.142238e-04
+Iteration 24: Best criteria        . Loss: 0.017575658857822418
+Iteration 24: Stop criteria not met. Loss: 0.1181824654340744
+Epoch: 0 - Loss: 1.431623e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.180003e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 6.690330e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 4.546225e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 4.244505e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 4.064770e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 7.930389e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.901811e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.205782e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.038107e-02 - Learning Rate: 9.142238e-04
+Iteration 25: Best criteria        . Loss: 0.017575658857822418
+Iteration 25: Stop criteria not met. Loss: 0.026807771995663643
+Epoch: 0 - Loss: 6.070338e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 8.494104e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.824447e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 4.332513e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 4.036342e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 3.860878e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.148068e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 4.399303e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.765731e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.938238e-02 - Learning Rate: 9.142238e-04
+Iteration 26: Best criteria        . Loss: 0.017575658857822418
+Iteration 26: Stop criteria not met. Loss: 0.05039063096046448
+Epoch: 0 - Loss: 5.840598e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.662850e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.635673e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 4.148060e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 3.856999e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 3.684554e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 4.678562e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 6.278381e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.147271e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.734412e-02 - Learning Rate: 9.142238e-04
+Iteration 27: Best criteria        . Loss: 0.017575658857822418
+Iteration 27: Stop criteria not met. Loss: 0.10661473125219345
+Epoch: 0 - Loss: 1.820770e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.317620e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.594296e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.932733e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 3.649110e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 3.483036e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 4.724739e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.938763e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.729606e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.168353e-03 - Learning Rate: 9.142238e-04
+Iteration 28: Best criteria        . Loss: 0.017575658857822418
+Iteration 28: Stop criteria not met. Loss: 0.05326056480407715
+Epoch: 0 - Loss: 3.035741e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 4.054356e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.491220e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.772380e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 3.496553e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 3.334594e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.786290e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 8.037899e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.103738e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.030568e-03 - Learning Rate: 9.142238e-04
+Iteration 29: Best criteria        . Loss: 0.017575658857822418
+Iteration 29: Stop criteria not met. Loss: 0.025015853345394135
+Epoch: 0 - Loss: 1.388533e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 9.152697e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 7.760689e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.790887e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 3.519055e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 3.359968e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.836899e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 4.847621e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.160832e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 4.319622e-03 - Learning Rate: 9.142238e-04
+Iteration 30: Best criteria        . Loss: 0.017575658857822418
+Iteration 30: Stop criteria not met. Loss: 0.023468928411602974
+Epoch: 0 - Loss: 3.008544e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.760561e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 8.001042e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.683639e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 3.407065e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 3.246134e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 5.787861e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.659436e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.976031e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.066315e-02 - Learning Rate: 9.142238e-04
+Iteration 31: Best criteria        . Loss: 0.01587899588048458
+Iteration 31: Stop criteria not met. Loss: 0.01587899588048458
+Epoch: 0 - Loss: 9.811153e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.433641e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 8.552051e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.605031e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 3.329054e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 3.169243e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 6.039873e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 9.009052e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.946586e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 6.915696e-03 - Learning Rate: 9.142238e-04
+Iteration 32: Best criteria        . Loss: 0.01524642389267683
+Iteration 32: Stop criteria not met. Loss: 0.01524642389267683
+Epoch: 0 - Loss: 6.582215e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.446009e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.047285e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.462215e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 3.192903e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 3.036953e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.503347e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.427665e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.693658e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.596098e-02 - Learning Rate: 9.142238e-04
+Iteration 33: Best criteria        . Loss: 0.01524642389267683
+Iteration 33: Stop criteria not met. Loss: 0.16611362993717194
+Epoch: 0 - Loss: 8.113625e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.304553e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 5.156883e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.305869e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 3.034820e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.880136e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.089210e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 4.993216e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.378182e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 6.507974e-04 - Learning Rate: 9.142238e-04
+Iteration 34: Best criteria        . Loss: 0.014046775177121162
+Iteration 34: Stop criteria not met. Loss: 0.014046775177121162
+Epoch: 0 - Loss: 6.789244e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.902314e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.204512e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.241809e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.976962e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.826102e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 5.730595e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.813930e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.673390e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 6.652143e-04 - Learning Rate: 9.142238e-04
+Iteration 35: Best criteria        . Loss: 0.007447762414813042
+Iteration 35: Stop criteria not met. Loss: 0.007447762414813042
+Epoch: 0 - Loss: 1.995790e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.744825e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.128784e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.185901e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.923331e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.773188e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.884183e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 8.619617e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 8.218996e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 8.798449e-04 - Learning Rate: 9.142238e-04
+Iteration 36: Best criteria        . Loss: 0.007447762414813042
+Iteration 36: Stop criteria not met. Loss: 0.037252478301525116
+Epoch: 0 - Loss: 1.228751e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.109849e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 5.404105e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 3.031397e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.772858e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.625908e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 4.339851e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.264179e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.245631e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 7.084909e-03 - Learning Rate: 9.142238e-04
+Iteration 37: Best criteria        . Loss: 0.007447762414813042
+Iteration 37: Stop criteria not met. Loss: 0.03284988924860954
+Epoch: 0 - Loss: 3.097638e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.138449e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.923515e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.934738e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.674608e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.527479e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 5.116706e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 2.210295e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.119558e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.926477e-03 - Learning Rate: 9.142238e-04
+Iteration 38: Best criteria        . Loss: 0.007447762414813042
+Iteration 38: Stop criteria not met. Loss: 0.0684850737452507
+Epoch: 0 - Loss: 3.819074e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.646198e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.288916e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.832641e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.572649e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.427304e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.471953e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.340555e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.081522e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.016709e-02 - Learning Rate: 9.142238e-04
+Iteration 39: Best criteria        . Loss: 0.0056566642597317696
+Iteration 39: Stop criteria not met. Loss: 0.0056566642597317696
+Epoch: 0 - Loss: 7.571022e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.652783e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.248145e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.716756e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.465439e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.325583e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.690671e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 4.072955e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 8.274179e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.036698e-03 - Learning Rate: 9.142238e-04
+Iteration 40: Best criteria        . Loss: 0.0056566642597317696
+Iteration 40: Stop criteria not met. Loss: 0.01634763553738594
+Epoch: 0 - Loss: 2.207703e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 4.382182e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 6.382848e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.610131e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.364054e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.227788e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.460351e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.625844e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.306497e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 9.497536e-04 - Learning Rate: 9.142238e-04
+Iteration 41: Best criteria        . Loss: 0.0056566642597317696
+Iteration 41: Stop criteria not met. Loss: 0.03461144492030144
+Epoch: 0 - Loss: 3.253562e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 6.537060e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.611485e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.519734e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.272567e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.137443e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 5.359064e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.683786e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.421500e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 4.790458e-03 - Learning Rate: 9.142238e-04
+Iteration 42: Best criteria        . Loss: 0.0056566642597317696
+Iteration 42: Stop criteria not met. Loss: 0.012924662791192532
+Epoch: 0 - Loss: 2.936184e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 4.207415e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.564375e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.450612e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.206296e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.072805e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.048367e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 6.708605e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 8.579026e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.051274e-03 - Learning Rate: 9.142238e-04
+Iteration 43: Best criteria        . Loss: 0.0056566642597317696
+Iteration 43: Stop criteria not met. Loss: 0.09675045311450958
+Epoch: 0 - Loss: 1.584174e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.619773e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.204113e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.384481e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.137671e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 2.004006e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.831349e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.984711e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.212479e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 9.827285e-03 - Learning Rate: 9.142238e-04
+Iteration 44: Best criteria        . Loss: 0.0056566642597317696
+Iteration 44: Stop criteria not met. Loss: 0.01577054150402546
+Epoch: 0 - Loss: 4.409623e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.721286e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.883171e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.300204e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 2.056231e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.924858e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.757674e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 2.543475e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.808511e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 3.256729e-03 - Learning Rate: 9.142238e-04
+Iteration 45: Best criteria        . Loss: 0.0056566642597317696
+Iteration 45: Stop criteria not met. Loss: 0.009481613524258137
+Epoch: 0 - Loss: 5.551917e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 4.854229e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.979987e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.226824e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.986918e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.857798e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.459864e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.627806e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.632390e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.981523e-03 - Learning Rate: 9.142238e-04
+Iteration 46: Best criteria        . Loss: 0.004657008685171604
+Iteration 46: Stop criteria not met. Loss: 0.004657008685171604
+Epoch: 0 - Loss: 8.070253e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.210751e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 9.838054e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.217963e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.978804e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.850383e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.871387e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.831097e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.174125e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.241487e-03 - Learning Rate: 9.142238e-04
+Iteration 47: Best criteria        . Loss: 0.004618508275598288
+Iteration 47: Stop criteria not met. Loss: 0.004618508275598288
+Epoch: 0 - Loss: 4.050158e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 6.250311e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.695722e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.167566e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.930015e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.803734e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.851095e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 7.363359e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.797310e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 6.673309e-03 - Learning Rate: 9.142238e-04
+Iteration 48: Best criteria        . Loss: 0.004618508275598288
+Iteration 48: Stop criteria not met. Loss: 0.03366546705365181
+Epoch: 0 - Loss: 3.824594e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.592141e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.928794e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 2.059309e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.829769e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.708697e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 5.080283e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.772747e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.010056e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 9.986118e-03 - Learning Rate: 9.142238e-04
+Iteration 49: Best criteria        . Loss: 0.004618508275598288
+Iteration 49: Stop criteria not met. Loss: 0.010733390226960182
+Epoch: 0 - Loss: 6.284868e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.814519e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 6.583006e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.980002e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.754482e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.636158e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.924815e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 8.531185e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.570258e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 3.191030e-03 - Learning Rate: 9.142238e-04
+Iteration 50: Best criteria        . Loss: 0.004618508275598288
+Iteration 50: Stop criteria not met. Loss: 0.01111955102533102
+Epoch: 0 - Loss: 8.597854e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.811869e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.451855e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.930970e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.706849e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.590376e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.877947e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.106788e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.327488e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.321072e-02 - Learning Rate: 9.142238e-04
+Iteration 51: Best criteria        . Loss: 0.004618508275598288
+Iteration 51: Stop criteria not met. Loss: 0.028317833319306374
+Epoch: 0 - Loss: 1.828284e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.056864e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.460583e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.861107e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.642974e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.530103e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.616523e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.838629e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.569532e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.407990e-02 - Learning Rate: 9.142238e-04
+Iteration 52: Best criteria        . Loss: 0.004618508275598288
+Iteration 52: Stop criteria not met. Loss: 0.011272658593952656
+Epoch: 0 - Loss: 1.238971e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 6.987117e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 6.149355e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.797763e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.583354e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.472984e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 5.945448e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.645673e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.331004e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 6.462344e-03 - Learning Rate: 9.142238e-04
+Iteration 53: Best criteria        . Loss: 0.004602932836860418
+Iteration 53: Stop criteria not met. Loss: 0.004602932836860418
+Epoch: 0 - Loss: 7.576643e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.036303e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.681567e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.772062e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.561541e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.453494e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.460843e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.626184e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.761311e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 5.217919e-04 - Learning Rate: 9.142238e-04
+Iteration 54: Best criteria        . Loss: 0.004602932836860418
+Iteration 54: Stop criteria not met. Loss: 0.09532546997070312
+Epoch: 0 - Loss: 1.017568e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 6.201820e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.312463e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.715662e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.503237e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.395546e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.436490e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.299998e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.381570e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.384974e-03 - Learning Rate: 9.142238e-04
+Iteration 55: Best criteria        . Loss: 0.004602932836860418
+Iteration 55: Stop criteria not met. Loss: 0.008830957114696503
+Epoch: 0 - Loss: 9.602222e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 9.294162e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.833992e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.663831e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.456526e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.351621e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.297572e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.849690e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.016835e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.284845e-02 - Learning Rate: 9.142238e-04
+Iteration 56: Best criteria        . Loss: 0.004602932836860418
+Iteration 56: Stop criteria not met. Loss: 0.0062134163454174995
+Epoch: 0 - Loss: 3.065606e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.714737e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 7.384450e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.613405e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.408980e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.306298e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.002026e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 4.240429e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.122866e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.439331e-02 - Learning Rate: 9.142238e-04
+Iteration 57: Best criteria        . Loss: 0.004602932836860418
+Iteration 57: Stop criteria not met. Loss: 0.009732668288052082
+Epoch: 0 - Loss: 1.447066e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.024486e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.189159e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.563211e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.359628e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.258298e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.743896e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.019691e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.173438e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.095605e-03 - Learning Rate: 9.142238e-04
+Iteration 58: Best criteria        . Loss: 0.003500837367027998
+Iteration 58: Stop criteria not met. Loss: 0.003500837367027998
+Epoch: 0 - Loss: 9.921878e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.096717e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 5.539040e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.524792e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.324714e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.225458e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 4.698210e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.780599e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.252764e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.545379e-03 - Learning Rate: 9.142238e-04
+Iteration 59: Best criteria        . Loss: 0.003121524816378951
+Iteration 59: Stop criteria not met. Loss: 0.003121524816378951
+Epoch: 0 - Loss: 1.610455e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.764096e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.732472e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.490008e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.294258e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.197586e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.560320e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.080970e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.741798e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.311690e-03 - Learning Rate: 9.142238e-04
+Iteration 60: Best criteria        . Loss: 0.003121524816378951
+Iteration 60: Stop criteria not met. Loss: 0.020097525790333748
+Epoch: 0 - Loss: 6.574757e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 4.803085e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.765729e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.440698e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.248803e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.154756e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 4.690439e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 4.745782e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 7.154889e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.185752e-02 - Learning Rate: 9.142238e-04
+Iteration 61: Best criteria        . Loss: 0.003121524816378951
+Iteration 61: Stop criteria not met. Loss: 0.0875992551445961
+Epoch: 0 - Loss: 1.374884e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 6.254137e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.635671e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.421445e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.226044e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.131037e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.258858e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 4.341155e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 8.575103e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 5.284233e-04 - Learning Rate: 9.142238e-04
+Iteration 62: Best criteria        . Loss: 0.003121524816378951
+Iteration 62: Stop criteria not met. Loss: 0.029682312160730362
+Epoch: 0 - Loss: 1.491806e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.882961e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.106790e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.390335e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.197577e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.104183e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.161652e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.092387e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 5.149483e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 8.672324e-03 - Learning Rate: 9.142238e-04
+Iteration 63: Best criteria        . Loss: 0.003121524816378951
+Iteration 63: Stop criteria not met. Loss: 0.012317299842834473
+Epoch: 0 - Loss: 1.454107e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.331680e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.226957e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.371629e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.176897e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.083051e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.493559e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 2.154468e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.830574e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.782651e-03 - Learning Rate: 9.142238e-04
+Iteration 64: Best criteria        . Loss: 0.003121524816378951
+Iteration 64: Stop criteria not met. Loss: 0.011696434579789639
+Epoch: 0 - Loss: 8.570659e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.349583e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.316406e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.339280e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.147267e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.055050e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 4.551593e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 2.652403e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.710415e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.499945e-02 - Learning Rate: 9.142238e-04
+Iteration 65: Best criteria        . Loss: 0.003121524816378951
+Iteration 65: Stop criteria not met. Loss: 0.005021044053137302
+Epoch: 0 - Loss: 4.712793e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.900126e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 8.243077e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.326282e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.136709e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.045888e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.175434e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.683548e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.993431e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 3.318956e-03 - Learning Rate: 9.142238e-04
+Iteration 66: Best criteria        . Loss: 0.003121524816378951
+Iteration 66: Stop criteria not met. Loss: 0.04469330981373787
+Epoch: 0 - Loss: 9.040846e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 7.720584e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.678276e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.303780e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.115001e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.024906e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.174646e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 6.284697e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.086538e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 8.179976e-04 - Learning Rate: 9.142238e-04
+Iteration 67: Best criteria        . Loss: 0.003121524816378951
+Iteration 67: Stop criteria not met. Loss: 0.019115008413791656
+Epoch: 0 - Loss: 1.786940e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 6.680384e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.725094e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.291462e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.101860e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 1.011706e-04 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.389282e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.519640e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.646431e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.924625e-03 - Learning Rate: 9.142238e-04
+Iteration 68: Best criteria        . Loss: 0.003121524816378951
+Iteration 68: Stop criteria not met. Loss: 0.010490920394659042
+Epoch: 0 - Loss: 1.309649e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.212376e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.482391e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.257714e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.072754e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 9.851014e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 6.924202e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 6.136552e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.229851e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.199391e-02 - Learning Rate: 9.142238e-04
+Iteration 69: Best criteria        . Loss: 0.003121524816378951
+Iteration 69: Stop criteria not met. Loss: 0.005481625907123089
+Epoch: 0 - Loss: 1.891433e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.297074e-02 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.654557e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.245759e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.060736e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 9.733021e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.361677e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.782478e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.119690e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 3.126170e-03 - Learning Rate: 9.142238e-04
+Iteration 70: Best criteria        . Loss: 0.003121524816378951
+Iteration 70: Stop criteria not met. Loss: 0.010066959075629711
+Epoch: 0 - Loss: 4.869471e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 4.865745e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.102586e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.217568e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.035954e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 9.505301e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 5.228000e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.020550e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 7.871897e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 7.819957e-03 - Learning Rate: 9.142238e-04
+Iteration 71: Best criteria        . Loss: 0.003121524816378951
+Iteration 71: Stop criteria not met. Loss: 0.009180811233818531
+Epoch: 0 - Loss: 3.943368e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 9.837537e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 5.433225e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.192195e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 1.013623e-04 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 9.299728e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.926696e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 6.401883e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.767324e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 7.145241e-03 - Learning Rate: 9.142238e-04
+Iteration 72: Best criteria        . Loss: 0.003121524816378951
+Iteration 72: Stop criteria not met. Loss: 0.012941375374794006
+Epoch: 0 - Loss: 5.662982e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.125631e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 7.929313e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.171832e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 9.962198e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 9.140094e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 4.534918e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.736874e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.190218e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 8.798500e-04 - Learning Rate: 9.142238e-04
+Iteration 73: Best criteria        . Loss: 0.003121524816378951
+Iteration 73: Stop criteria not met. Loss: 0.004927033092826605
+Epoch: 0 - Loss: 3.809073e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 8.197458e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.796827e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.161216e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 9.843999e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 9.020415e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.841695e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.584445e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 6.099265e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 5.721462e-03 - Learning Rate: 9.142238e-04
+Iteration 74: Best criteria        . Loss: 0.002014129189774394
+Iteration 74: Stop criteria not met. Loss: 0.002014129189774394
+Epoch: 0 - Loss: 7.167165e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.872827e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 9.884995e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.171927e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 9.970739e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 9.154556e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 5.247055e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 6.154891e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.111046e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 9.012566e-03 - Learning Rate: 9.142238e-04
+Iteration 75: Best criteria        . Loss: 0.002014129189774394
+Iteration 75: Stop criteria not met. Loss: 0.007236707489937544
+Epoch: 0 - Loss: 1.705826e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.010853e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.049833e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.149115e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 9.764893e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 8.962245e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.862721e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.683523e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.441997e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 7.414465e-03 - Learning Rate: 9.142238e-04
+Iteration 76: Best criteria        . Loss: 0.002014129189774394
+Iteration 76: Stop criteria not met. Loss: 0.0023135843221098185
+Epoch: 0 - Loss: 3.716249e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.955145e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.560018e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.154341e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 9.849868e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 9.060713e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.161792e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.207881e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.052556e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.418007e-03 - Learning Rate: 9.142238e-04
+Iteration 77: Best criteria        . Loss: 0.002014129189774394
+Iteration 77: Stop criteria not met. Loss: 0.0026368978433310986
+Epoch: 0 - Loss: 1.043764e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.688871e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.145803e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.140830e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 9.736659e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 8.960612e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.515873e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 2.081638e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.184760e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 5.897004e-04 - Learning Rate: 9.142238e-04
+Iteration 78: Best criteria        . Loss: 0.002014129189774394
+Iteration 78: Stop criteria not met. Loss: 0.0042300112545490265
+Epoch: 0 - Loss: 7.863748e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.439018e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.216620e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.106540e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 9.437537e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 8.685960e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.602694e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 2.295219e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 8.027309e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 6.348359e-04 - Learning Rate: 9.142238e-04
+Iteration 79: Best criteria        . Loss: 0.002014129189774394
+Iteration 79: Stop criteria not met. Loss: 0.009226992726325989
+Epoch: 0 - Loss: 1.465423e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 4.380158e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.841159e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.084066e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 9.224980e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 8.482568e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.514317e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.545405e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.437749e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.671871e-03 - Learning Rate: 9.142238e-04
+Iteration 80: Best criteria        . Loss: 0.002014129189774394
+Iteration 80: Stop criteria not met. Loss: 0.027953416109085083
+Epoch: 0 - Loss: 2.423334e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.789949e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.044717e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.072721e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 9.105264e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 8.361269e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.092016e-03 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.797305e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.870071e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 7.230289e-03 - Learning Rate: 9.142238e-04
+Iteration 81: Best criteria        . Loss: 0.002014129189774394
+Iteration 81: Stop criteria not met. Loss: 0.06339739263057709
+Epoch: 0 - Loss: 5.208858e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 8.754970e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 6.735083e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.063250e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.999331e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 8.253529e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 6.823420e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.611419e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.844511e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.039951e-03 - Learning Rate: 9.142238e-04
+Iteration 82: Best criteria        . Loss: 0.002014129189774394
+Iteration 82: Stop criteria not met. Loss: 0.22193914651870728
+Epoch: 0 - Loss: 2.774694e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.140958e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 5.739659e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.062105e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.950727e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 8.192224e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.133720e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 8.213823e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.987369e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 7.228150e-04 - Learning Rate: 9.142238e-04
+Iteration 83: Best criteria        . Loss: 0.002014129189774394
+Iteration 83: Stop criteria not met. Loss: 0.021555760875344276
+Epoch: 0 - Loss: 1.623975e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 7.186817e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.733969e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.056123e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.878685e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 8.116465e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.107725e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 7.402370e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.495120e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 6.446927e-03 - Learning Rate: 9.142238e-04
+Iteration 84: Best criteria        . Loss: 0.002014129189774394
+Iteration 84: Stop criteria not met. Loss: 0.01710769347846508
+Epoch: 0 - Loss: 1.590082e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.821115e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 5.610648e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.028420e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.650164e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.911769e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 8.441851e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 2.546945e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.576183e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 3.568233e-03 - Learning Rate: 9.142238e-04
+Iteration 85: Best criteria        . Loss: 0.002014129189774394
+Iteration 85: Stop criteria not met. Loss: 0.002583172870799899
+Epoch: 0 - Loss: 5.787719e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.529531e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.156772e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 1.010929e-04 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.520087e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.803421e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 3.543551e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.649159e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 5.704692e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 6.513065e-04 - Learning Rate: 9.142238e-04
+Iteration 86: Best criteria        . Loss: 0.002014129189774394
+Iteration 86: Stop criteria not met. Loss: 0.003962529357522726
+Epoch: 0 - Loss: 5.975185e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.485377e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.372161e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 9.909084e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.363194e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.669130e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.235920e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 8.665747e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.629087e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.997614e-04 - Learning Rate: 9.142238e-04
+Iteration 87: Best criteria        . Loss: 0.002014129189774394
+Iteration 87: Stop criteria not met. Loss: 0.02175930142402649
+Epoch: 0 - Loss: 4.442343e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.554375e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 3.865345e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 9.756642e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.224136e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.538620e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.624138e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 3.678967e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 7.411261e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.361369e-03 - Learning Rate: 9.142238e-04
+Iteration 88: Best criteria        . Loss: 0.002014129189774394
+Iteration 88: Stop criteria not met. Loss: 0.0020324429497122765
+Epoch: 0 - Loss: 4.071889e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.249121e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.418234e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 9.842810e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.322117e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.640702e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.079831e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 9.465054e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.849308e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.893298e-03 - Learning Rate: 9.142238e-04
+Iteration 89: Best criteria        . Loss: 0.002014129189774394
+Iteration 89: Stop criteria not met. Loss: 0.00982224103063345
+Epoch: 0 - Loss: 2.841090e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.291175e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.878560e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 9.628636e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.134665e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.467779e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.165006e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 9.722013e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.407079e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 7.981302e-03 - Learning Rate: 9.142238e-04
+Iteration 90: Best criteria        . Loss: 0.002014129189774394
+Iteration 90: Stop criteria not met. Loss: 0.008075355552136898
+Epoch: 0 - Loss: 6.738319e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.808330e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 9.493670e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 9.453106e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 7.996273e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.348065e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.164481e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.537653e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.703975e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 8.590323e-03 - Learning Rate: 9.142238e-04
+Iteration 91: Best criteria        . Loss: 0.001561016426421702
+Iteration 91: Stop criteria not met. Loss: 0.001561016426421702
+Epoch: 0 - Loss: 2.531791e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.868456e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.343823e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 9.427253e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 8.005936e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.373481e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 4.262106e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 6.507024e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.297758e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.902211e-02 - Learning Rate: 9.142238e-04
+Iteration 92: Best criteria        . Loss: 0.001561016426421702
+Iteration 92: Stop criteria not met. Loss: 0.013284357264637947
+Epoch: 0 - Loss: 1.291011e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.178297e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.338340e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 9.329865e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 7.907680e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.276335e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.026429e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.846556e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 8.801476e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 3.212664e-04 - Learning Rate: 9.142238e-04
+Iteration 93: Best criteria        . Loss: 0.001561016426421702
+Iteration 93: Stop criteria not met. Loss: 0.006606607232242823
+Epoch: 0 - Loss: 1.717534e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 2.906042e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.288425e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 9.074963e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 7.695217e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 7.083551e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.833304e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 5.575406e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 3.478427e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 6.264787e-04 - Learning Rate: 9.142238e-04
+Iteration 94: Best criteria        . Loss: 0.001561016426421702
+Iteration 94: Stop criteria not met. Loss: 0.005878750700503588
+Epoch: 0 - Loss: 8.559804e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.209312e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.825266e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 8.877202e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 7.519675e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 6.921493e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 9.285014e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 2.372877e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 8.478198e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 3.275711e-04 - Learning Rate: 9.142238e-04
+Iteration 95: Best criteria        . Loss: 0.001561016426421702
+Iteration 95: Stop criteria not met. Loss: 0.002210994716733694
+Epoch: 0 - Loss: 6.285821e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.419380e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 4.000728e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 8.706925e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 7.387571e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 6.807046e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 2.507209e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.543840e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 2.783077e-04 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 8.263447e-04 - Learning Rate: 9.142238e-04
+Iteration 96: Best criteria        . Loss: 0.001561016426421702
+Iteration 96: Stop criteria not met. Loss: 0.0034595360048115253
+Epoch: 0 - Loss: 6.623548e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 1.641623e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.345699e-03 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 8.614625e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 7.310497e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 6.737588e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 9.441501e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.405983e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.720167e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 3.473442e-03 - Learning Rate: 9.142238e-04
+Iteration 97: Best criteria        . Loss: 0.001561016426421702
+Iteration 97: Stop criteria not met. Loss: 0.036642152816057205
+Epoch: 0 - Loss: 1.475571e-02 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 3.908732e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 1.451616e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 8.496190e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 7.190936e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 6.621046e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 4.893639e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 8.797451e-04 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.302186e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 1.586637e-03 - Learning Rate: 9.142238e-04
+Iteration 98: Best criteria        . Loss: 0.001561016426421702
+Iteration 98: Stop criteria not met. Loss: 0.004472777247428894
+Epoch: 0 - Loss: 6.937359e-04 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 8.018649e-03 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 9.276759e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 8.307627e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 7.027771e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 6.470813e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.720214e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 1.541538e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 4.450903e-03 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 2.144152e-04 - Learning Rate: 9.142238e-04
+Iteration 99: Best criteria        . Loss: 0.001561016426421702
+Iteration 99: Stop criteria not met. Loss: 0.006246050354093313
+Epoch: 0 - Loss: 1.806365e-03 - Learning Rate: 9.999999e-04
+Epoch: 1000 - Loss: 5.293475e-04 - Learning Rate: 9.138914e-04
+Epoch: 2000 - Loss: 2.319534e-04 - Learning Rate: 6.887887e-04
+Epoch: 3000 - Loss: 8.126949e-05 - Learning Rate: 4.106735e-04
+Epoch: 4000 - Loss: 6.876067e-05 - Learning Rate: 1.857762e-04
+Epoch: 5000 - Loss: 6.332790e-05 - Learning Rate: 1.000001e-04
+Epoch: 6000 - Loss: 1.230300e-04 - Learning Rate: 1.861086e-04
+Epoch: 7000 - Loss: 6.634776e-03 - Learning Rate: 4.112113e-04
+Epoch: 8000 - Loss: 1.436937e-02 - Learning Rate: 6.893265e-04
+Epoch: 9000 - Loss: 5.001662e-04 - Learning Rate: 9.142238e-04
+Iteration 100: Best criteria        . Loss: 0.001561016426421702
+Iteration 100: Stop criteria not met. Loss: 0.08678607642650604
+computing time 711.0486128966014 [min]

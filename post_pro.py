@@ -44,7 +44,7 @@ class Model(nn.Module):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print('device:', device)
 
-layer_sizes = [2,128,128,128,1]
+layer_sizes = [2,64,64,64,1]
 activation = nn.Tanh()
 model = Model(layer_sizes,activation).to(device)
 model.load_state_dict(torch.load('trained_model_gpu_spherical',map_location=torch.device(device)))
@@ -74,4 +74,4 @@ for idx, t_i in enumerate(np.linspace(0, T, int(T/dt)+1)):
     filename = os.path.join(save_dir,'pinn_output_t_{}.txt'.format(idx))
     np.savetxt(filename, np.concatenate((x_, u_, u_x_, u_t_), axis=1), fmt='%.18e')
 
-# CUDA_VISIBLE_DEVICES=1 python post_pro.py
+# CUDA_VISIBLE_DEVICES=0 python post_pro.py

@@ -5,9 +5,8 @@ from matplotlib import pyplot as plt
 import numpy as np
 from time import time
 import os
-import seaborn as sns
-
-sns.set_style("whitegrid")
+# import seaborn as sns
+# sns.set_style("whitegrid")
 
 print('torch version:', torch.__version__)
 
@@ -171,7 +170,8 @@ def random_IC_points(R, n=128):
     t = torch.zeros(n, 1, device=device, requires_grad=True)
     return r, t
 
-layer_sizes = [2,128,128,128,1]
+# layer_sizes = [2,128,128,128,1]
+layer_sizes = [2,64,64,64,1]
 activation = nn.Tanh()
 model = Model(layer_sizes,activation).to(device)
 
