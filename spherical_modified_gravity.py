@@ -31,7 +31,7 @@ SIGMA=1.
 # GAMMA=1.e-4 # EXTRA perturbation
 GAMMA=0. # just wave_eq
 #
-TRAIN_DOM_POINTS = 8192
+TRAIN_DOM_POINTS = 16384
 TRAIN_BC_POINTS  = 64
 TRAIN_IC_POINTS  = 32
 
@@ -43,7 +43,7 @@ DOM_NEW_POINTS = 128
 BC_NEW_POINTS  = 16
 IC_NEW_POINTS  = 16
 
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.0005
 
 STOP_CRITERIA = 0.0001
 ITER_MAX = 100 # Set a reasonable maximum number of iterations
