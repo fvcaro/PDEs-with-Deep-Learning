@@ -5,8 +5,6 @@ from matplotlib import pyplot as plt
 import numpy as np
 from time import time
 import os
-# import seaborn as sns
-# sns.set_style("whitegrid")
 
 print('torch version:', torch.__version__)
 
@@ -43,7 +41,7 @@ DOM_NEW_POINTS = 128
 BC_NEW_POINTS  = 16
 IC_NEW_POINTS  = 16
 
-LEARNING_RATE = 0.0005
+LEARNING_RATE = 0.001
 
 STOP_CRITERIA = 0.0001
 ITER_MAX = 100 # Set a reasonable maximum number of iterations
@@ -102,7 +100,7 @@ def loss_1(r, t):
     u_tt = torch.autograd.grad(u_t, t, create_graph=True, grad_outputs=torch.ones_like(u_t))[0]
     
     u_r  = torch.autograd.grad(u, r, create_graph=True, grad_outputs=torch.ones_like(u))[0]
-    u_rt  = torch.autograd.grad(u_r, t, create_graph=True, grad_outputs=torch.ones_like(u_r))[0]
+    # u_rt  = torch.autograd.grad(u_r, t, create_graph=True, grad_outputs=torch.ones_like(u_r))[0]
     u_rr = torch.autograd.grad(u_r, r, create_graph=True, grad_outputs=torch.ones_like(u_r))[0]
 
     X = (u_r)**2 - (u_t)**2
@@ -112,6 +110,7 @@ def loss_1(r, t):
 
     # Residual
     residual = 2*r*K_2_XX*u_rr*(u_r)**2 - 4*r*K_2_XX*u_t*u_tr*u_r + 2*r*K_2_XX*(u_t)**2*u_tt + K_1_X*(2*u_r + r*u_rr - r*u_tt)
+    # residual = (1/K_1_X) * (2*K_2_XX*u_rr*(u_r)**2 - 4*K_2_XX*u_t*u_tr*u_r + 2*K_2_XX*(u_t)**2*u_tt) + (1/r)*2*u_r + u_rr - u_tt
 
     return residual
 
@@ -364,6 +363,8 @@ for t_i in np.linspace(0, T, 11):
     plt.close()  # Close the figure to release resources
 
 from matplotlib.animation import FuncAnimation
+# import seaborn as sns
+# sns.set_style("whitegrid")
 # plt.style.use('seaborn-pastel')
 
 fig = plt.figure(figsize=(8,6))
