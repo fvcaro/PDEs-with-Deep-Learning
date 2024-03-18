@@ -1,4 +1,5 @@
 import torch
+print('torch version:', torch.__version__)
 import torch.nn as nn
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from matplotlib import pyplot as plt
@@ -6,10 +7,9 @@ import numpy as np
 from time import time
 import os
 
-print('torch version:', torch.__version__)
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# device = "cpu"
+seed = 42
+torch.manual_seed(seed)  # Set random seed for reproducibility
 print('device:', device)
 
 R = 40
@@ -24,10 +24,10 @@ GAMMA1 = 10.
 GAMMA2 = 10.
 #
 SIGMA=1.
-# GAMMA=1.e-6 # small perturbation
+GAMMA=1.e-6 # small perturbation
 # GAMMA=1.e-5 # bigger perturbation
 # GAMMA=1.e-4 # EXTRA perturbation
-GAMMA=0. # just wave_eq
+# GAMMA=0. # just wave_eq
 #
 TRAIN_DOM_POINTS = 16384
 TRAIN_BC_POINTS  = 64
@@ -69,6 +69,8 @@ class Model(nn.Module):
             if isinstance(layer, nn.Linear):
                 # Glorot initialization
                 nn.init.xavier_uniform_(layer.weight)  
+                # Replace Glorot initialization with Kaiming initialization
+                # nn.init.kaiming_uniform_(layer.weight, nonlinearity='tanh')
                 # Initialize bias to zeros
                 nn.init.constant_(layer.bias, 0.0)  
     #
