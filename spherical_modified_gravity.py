@@ -41,7 +41,7 @@ DOM_NEW_POINTS = 128
 BC_NEW_POINTS  = 16
 IC_NEW_POINTS  = 16
 
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.0005
 
 STOP_CRITERIA = 0.0001
 ITER_MAX = 100 # Set a reasonable maximum number of iterations
@@ -68,9 +68,9 @@ class Model(nn.Module):
         for layer in self.layers:
             if isinstance(layer, nn.Linear):
                 # Glorot initialization
-                nn.init.xavier_uniform_(layer.weight)  
+                # nn.init.xavier_uniform_(layer.weight)  
                 # Replace Glorot initialization with Kaiming initialization
-                # nn.init.kaiming_uniform_(layer.weight, nonlinearity='tanh')
+                nn.init.kaiming_uniform_(layer.weight, nonlinearity='tanh')
                 # Initialize bias to zeros
                 nn.init.constant_(layer.bias, 0.0)  
     #
