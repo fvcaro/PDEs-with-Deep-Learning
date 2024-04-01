@@ -24,10 +24,10 @@ GAMMA1 = 10.
 GAMMA2 = 10.
 #
 SIGMA=1.
-GAMMA=1.e-6 # small perturbation
+# GAMMA=1.e-6 # small perturbation
 # GAMMA=1.e-5 # bigger perturbation
 # GAMMA=1.e-4 # EXTRA perturbation
-# GAMMA=0. # just wave_eq
+GAMMA=0. # just wave_eq
 #
 TRAIN_DOM_POINTS = 16384
 TRAIN_BC_POINTS  = 64
@@ -111,8 +111,11 @@ def loss_1(r, t):
     K_1_X  = der_K_X(X, sigma=SIGMA, gamma=GAMMA)
 
     # Residual
-    residual = 2*r*K_2_XX*u_rr*(u_r)**2 - 4*r*K_2_XX*u_t*u_tr*u_r + 2*r*K_2_XX*(u_t)**2*u_tt + K_1_X*(2*u_r + r*u_rr - r*u_tt)
-    # residual = (1/K_1_X) * (2*K_2_XX*u_rr*(u_r)**2 - 4*K_2_XX*u_t*u_tr*u_r + 2*K_2_XX*(u_t)**2*u_tt) + (1/r)*2*u_r + u_rr - u_tt
+    # residual = 2*r*K_2_XX*u_rr*(u_r)**2 - 4*r*K_2_XX*u_t*u_tr*u_r + 2*r*K_2_XX*(u_t)**2*u_tt + K_1_X*(2*u_r + r*u_rr - r*u_tt)
+    # Residual using (1+r) factor:
+    # residual = (1 + r) * (1/K_1_X) * (2*K_2_XX*u_rr*(u_r)**2 - 4*K_2_XX*u_t*u_tr*u_r + 2*K_2_XX*(u_t)**2*u_tt) + (1 + r)/r*2*u_r + (1 + r) * (u_rr - u_tt)
+    # Residual using max(1,r) factor:
+    residual = max(1,r) * (1/K_1_X) * (2*K_2_XX*u_rr*(u_r)**2 - 4*K_2_XX*u_t*u_tr*u_r + 2*K_2_XX*(u_t)**2*u_tt) + max(1,r)/r*2*u_r + max(1,r) * (u_rr - u_tt)
 
     return residual
 
