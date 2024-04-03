@@ -24,10 +24,10 @@ GAMMA1 = 10.
 GAMMA2 = 10.
 #
 SIGMA=1.
-# GAMMA=1.e-6 # small perturbation
+GAMMA=1.e-6 # small perturbation
 # GAMMA=1.e-5 # bigger perturbation
 # GAMMA=1.e-4 # EXTRA perturbation
-GAMMA=0. # just wave_eq
+# GAMMA=0. # just wave_eq
 #
 TRAIN_DOM_POINTS = 16384
 TRAIN_BC_POINTS  = 64
@@ -45,7 +45,7 @@ LEARNING_RATE = 0.0005
 
 STOP_CRITERIA = 0.0001
 ITER_MAX = 100 # Set a reasonable maximum number of iterations
-EPOCHS = 10000
+EPOCHS = 30000
 
 class Model(nn.Module):
     def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
@@ -110,13 +110,13 @@ def loss_1(r, t):
     K_2_XX = der_K_XX(X, sigma=SIGMA, gamma=GAMMA)
     K_1_X  = der_K_X(X, sigma=SIGMA, gamma=GAMMA)
 
-    # Residual
-    # residual = 2*r*K_2_XX*u_rr*(u_r)**2 - 4*r*K_2_XX*u_t*u_tr*u_r + 2*r*K_2_XX*(u_t)**2*u_tt + K_1_X*(2*u_r + r*u_rr - r*u_tt)
+    # Residual:
+    residual = 2*r*K_2_XX*u_rr*(u_r)**2 - 4*r*K_2_XX*u_t*u_tr*u_r + 2*r*K_2_XX*(u_t)**2*u_tt + K_1_X*(2*u_r + r*u_rr - r*u_tt)
     # Residual using (1+r) factor:
     # residual = (1 + r) * (1/K_1_X) * (2*K_2_XX*u_rr*(u_r)**2 - 4*K_2_XX*u_t*u_tr*u_r + 2*K_2_XX*(u_t)**2*u_tt) + (1 + r)/r*2*u_r + (1 + r) * (u_rr - u_tt)
     # Residual using max(1,r) factor:
-    max_1_r = torch.maximum(torch.tensor(1), r)  # Apply max(1, r) element-wise
-    residual = max_1_r * (1/K_1_X) * (2*K_2_XX*u_rr*(u_r)**2 - 4*K_2_XX*u_t*u_tr*u_r + 2*K_2_XX*(u_t)**2*u_tt) + max_1_r/r*2*u_r + max_1_r * (u_rr - u_tt)
+    # max_1_r = torch.maximum(torch.tensor(1), r)  # Apply max(1, r) element-wise
+    # residual = max_1_r * (1/K_1_X) * (2*K_2_XX*u_rr*(u_r)**2 - 4*K_2_XX*u_t*u_tr*u_r + 2*K_2_XX*(u_t)**2*u_tt) + max_1_r/r*2*u_r + max_1_r * (u_rr - u_tt)
 
     return residual
 
