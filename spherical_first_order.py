@@ -1,7 +1,6 @@
 import torch
 print('torch version:', torch.__version__)
 import torch.nn as nn
-from torch.optim.lr_scheduler import CosineAnnealingLR
 import numpy as np
 from time import time
 import os
@@ -68,9 +67,7 @@ class Model(nn.Module):
     def init_weights(self):
         for layer in self.layers:
             if isinstance(layer, nn.Linear):
-                # Glorot initialization
-                # nn.init.xavier_uniform_(layer.weight)  
-                # Replace Glorot initialization with Kaiming initialization
+                # Kaiming initialization
                 nn.init.kaiming_uniform_(layer.weight, nonlinearity='tanh')
                 # Initialize bias to zeros
                 nn.init.constant_(layer.bias, 0.0)  
@@ -204,10 +201,6 @@ model = Model(layer_sizes,activation).to(device)
 
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
-# Update the learning rate scheduler
-scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=5000, eta_min=0.0001, last_epoch=-1)
-# scheduler = StepLR(optimizer, step_size=2000, gamma=1., verbose=False)  # Learning rate scheduler
-
 # Define a directory to save the figures
 save_dir = 'Figs'
 os.makedirs(save_dir, exist_ok=True)
@@ -216,8 +209,6 @@ r,t            = random_domain_points(R,T,n=TRAIN_DOM_POINTS)
 r_bc_L, t_bc_L = random_BC_points_L(R,T,n=TRAIN_BC_POINTS)
 r_bc_R, t_bc_R = random_BC_points_R(R,T,n=TRAIN_BC_POINTS)
 r_ic, t_ic     = random_IC_points(R,n=TRAIN_IC_POINTS)
-# print("Sizes: r={}, t={}, r_bc_L={}, t_bc_L={}, r_bc_R={}, t_bc_R={}, r_ic={}, t_ic={}".format(
-    # r.size(), t.size(), r_bc_L.size(), t_bc_L.size(), r_bc_R.size(), t_bc_R.size(), r_ic.size(), t_ic.size()))
 plt.plot(r.detach().cpu().numpy(),t.detach().cpu().numpy(),'o',ms=1)
 plt.plot(r_bc_L.detach().cpu().numpy(),t_bc_L.detach().cpu().numpy(),'o', ms=1)
 plt.plot(r_bc_R.detach().cpu().numpy(),t_bc_R.detach().cpu().numpy(),'o', ms=1)
@@ -241,9 +232,6 @@ iteration = 0
 
 while stop_criteria > STOP_CRITERIA and iteration < ITER_MAX:
     for epoch in range(EPOCHS):
-        # Track epochs
-        #if (epoch%(epochs/10)==0):
-        #    print('epoch:',epoch)
         optimizer.zero_grad() # to make the gradients zero
         # RESIDUAL ################################################################ 
         residual_1, residual_2 = loss_domain(r, t)
@@ -282,7 +270,7 @@ while stop_criteria > STOP_CRITERIA and iteration < ITER_MAX:
         optimizer.step() # 
         scheduler.step()  # Update learning rate
         if epoch % 1000 == 0:
-            print(f"Epoch: {epoch} - Loss: {loss.item():>1.6e} - Learning Rate: {scheduler.get_last_lr()[0]:>1.6e}")
+            print(f'Epoch: {epoch} - Loss: {loss.item():>1.6e} - Learning Rate: {LEARNING_RATE}')
     # Adative re-sampling ######################################################################
     r_,t_                    = random_domain_points(R,T,n=VALID_DOM_POINTS)
     r_bc_L_,t_bc_L_          = random_BC_points_L(R,T,n=VALID_BC_POINTS)
