@@ -34,7 +34,7 @@ class Model(nn.Module):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print('device:', device)
 
-layer_sizes = [2, 128, 128, 128, 1]
+layer_sizes = [2, 64, 64, 64, 1]
 activation = nn.Tanh()
 model = Model(layer_sizes, activation).to(device)
 model.load_state_dict(torch.load('trained_model_gpu_spherical', map_location=device))

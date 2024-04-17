@@ -2,10 +2,11 @@ import torch
 print('torch version:', torch.__version__)
 import torch.nn as nn
 from torch.optim.lr_scheduler import CosineAnnealingLR
-from matplotlib import pyplot as plt
 import numpy as np
 from time import time
 import os
+from matplotlib import pyplot as plt
+from matplotlib.animation import FuncAnimation
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 seed = 42
@@ -44,8 +45,8 @@ IC_NEW_POINTS  = 16
 LEARNING_RATE = 0.0005
 
 STOP_CRITERIA = 0.0001
-ITER_MAX = 100 # Set a reasonable maximum number of iterations
-EPOCHS = 30000
+ITER_MAX = 10 # Set a reasonable maximum number of iterations
+EPOCHS = 300
 
 class Model(nn.Module):
     def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
@@ -368,62 +369,40 @@ for t_i in np.linspace(0, T, 11):
     plt.savefig(save_filename, dpi=300)
     plt.close()  # Close the figure to release resources
 
-from matplotlib.animation import FuncAnimation
-# import seaborn as sns
-# sns.set_style("whitegrid")
-# plt.style.use('seaborn-pastel')
-
-fig = plt.figure(figsize=(8,6))
+# ANIMATION ####################################################################
+fig = plt.figure(figsize=(8, 6))
 ax = plt.axes(xlim=(0, R), ylim=(-2., 2.))
-line2, = ax.plot([], [], 
-                 color='tab:blue',
-                 lw=2,
-                 linestyle='--',
-                 label='pinn sol'
-                )
-ax.text(0.1, 0.9, 
-        "t = ", 
-        bbox={'facecolor': 'white',
-              'alpha': 0.5, 
-              'pad': 5},
-        transform=ax.transAxes, 
-        ha="center")
-#
+line2, = ax.plot([], [], color='tab:blue', lw=2, linestyle='--', label='pinn sol')
+# ax.text(0.1, 0.9, "t = ", bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 5}, transform=ax.transAxes, ha="center")
 ax.legend()
-# #
+
+# Add gridlines
+plt.grid(True, which="both", ls="--")
+
+# Pre-calculate predictions for all frames
+x_tr = torch.linspace(0, R, 512).view(-1, 1).to(device)
+t_values = torch.linspace(0, 25, 51).tolist()
+y_preds = [model(x_tr, t * torch.ones_like(x_tr)).cpu().detach().numpy() for t in t_values]
+
+# Initialize text outside animation loop
+text_template = ax.text(0.1, 0.9, "", bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 5}, transform=ax.transAxes, ha="center")
+
 def init():
-    #
     line2.set_data([], [])
     return line2,
+
 def animate(i):
-    #####################################################
-    ax.text(0.1, 0.9, 
-            "t= %d" % i,
-            bbox={'facecolor': 'white', 
-                  'alpha': 0.5, 
-                  'pad': 5},
-            transform=ax.transAxes, 
-            ha="center")
-#     #####################################################
-#     x_np = np.linspace(-R,R,512)
-    t = i
-#     y_np = np.exp(-A*((x_np - x0) - c*t)**2)/2 + np.exp(-A*((x_np - x0) + c*t)**2)/2
-#     #####################################################
-    x_tr = torch.linspace(0,R,512).view(-1,1)
-    x_tr = x_tr.to(device)
-#     #
-    t_tr = t*torch.ones_like(x_tr)
-    t_tr = t_tr.to(device)
-    y_tr = model(x_tr,t_tr).cpu().detach().numpy()
-#     #
-    line2.set_data(x_tr.cpu().detach().numpy(), y_tr)
+    # Update text with current time
+    text_template.set_text("t = %d" % t_values[i])
+    
+    # Update line with pre-calculated predictions
+    line2.set_data(x_tr.cpu().detach().numpy(), y_preds[i])
     return line2,
 
-anim = FuncAnimation(fig, animate, 
-                     init_func=init,
-                     frames=np.linspace(0, 25, 51), 
-                     blit=True
-                    )
+# Create animation
+anim = FuncAnimation(fig, animate, init_func=init, frames=len(t_values), blit=True)
+
+# Save animation using Pillow writer
 save_filename = os.path.join(save_dir, 'final_wave_animation_gpu.gif')
 anim.save(save_filename, writer='pillow')
 
