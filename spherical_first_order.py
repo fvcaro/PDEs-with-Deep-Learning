@@ -44,8 +44,8 @@ IC_NEW_POINTS  = 16
 LEARNING_RATE = 0.0005
 
 STOP_CRITERIA = 0.0001
-ITER_MAX = 100 # Set a reasonable maximum number of iterations
-EPOCHS = 100
+ITER_MAX = 5 # Set a reasonable maximum number of iterations
+EPOCHS = 10000
 
 class Model(nn.Module):
     def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
@@ -123,9 +123,9 @@ def loss_domain(r, t):
     K_XX = der_K_XX(X, sigma=SIGMA, gamma=GAMMA)
     K_X  = der_K_X(X, sigma=SIGMA, gamma=GAMMA)
     # Residuals
-    residual_1 = (2*K_XX*Pi**2 - K_X)*Pi_t + (2*K_XX*Phi**2 + K_X)*Phi_r + (2*K_X)/r*(Phi) - 4*K_XX*Phi*Pi*Pi_r
-    residual_2 = Phi_t - Pi_r
-    return residual_1, residual_2
+    residual_one = (2*K_XX*Pi**2 - K_X)*Pi_t + (2*K_XX*Phi**2 + K_X)*Phi_r + (2*K_X)/r*(Phi) - 4*K_XX*Phi*Pi*Pi_r
+    residual_two = Phi_t - Pi_r
+    return residual_one, residual_two
 
 def loss_L_BC(r, t):
     u_bc = model(r,t)
@@ -217,11 +217,9 @@ save_filename = os.path.join(save_dir, 'points.png')
 plt.savefig(save_filename, dpi=300)
 plt.close()  # Close the figure to release resources
 
-loss_dom_1_list  = []
-loss_dom_2_list  = []
+loss_domain_one_list  = []
+loss_domain_two_list  = []
 loss_L_BC_Phi_list = []
-# loss_bc_R_list = []
-# loss_ic_list   = []
 
 t0 = time()
 
@@ -239,8 +237,8 @@ while stop_criteria > STOP_CRITERIA and iteration < ITER_MAX:
         residual_1_r = torch.autograd.grad(residual_1, r, create_graph=True, grad_outputs=torch.ones_like(residual_1))[0]
         residual_2_r = torch.autograd.grad(residual_2, r, create_graph=True, grad_outputs=torch.ones_like(residual_2))[0]
         #
-        residual_1_t = torch.autograd.grad(residual_1, t, create_graph=True, grad_outputs=torch.ones_like(residual_1))[0]
-        residual_2_t = torch.autograd.grad(residual_2, t, create_graph=True, grad_outputs=torch.ones_like(residual_2))[0]
+        # residual_1_t = torch.autograd.grad(residual_1, t, create_graph=True, grad_outputs=torch.ones_like(residual_1))[0]
+        # residual_2_t = torch.autograd.grad(residual_2, t, create_graph=True, grad_outputs=torch.ones_like(residual_2))[0]
         #
         loss_dom_1 = torch.mean(residual_1**2 + residual_1_r**2)
         loss_dom_2 = torch.mean(residual_2**2 + residual_2_r**2)
@@ -260,65 +258,67 @@ while stop_criteria > STOP_CRITERIA and iteration < ITER_MAX:
         loss_Phi = loss_dom_2 + GAMMA1*loss_L_BC_Phi + GAMMA1*loss_R_BC_Phi + GAMMA2*loss_IC_Phi
         loss = loss_Pi + loss_Phi
         # Calculate and append individual losses to their respective lists
-        loss_dom_1_list.append(loss_dom_1.item())
-        loss_dom_2_list.append(loss_dom_2.item())
+        loss_domain_one_list.append(loss_dom_1.item())
+        loss_domain_two_list.append(loss_dom_2.item())
         loss_L_BC_Phi_list.append(loss_L_BC_Phi.item())
-        # loss_bc_R_list.append(loss_bc_R.item())
-        # loss_ic_list.append(loss_ic.item())
 
         loss.backward(retain_graph=True) # This is for computing gradients using backward propagation
         optimizer.step() # 
-        scheduler.step()  # Update learning rate
         if epoch % 1000 == 0:
             print(f'Epoch: {epoch} - Loss: {loss.item():>1.6e} - Learning Rate: {LEARNING_RATE}')
     # Adative re-sampling ######################################################################
-    r_,t_                    = random_domain_points(R,T,n=VALID_DOM_POINTS)
-    r_bc_L_,t_bc_L_          = random_BC_points_L(R,T,n=VALID_BC_POINTS)
-    r_bc_R_,t_bc_R_          = random_BC_points_R(R,T,n=VALID_BC_POINTS)
-    r_ic_, t_ic_             = random_IC_points(R,n=VALID_IC_POINTS)
-    # RESIDUAL ################################################################ 
+    r_,t_               = random_domain_points(R,T,n=VALID_DOM_POINTS)
+    r_bc_L_,t_bc_L_     = random_BC_points_L(R,T,n=VALID_BC_POINTS)
+    r_bc_R_,t_bc_R_     = random_BC_points_R(R,T,n=VALID_BC_POINTS)
+    r_ic_, t_ic_        = random_IC_points(R,n=VALID_IC_POINTS)
+    # RESIDUALs ################################################################ 
     residual_1_, residual_2_ = loss_domain(r_, t_)
-    residual_ = residual_1_ + residual_2_
     residual_1_r_ = torch.autograd.grad(residual_1_, r_, create_graph=True, grad_outputs=torch.ones_like(residual_1_))[0]
     residual_2_r_ = torch.autograd.grad(residual_2_, r_, create_graph=True, grad_outputs=torch.ones_like(residual_2_))[0]
-    residual_r_ = residual_1_r_ + residual_2_r_
-    loss_dom_aux  = residual_**2 + residual_r_**2
+    loss_dom_aux_1  = residual_1_**2 + residual_1_r_**2
+    loss_dom_aux_2  = residual_2_**2 + residual_2_r_**2
     # loss_L_BC_aux ######################################################################
-    loss_L_BC_Phi_aux = loss_L_BC(r_bc_L_,t_bc_L_)
-    loss_bc_L_aux = loss_L_BC_Phi_aux
+    loss_bc_L_aux = loss_L_BC(r_bc_L_,t_bc_L_)
     # loss_R_BC_aux ######################################################################
-    loss_R_BC_Pi_aux, loss_R_BC_Phi_aux  =  loss_R_BC(r_bc_R_,t_bc_R_)
-    loss_bc_R_aux = loss_R_BC_Pi_aux + loss_R_BC_Phi_aux
+    loss_R_BC_Pi_aux, loss_R_BC_Phi_aux = loss_R_BC(r_bc_R_,t_bc_R_)
     # IC ######################################################################
-    loss_IC_Pi, loss_IC_Phi  = loss_IC(r_ic_,t_ic_)
-    loss_ic_aux = loss_IC_Pi + loss_IC_Phi
+    loss_IC_Pi, loss_IC_Phi = loss_IC(r_ic_,t_ic_)
     # INDICATORS ################################################################
-    idx_dom  = torch.where(loss_dom_aux >= loss_dom_aux.sort(0)[0][-DOM_NEW_POINTS])[0]
-    idx_bc_L = torch.where(loss_bc_L_aux >= loss_bc_L_aux.sort(0)[0][-BC_NEW_POINTS])[0]
-    idx_bc_R = torch.where(loss_bc_R_aux >= loss_bc_R_aux.sort(0)[0][-BC_NEW_POINTS])[0]
-    idx_ic   = torch.where(loss_ic_aux >= loss_ic_aux.sort(0)[0][-IC_NEW_POINTS])[0]
-    #
-    r_aux = r_[idx_dom].view(-1, 1) if len(idx_dom) > 0 else torch.tensor([]).view(0, 1)
-    t_aux = t_[idx_dom].view(-1, 1) if len(idx_dom) > 0 else torch.tensor([]).view(0, 1)
-    r = torch.cat((r,r_aux),0)
-    t = torch.cat((t,t_aux),0)
+    idx_dom_1  = torch.where(loss_dom_aux_1 >= loss_dom_aux_1.sort(0)[0][-DOM_NEW_POINTS])[0]
+    idx_dom_2  = torch.where(loss_dom_aux_2 >= loss_dom_aux_2.sort(0)[0][-DOM_NEW_POINTS])[0]
+    idx_bc_L   = torch.where(loss_bc_L_aux >= loss_bc_L_aux.sort(0)[0][-BC_NEW_POINTS])[0]
+    idx_bc_R_1 = torch.where(loss_R_BC_Pi_aux >= loss_R_BC_Pi_aux.sort(0)[0][-BC_NEW_POINTS])[0]
+    idx_bc_R_2 = torch.where(loss_R_BC_Phi_aux >= loss_R_BC_Phi_aux.sort(0)[0][-BC_NEW_POINTS])[0]
+    idx_ic_1   = torch.where(loss_IC_Pi >= loss_IC_Pi.sort(0)[0][-IC_NEW_POINTS])[0]
+    idx_ic_2   = torch.where(loss_IC_Phi >= loss_IC_Phi.sort(0)[0][-IC_NEW_POINTS])[0]
+    # Asumimos el riesgo de duplicar indices
+    r_aux_1 = r_[idx_dom_1].view(-1, 1) # if len(idx_dom) > 0 else torch.tensor([]).view(0, 1)
+    r_aux_2 = r_[idx_dom_2].view(-1, 1)
+    t_aux_1 = t_[idx_dom_1].view(-1, 1) # if len(idx_dom) > 0 else torch.tensor([]).view(0, 1)
+    t_aux_2 = t_[idx_dom_2].view(-1, 1)
+    r = torch.cat((r,r_aux_1, r_aux_2),0)
+    t = torch.cat((t,t_aux_1, t_aux_2),0)
     #
     r_bc_L_aux = r_bc_L_[idx_bc_L].view(-1,1)
     t_bc_L_aux = t_bc_L_[idx_bc_L].view(-1,1)
     r_bc_L     = torch.cat((r_bc_L,r_bc_L_aux),0)
     t_bc_L     = torch.cat((t_bc_L,t_bc_L_aux),0)
     #
-    r_bc_R_aux = r_bc_R_[idx_bc_R].view(-1,1)
-    t_bc_R_aux = t_bc_R_[idx_bc_R].view(-1,1)
-    r_bc_R     = torch.cat((r_bc_R,r_bc_R_aux),0)
-    t_bc_R     = torch.cat((t_bc_R,t_bc_R_aux),0)
+    r_bc_R_aux_1 = r_bc_R_[idx_bc_R_1].view(-1,1)
+    r_bc_R_aux_2 = r_bc_R_[idx_bc_R_2].view(-1,1)
+    t_bc_R_aux_1 = t_bc_R_[idx_bc_R_1].view(-1,1)
+    t_bc_R_aux_2 = t_bc_R_[idx_bc_R_2].view(-1,1)
+    r_bc_R     = torch.cat((r_bc_R,r_bc_R_aux_1, r_bc_R_aux_2),0)
+    t_bc_R     = torch.cat((t_bc_R,t_bc_R_aux_1, t_bc_R_aux_2),0)
     #
-    r_ic_aux = r_ic_[idx_ic].view(-1,1)
-    t_ic_aux = t_ic_[idx_ic].view(-1,1)
-    r_ic     = torch.cat((r_ic,r_ic_aux),0)
-    t_ic     = torch.cat((t_ic,t_ic_aux),0)
-    #
-    stop_criteria = loss_dom_aux.sort(0)[0][-1].cpu().detach().numpy()[0]
+    r_ic_aux_1 = r_ic_[idx_ic_1].view(-1,1)
+    r_ic_aux_2 = r_ic_[idx_ic_2].view(-1,1)
+    t_ic_aux_1 = t_ic_[idx_ic_1].view(-1,1)
+    t_ic_aux_2 = t_ic_[idx_ic_2].view(-1,1)
+    r_ic     = torch.cat((r_ic,r_ic_aux_1,r_bc_R_aux_2),0)
+    t_ic     = torch.cat((t_ic,t_ic_aux_1,t_bc_R_aux_2),0)
+    # Solo consideramos loss_dom_aux_1 ya que contiene a la EDP
+    stop_criteria = loss_dom_aux_1.sort(0)[0][-1].cpu().detach().numpy()[0]
     if stop_criteria < best_stop_criteria:
         best_stop_criteria = stop_criteria
         torch.save(model.state_dict(), 'best_trained_model_gpu_spherical')
@@ -339,7 +339,7 @@ while stop_criteria > STOP_CRITERIA and iteration < ITER_MAX:
     #
 print('computing time',(time() - t0)/60,'[min]')  
 
-loss_dom_aux.sort(0)[0][-1].cpu().detach().numpy()[0]
+loss_dom_aux_1.sort(0)[0][-1].cpu().detach().numpy()[0]
 
 torch.save(model.state_dict(), 'trained_model_gpu_spherical')
 np.savez('adaptive_sampling_points',r=r.cpu().detach().numpy(),
@@ -366,10 +366,9 @@ plt.close()  # Close the figure to release resources
 
 # Plotting individual losses
 plt.figure(figsize=(10, 6))
-plt.semilogy(loss_dom_1_list, label='Domain Loss Pi')
-plt.semilogy(loss_dom_2_list, label='Domain Loss Phi')
-plt.semilogy(loss_L_BC_Phi_list, label='Left Phi BC Loss')
-# plt.semilogy(loss_ic_list, label='Initial Condition Loss')
+plt.semilogy(loss_domain_one_list, label='Domain Loss 1')
+plt.semilogy(loss_domain_two_list, label='Domain Loss 2')
+plt.semilogy(loss_L_BC_Phi_list, label='Left BC Loss')
 plt.legend()
 plt.title('Individual Losses Evolution')
 plt.xlabel('Epochs')
@@ -379,7 +378,7 @@ save_filename = os.path.join(save_dir, 'individual_losses.png')
 plt.savefig(save_filename, dpi=300)
 plt.close()  # Close the figure to release resources
 
-np.save('loss_adaptive_sampling_gpu', loss_dom_1_list)
+np.savez('loss_adaptive_sampling_gpu', loss_domain_one_list, loss_domain_two_list)
 
 x = torch.linspace(-0,R,256).view(-1,1)
 
@@ -388,13 +387,15 @@ for t_i in np.linspace(0, T, 11):
     # Move x and t to the same device as the model
     t = t.to(device)
     x = x.to(device)
-    nn_sol = model(x, t).cpu().detach().numpy()
+    nn_sol = model(x, t) # .cpu().detach().numpy()
+    nn_sol_Pi = nn_sol[:, 0].view(-1,1).cpu().detach().numpy()
+    nn_sol_Phi = nn_sol[:, 1].view(-1,1).cpu().detach().numpy()
 
     # Plot the figure
-    plt.plot(x.cpu().numpy(), nn_sol, label=f't = {t_i}')
+    plt.plot(x.cpu().numpy(), nn_sol_Phi, label=f't = {t_i}')
     save_filename = os.path.join(save_dir, f'figure_t_{t_i}.png')
     plt.xlabel('x-axis')  # Add your x-axis label
-    plt.ylabel('y-axis')  # Add your y-axis label
+    plt.ylabel('t-axis')  # Add your y-axis label
     plt.legend()
     plt.savefig(save_filename, dpi=300)
     plt.close()  # Close the figure to release resources
@@ -412,7 +413,7 @@ plt.grid(True, which="both", ls="--")
 # Pre-calculate predictions for all frames
 x_tr = torch.linspace(0, R, 512).view(-1, 1).to(device)
 t_values = torch.linspace(0, 25, 51).tolist()
-y_preds = [model(x_tr, t * torch.ones_like(x_tr)).cpu().detach().numpy() for t in t_values]
+y_preds = [model(x_tr, t * torch.ones_like(x_tr))[:, 1].view(-1,1).cpu().detach().numpy() for t in t_values]
 
 # Initialize text outside animation loop
 text_template = ax.text(0.1, 0.9, "", bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 5}, transform=ax.transAxes, ha="center")

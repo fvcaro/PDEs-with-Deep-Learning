@@ -1,7 +1,6 @@
 import torch
 print('torch version:', torch.__version__)
 import torch.nn as nn
-from torch.optim.lr_scheduler import CosineAnnealingLR
 import numpy as np
 from time import time
 import os
@@ -45,8 +44,8 @@ IC_NEW_POINTS  = 16
 LEARNING_RATE = 0.0005
 
 STOP_CRITERIA = 0.0001
-ITER_MAX = 10 # Set a reasonable maximum number of iterations
-EPOCHS = 300
+ITER_MAX = 100 # Set a reasonable maximum number of iterations
+EPOCHS = 30000
 
 class Model(nn.Module):
     def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
@@ -68,9 +67,7 @@ class Model(nn.Module):
     def init_weights(self):
         for layer in self.layers:
             if isinstance(layer, nn.Linear):
-                # Glorot initialization
-                # nn.init.xavier_uniform_(layer.weight)  
-                # Replace Glorot initialization with Kaiming initialization
+                # Kaiming initialization
                 nn.init.kaiming_uniform_(layer.weight, nonlinearity='tanh')
                 # Initialize bias to zeros
                 nn.init.constant_(layer.bias, 0.0)  
@@ -95,7 +92,7 @@ def der_K_XX(X, sigma=1., gamma=1.):
     K_XX = - (3*gamma/4.)*X
     return K_XX
 
-def loss_1(r, t):
+def loss_domain(r, t):
     u = model(r, t)
     # Derivatives
     u_t  = torch.autograd.grad(u, t, create_graph=True, grad_outputs=torch.ones_like(u))[0]
@@ -103,58 +100,43 @@ def loss_1(r, t):
     u_tt = torch.autograd.grad(u_t, t, create_graph=True, grad_outputs=torch.ones_like(u_t))[0]
     
     u_r  = torch.autograd.grad(u, r, create_graph=True, grad_outputs=torch.ones_like(u))[0]
-    # u_rt  = torch.autograd.grad(u_r, t, create_graph=True, grad_outputs=torch.ones_like(u_r))[0]
     u_rr = torch.autograd.grad(u_r, r, create_graph=True, grad_outputs=torch.ones_like(u_r))[0]
 
     X = (u_r)**2 - (u_t)**2
 
-    K_2_XX = der_K_XX(X, sigma=SIGMA, gamma=GAMMA)
-    K_1_X  = der_K_X(X, sigma=SIGMA, gamma=GAMMA)
+    K_XX = der_K_XX(X, sigma=SIGMA, gamma=GAMMA)
+    K_X  = der_K_X(X, sigma=SIGMA, gamma=GAMMA)
 
     # Residual:
-    residual = 2*r*K_2_XX*u_rr*(u_r)**2 - 4*r*K_2_XX*u_t*u_tr*u_r + 2*r*K_2_XX*(u_t)**2*u_tt + K_1_X*(2*u_r + r*u_rr - r*u_tt)
-    # Residual using (1+r) factor:
-    # residual = (1 + r) * (1/K_1_X) * (2*K_2_XX*u_rr*(u_r)**2 - 4*K_2_XX*u_t*u_tr*u_r + 2*K_2_XX*(u_t)**2*u_tt) + (1 + r)/r*2*u_r + (1 + r) * (u_rr - u_tt)
-    # Residual using max(1,r) factor:
-    # max_1_r = torch.maximum(torch.tensor(1), r)  # Apply max(1, r) element-wise
-    # residual = max_1_r * (1/K_1_X) * (2*K_2_XX*u_rr*(u_r)**2 - 4*K_2_XX*u_t*u_tr*u_r + 2*K_2_XX*(u_t)**2*u_tt) + max_1_r/r*2*u_r + max_1_r * (u_rr - u_tt)
-
+    residual = 2*r*K_XX*u_rr*(u_r)**2 - 4*r*K_XX*u_t*u_tr*u_r + 2*r*K_XX*(u_t)**2*u_tt + K_X*(2*u_r + r*u_rr - r*u_tt)
+    
     return residual
 
-def loss_2_L(r, t):
+def loss_L_BC(r, t):
     u = model(r, t)
     # Derivatives
     u_r = torch.autograd.grad(u, r, create_graph=True, grad_outputs=torch.ones_like(u))[0]
-
     # Left Boundary Condition (u_r(t, 0) = 0)
     loss_left_bc = u_r**2
+    return loss_left_bc
 
-    loss_bc = loss_left_bc
-
-    return loss_bc
-
-def loss_2_R(r, t):
+def loss_R_BC(r, t):
     u = model(r, t)
     # Derivatives
     u_t = torch.autograd.grad(u, t, create_graph=True, grad_outputs=torch.ones_like(u))[0]
     u_r = torch.autograd.grad(u, r, create_graph=True, grad_outputs=torch.ones_like(u))[0]
-
     # Right Boundary Condition
     loss_right_bc = (u_t + u_r + u/r)**2
 
-    loss_bc = loss_right_bc
+    return loss_right_bc
 
-    return loss_bc
-
-def loss_3(r_ic, t_ic):
+def loss_IC(r_ic, t_ic):
     u_ic = model(r_ic, t_ic)
     # Derivative with respect to time
     u_ic_t = torch.autograd.grad(outputs=u_ic, inputs=t_ic, create_graph=True, grad_outputs=torch.ones_like(u_ic))[0]
-    
     # Initial condition losses
     ic_condition_1 = u_ic - A * torch.exp(-((r_ic - r_0) / delta)**2)
     ic_condition_2 = u_ic_t
-    
     # Combine the losses
     loss_ic = ic_condition_1**2 + ic_condition_2**2
     return loss_ic
@@ -183,10 +165,6 @@ model = Model(layer_sizes,activation).to(device)
 
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
-# Update the learning rate scheduler
-scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=5000, eta_min=0.0001, last_epoch=-1)
-# scheduler = StepLR(optimizer, step_size=2000, gamma=1., verbose=False)  # Learning rate scheduler
-
 # Define a directory to save the figures
 save_dir = 'Figs'
 os.makedirs(save_dir, exist_ok=True)
@@ -195,8 +173,8 @@ r,t            = random_domain_points(R,T,n=TRAIN_DOM_POINTS)
 r_bc_L, t_bc_L = random_BC_points_L(R,T,n=TRAIN_BC_POINTS)
 r_bc_R, t_bc_R = random_BC_points_R(R,T,n=TRAIN_BC_POINTS)
 r_ic, t_ic     = random_IC_points(R,n=TRAIN_IC_POINTS)
-print("Sizes: r={}, t={}, r_bc_L={}, t_bc_L={}, r_bc_R={}, t_bc_R={}, r_ic={}, t_ic={}".format(
-    r.size(), t.size(), r_bc_L.size(), t_bc_L.size(), r_bc_R.size(), t_bc_R.size(), r_ic.size(), t_ic.size()))
+# print("Sizes: r={}, t={}, r_bc_L={}, t_bc_L={}, r_bc_R={}, t_bc_R={}, r_ic={}, t_ic={}".format(
+#     r.size(), t.size(), r_bc_L.size(), t_bc_L.size(), r_bc_R.size(), t_bc_R.size(), r_ic.size(), t_ic.size()))
 plt.plot(r.detach().cpu().numpy(),t.detach().cpu().numpy(),'o',ms=1)
 plt.plot(r_bc_L.detach().cpu().numpy(),t_bc_L.detach().cpu().numpy(),'o', ms=1)
 plt.plot(r_bc_R.detach().cpu().numpy(),t_bc_R.detach().cpu().numpy(),'o', ms=1)
@@ -219,57 +197,53 @@ iteration = 0
 
 while stop_criteria > STOP_CRITERIA and iteration < ITER_MAX:
     for epoch in range(EPOCHS):
-        # Track epochs
-        #if (epoch%(epochs/10)==0):
-        #    print('epoch:',epoch)
         optimizer.zero_grad() # to make the gradients zero
         # RESIDUAL ################################################################ 
-        residual = loss_1(r, t)
+        residual = loss_domain(r, t)
         residual_r = torch.autograd.grad(residual, r, create_graph=True, grad_outputs=torch.ones_like(residual))[0]
-        residual_t = torch.autograd.grad(residual, t, create_graph=True, grad_outputs=torch.ones_like(residual))[0]
-        loss_dom = torch.mean(residual**2 + residual_r**2) # + residual_t**2
+        # residual_t = torch.autograd.grad(residual, t, create_graph=True, grad_outputs=torch.ones_like(residual))[0]
+        loss_dom = torch.mean(residual**2 + residual_r**2)
         # BC ######################################################################
-        loss_bc_L  =  torch.mean(loss_2_L(r_bc_L,t_bc_L))
-        loss_bc_R  =  torch.mean(loss_2_R(r_bc_R,t_bc_R))
+        loss_bc_L = torch.mean(loss_L_BC(r_bc_L,t_bc_L))
+        loss_bc_R = torch.mean(loss_R_BC(r_bc_R,t_bc_R))
         # IC ######################################################################
-        loss_ic  = torch.mean(loss_3(r_ic,t_ic))
+        loss_ic_d = torch.mean(loss_IC(r_ic,t_ic))
         # LOSS ####################################################################
-        loss = loss_dom + GAMMA1*loss_bc_L + GAMMA1*loss_bc_R + GAMMA2*loss_ic # + loss_dom_t 
+        loss = loss_dom + GAMMA1*loss_bc_L + GAMMA1*loss_bc_R + GAMMA2*loss_ic_d 
         # Calculate and append individual losses to their respective lists
         loss_dom_list.append(loss_dom.item())
         loss_bc_L_list.append(loss_bc_L.item())
         loss_bc_R_list.append(loss_bc_R.item())
-        loss_ic_list.append(loss_ic.item())
+        loss_ic_list.append(loss_ic_d.item())
 
         loss.backward(retain_graph=True) # This is for computing gradients using backward propagation
         optimizer.step() # 
-        scheduler.step()  # Update learning rate
+        # scheduler.step()  # Update learning rate
         if epoch % 1000 == 0:
-            print(f"Epoch: {epoch} - Loss: {loss.item():>1.6e} - Learning Rate: {scheduler.get_last_lr()[0]:>1.6e}")
+            print(f'Epoch: {epoch} - Loss: {loss.item():>1.6e} - Learning Rate: {LEARNING_RATE}') # - Learning Rate: {scheduler.get_last_lr()[0]:>1.6e}
     # Adative sample step 
-    r_,t_                  = random_domain_points(R,T,n=VALID_DOM_POINTS)
+    r_,t_            = random_domain_points(R,T,n=VALID_DOM_POINTS)
 
-    r_bc_L_,t_bc_L_        = random_BC_points_L(R,T,n=VALID_BC_POINTS)
-    r_bc_R_,t_bc_R_        = random_BC_points_R(R,T,n=VALID_BC_POINTS)
+    r_bc_L_,t_bc_L_  = random_BC_points_L(R,T,n=VALID_BC_POINTS)
+    r_bc_R_,t_bc_R_  = random_BC_points_R(R,T,n=VALID_BC_POINTS)
 
-    r_ic_, t_ic_  = random_IC_points(R,n=VALID_IC_POINTS)
+    r_ic_, t_ic_     = random_IC_points(R,n=VALID_IC_POINTS)
     #
-    residual_ = loss_1(r_, t_)
+    residual_ = loss_domain(r_, t_)
     residual_r_ = torch.autograd.grad(residual_, r_, create_graph=True, grad_outputs=torch.ones_like(residual_))[0]
-    # residual_t_ = torch.autograd.grad(residual_, t_, create_graph=True, grad_outputs=torch.ones_like(residual_))[0]
     #
     loss_dom_aux  = residual_**2 + residual_r_**2
-    loss_bc_L_aux = loss_2_L(r_bc_L_,t_bc_L_)
-    loss_bc_R_aux = loss_2_R(r_bc_R_,t_bc_R_)
-    loss_ic_aux   = loss_3(r_ic_,t_ic_)   
+    loss_bc_L_aux = loss_L_BC(r_bc_L_,t_bc_L_)
+    loss_bc_R_aux = loss_R_BC(r_bc_R_,t_bc_R_)
+    loss_ic_aux   = loss_IC(r_ic_,t_ic_)   
     #
     idx_dom  = torch.where(loss_dom_aux >= loss_dom_aux.sort(0)[0][-DOM_NEW_POINTS])[0]
     idx_bc_L = torch.where(loss_bc_L_aux >= loss_bc_L_aux.sort(0)[0][-BC_NEW_POINTS])[0]
     idx_bc_R = torch.where(loss_bc_R_aux >= loss_bc_R_aux.sort(0)[0][-BC_NEW_POINTS])[0]
     idx_ic   = torch.where(loss_ic_aux >= loss_ic_aux.sort(0)[0][-IC_NEW_POINTS])[0]
     #
-    r_aux = r_[idx_dom].view(-1, 1) if len(idx_dom) > 0 else torch.tensor([]).view(0, 1)
-    t_aux = t_[idx_dom].view(-1, 1) if len(idx_dom) > 0 else torch.tensor([]).view(0, 1)
+    r_aux = r_[idx_dom].view(-1, 1) # if len(idx_dom) > 0 else torch.tensor([]).view(0, 1)
+    t_aux = t_[idx_dom].view(-1, 1) # if len(idx_dom) > 0 else torch.tensor([]).view(0, 1)
     r = torch.cat((r,r_aux),0)
     t = torch.cat((t,t_aux),0)
     #
@@ -338,8 +312,8 @@ plt.close()  # Close the figure to release resources
 plt.figure(figsize=(10, 6))
 plt.semilogy(loss_dom_list, label='Domain Loss')
 plt.semilogy(loss_bc_L_list, label='Left BC Loss')
-plt.semilogy(loss_bc_R_list, label='Right BC Loss')
-plt.semilogy(loss_ic_list, label='Initial Condition Loss')
+# plt.semilogy(loss_bc_R_list, label='Right BC Loss')
+# plt.semilogy(loss_ic_list, label='Initial Condition Loss')
 plt.legend()
 plt.title('Individual Losses Evolution')
 plt.xlabel('Epochs')
