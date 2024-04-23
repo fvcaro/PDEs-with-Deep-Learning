@@ -108,7 +108,7 @@ def loss_domain(r, t):
     K_X  = der_K_X(X, sigma=SIGMA, gamma=GAMMA)
 
     # Residual:
-    residual = 2*K_XX*(r**2*u_rr-2*r*u_r+2*u)*(r*u_r-u)**2 - 4*K_XX*r**2*u_t*(r*u_tr-u_t)*(r*u_r-u) + 2*K_XX*r**4*u_t**2*u_tt + K_X*r**4(2*(r*u_r-u)+(r**2*u_rr-2*r*u_r+2*u)-r**2*u_tt)
+    residual = 2*K_XX*(r**2*u_rr-2*r*u_r+2*u)*(r*u_r-u)**2 - 4*K_XX*r**2*u_t*(r*u_tr-u_t)*(r*u_r-u) + 2*K_XX*r**4*u_t**2*u_tt + K_X*r**4*(2*(r*u_r-u)+(r**2*u_rr-2*r*u_r+2*u)-r**2*u_tt)
     # (r*u_r-u)
     # (r*u_tr-u_t)
     # (r**2*u_rr-2*r*u_r+2*u)
