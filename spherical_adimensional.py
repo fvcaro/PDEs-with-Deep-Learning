@@ -108,10 +108,10 @@ def loss_domain(r, t):
     K_X  = der_K_X(X, sigma=SIGMA, gamma=GAMMA)
 
     # Residual:
-    residual = 2*r*K_XX*((r**2*u_rr-2*r*u_r+u)/(r**3))*((r*u_r-u)/(r**2))**2 - 4*r*K_XX*u_t*((r*u_tr-u_t)/(r**2))*((r*u_r-u)/(r**2)) + 2*r*K_XX*(u_t)**2*u_tt + K_X*(2*((r*u_r-u)/(r**2)) + r*(((r**2*u_rr-2*r*u_r+u)/(r**3)) - u_tt))
-    # (r*u_r-u)/(r**2)
-    # (r*u_tr-u_t)/(r**2)
-    # (r**2*u_rr-2*r*u_r+u)/(r**3)
+    residual = 2*K_XX*(r**2*u_rr-2*r*u_r+2*u)*(r*u_r-u)**2 - 4*K_XX*r**2*u_t*(r*u_tr-u_t)*(r*u_r-u) + 2*K_XX*r**4*u_t**2*u_tt + K_X*r**4(2*(r*u_r-u)+(r**2*u_rr-2*r*u_r+2*u)-r**2*u_tt)
+    # (r*u_r-u)
+    # (r*u_tr-u_t)
+    # (r**2*u_rr-2*r*u_r+2*u)
     return residual
 
 def loss_L_BC(r, t):
@@ -119,7 +119,7 @@ def loss_L_BC(r, t):
     # Derivatives
     u_r = torch.autograd.grad(u, r, create_graph=True, grad_outputs=torch.ones_like(u))[0]
     # Left Boundary Condition (u_r(t, 0) = 0)
-    loss_left_bc = (u_r - 0.)**2
+    loss_left_bc = (u - 0.)**2
     return loss_left_bc
 
 def loss_R_BC(r, t):
