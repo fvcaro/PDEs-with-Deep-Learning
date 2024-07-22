@@ -1,24 +1,22 @@
 import torch
-print('torch version:', torch.__version__)
+print('torch version: ', torch.__version__)
 import torch.nn as nn
 import numpy as np
 from time import time
 import os
 from matplotlib import pyplot as plt
 from torch.optim.lr_scheduler import StepLR
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 seed = 42
 torch.manual_seed(seed)  # Set random seed for reproducibility
-print('device:', device)
-
+print('device: ', device)
 # PDE parameters
 L  = 40
 T  = 30
 x0 = 15
 A  = 1.
 c  = 1.
-
 # Training parameters
 GAMMA1 = 1.
 GAMMA2 = 10.
@@ -29,11 +27,9 @@ TRAIN_IC_POINTS  = 2048
 #
 EPOCHS        = 500000
 LEARNING_RATE = 0.001
-
 # Define a directory to save the figures
 save_dir = 'Figs_spherical_wave_eq'
 os.makedirs(save_dir, exist_ok=True)
-
 # NN class
 class Model(nn.Module):
     def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
@@ -149,13 +145,11 @@ def random_IC_points(R, n=128):
     r = R*torch.rand(n, 1, device=device, requires_grad=True)
     t = torch.zeros(n, 1, device=device, requires_grad=True)
     return r, t
-
 # layer_sizes
 layer_sizes = [2,64,64,64,1]
 activation = nn.Tanh()
 model = Model(layer_sizes,activation).to(device)
-
-
+#
 r,      t      = random_domain_points(L,T,n=TRAIN_DOM_POINTS)
 r_bc  , t_bc   = random_BC_points_L(L,T,n=TRAIN_BC_POINTS)
 r_bc_R, t_bc_R = random_BC_points_R(L,T,n=TRAIN_BC_POINTS)
@@ -187,7 +181,7 @@ np.savez(filename,
          r_ic=r_ic.cpu().detach().numpy(),
          t_ic=t_ic.cpu().detach().numpy()
         )
-
+#
 loss_dom_list  = []
 loss_bc_L_list = []
 loss_bc_R_list = []
@@ -198,46 +192,34 @@ t0 = time()
 stop_criteria = 100.
 best_achieved = 100.
 adapt_step    = 0
-
 #
-optimizer = torch.optim.Adam(model.parameters(),
-                            lr=LEARNING_RATE)
-scheduler = StepLR(optimizer, step_size=10000, gamma=.8, verbose=False)  # Learning rate scheduler
+optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
+scheduler = StepLR(optimizer, step_size=10000, gamma=0.8)  # Ensure not to use verbose=True
 #
-print(f'Adaptive step: {adapt_step}')
 for epoch in range(EPOCHS):
-    # To make the gradients zero
-    optimizer.zero_grad() 
-    # RESIDUAL 
-    residual   = lossRes(r,t)
-    #residual_r = torch.autograd.grad(outputs=residual, 
-    #                                 inputs=r, 
-    #                                 create_graph=True, 
-    #                                 grad_outputs=torch.ones_like(residual)
-    #                                )[0]
-    loss_dom  = torch.mean(torch.pow(residual,2)) #+ torch.mean(torch.pow(residual_r,2))
-    # BCs
-    loss_bc_L = torch.mean(lossBCleft(r_bc,t_bc))
-    loss_bc_R = torch.mean(lossBCright(r_bc_R,t_bc_R))
-    # IC 
-    loss_ic  = torch.mean(lossIC(r_ic,t_ic))
-    # LOSS
-    loss = loss_dom + GAMMA1*(loss_bc_L + loss_bc_R) + GAMMA2*loss_ic
-    #
+    optimizer.zero_grad()
+    residual = lossRes(r, t)
+    loss_dom = torch.mean(torch.pow(residual, 2))
+    loss_bc_L = torch.mean(lossBCleft(r_bc, t_bc))
+    loss_bc_R = torch.mean(lossBCright(r_bc_R, t_bc_R))
+    loss_ic = torch.mean(lossIC(r_ic, t_ic))
+    loss = loss_dom + GAMMA1 * (loss_bc_L + loss_bc_R) + GAMMA2 * loss_ic
+
     loss_dom_list.append(loss_dom.item())
     loss_bc_L_list.append(loss_bc_L.item())
     loss_bc_R_list.append(loss_bc_R.item())
     loss_ic_list.append(loss_ic.item())
-    #
-    loss.backward(retain_graph=True) 
-    optimizer.step() # 
-    scheduler.step()  # Update learning rate
-    if epoch % 2000 == 0:
-        print(f"Epoch: {epoch} - Loss: {loss.item():>1.3e} - Learning Rate: {scheduler.get_last_lr()[0]:>1.3e}")
-    #
-    #
-print('computing time',(time() - t0)/60,'[min]') 
 
+    loss.backward(retain_graph=True)
+    optimizer.step()
+    scheduler.step()
+
+    if epoch % 2000 == 0:
+        current_lr = scheduler.get_last_lr()[0]  # Get the current learning rate
+        print(f'Epoch: {epoch} - Loss: {loss.item():>1.3e} - Learning Rate: {current_lr:>1.3e}')
+
+print('Computing time', (time() - t0) / 60, '[min]')
+#
 filename = os.path.join(save_dir, f'final_trained_model')
 torch.save(model.state_dict(), filename)
 #
@@ -272,7 +254,7 @@ plt.semilogy(loss_ic_list, label='IC Loss')
 plt.semilogy(loss_bc_R_list, label='Right BC Loss')
 plt.semilogy(loss_bc_L_list, label='Left BC Loss')
 plt.semilogy(loss_dom_list, label='Domain Loss')
-plt.grid(True, which="both", ls="--")
+plt.grid(True, which='both', ls='--')
 plt.legend()
 #
 filename = os.path.join(save_dir, f'training_losses.png')
@@ -290,7 +272,7 @@ for t_i in np.linspace(0,T,2*T+1):
     #
     plt.figure()
     plt.plot(x.cpu(),nn_sol,linewidth='2')
-    plt.title(r'$t_i$:'+str(t_i))
+    plt.title(r'$t_i$: '+str(t_i))
     plt.xlim(0,L)
     #
     filename = os.path.join(save_dir, f'pinns_sol_{t_i}.png')
