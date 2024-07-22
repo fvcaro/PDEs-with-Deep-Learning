@@ -27,7 +27,7 @@ TRAIN_DOM_POINTS = 262144 #131072
 TRAIN_BC_POINTS  = 2048   #1024
 TRAIN_IC_POINTS  = 2048
 #
-EPOCHS        = 300000
+EPOCHS        = 500000
 LEARNING_RATE = 0.001
 
 # Define a directory to save the figures
@@ -299,4 +299,4 @@ for t_i in np.linspace(0,T,2*T+1):
             bbox_inches='tight', pad_inches=0.1, metadata=None)
     plt.close()
 
-  #  CUDA_VISIBLE_DEVICES=0 python spherical_wave_eq.py > log_spherical_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
+  #  CUDA_VISIBLE_DEVICES=1 python spherical_wave_eq.py > log_spherical_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
