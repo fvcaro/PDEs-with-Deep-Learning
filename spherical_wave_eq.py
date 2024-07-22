@@ -5,12 +5,15 @@ import numpy as np
 from time import time
 import os
 from matplotlib import pyplot as plt
-from torch.optim.lr_scheduler import StepLR
-#
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+from torch.optim.lr_scheduler import ExponentialLR
+# Check available GPUs
+num_gpus = torch.cuda.device_count()
+print(f'Number of available GPUs: {num_gpus}')
+for i in range(num_gpus):
+    print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
+# Set random seed for reproducibility
 seed = 42
-torch.manual_seed(seed)  # Set random seed for reproducibility
-print('device: ', device)
+torch.manual_seed(seed)  
 # PDE parameters
 L  = 40
 T  = 30
@@ -20,48 +23,40 @@ c  = 1.
 # Training parameters
 GAMMA1 = 1.
 GAMMA2 = 10.
-#
+# Collocation points
 TRAIN_DOM_POINTS = 262144 #131072
 TRAIN_BC_POINTS  = 2048   #1024
-TRAIN_IC_POINTS  = 2048
-#
-EPOCHS        = 500000
+TRAIN_IC_POINTS  = 2048   #1024
+# Set up optimizer and scheduler
 LEARNING_RATE = 0.001
+DECAY_RATE = 0.9
+DECAY_STEPS = 2000
 # Define a directory to save the figures
 save_dir = 'Figs_spherical_wave_eq'
 os.makedirs(save_dir, exist_ok=True)
-# NN class
+# Define the model class
 class Model(nn.Module):
     def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
         super(Model, self).__init__()
         self.layers = nn.ModuleList()
         self.activation = activation
         self.seed = seed
-        # Fix seed for reproducibility
         torch.manual_seed(seed)
-        #
         for i in range(len(layer_sizes) - 1):
             self.layers.append(nn.Linear(layer_sizes[i], layer_sizes[i+1]))
-            # Adding activation function for all but the last layer
             if i < len(layer_sizes) - 2:
                 self.layers.append(self.activation)  
-        # Initialize weights using Glorot initialization
         self.init_weights()  
-    #
+
     def init_weights(self):
         for layer in self.layers:
             if isinstance(layer, nn.Linear):
-                # Glorot initialization
-                # nn.init.xavier_uniform_(layer.weight)  
-                # Replace Glorot initialization with Kaiming initialization
-                nn.init.kaiming_uniform_(layer.weight, nonlinearity='tanh')
-                # Initialize bias to zeros
+                # Glorot (Xavier) initialization
+                nn.init.xavier_uniform_(layer.weight)
                 nn.init.constant_(layer.bias, 0.0)  
-    #
+
     def forward(self, x, y):
-        #
         inputs = torch.cat([x, y], axis=1)
-        #
         for layer in self.layers:
             inputs = layer(inputs)
         return inputs
@@ -97,7 +92,7 @@ def lossBCleft(r_bc,t_bc):
                               create_graph=True,
                               grad_outputs=torch.ones_like(u_bc)
                               )[0]
-    #
+    
     loss_bc = torch.pow(u_bc_r - 0.,2)
     return loss_bc
 
@@ -112,10 +107,10 @@ def lossBCright(r_bc,t_bc):
                               create_graph=True,
                               grad_outputs=torch.ones_like(u_bc)
                               )[0]
-    #
+    
     loss_bc = torch.pow(u_bc_t + c*u_bc_r + c*u_bc/r_bc -  0.,2)
     return loss_bc
-#
+
 def lossIC(r_ic,t_ic):
     u_ic     = model(r_ic,t_ic)
     # Derivatives
@@ -124,7 +119,7 @@ def lossIC(r_ic,t_ic):
                               create_graph=True,
                               grad_outputs=torch.ones_like(u_ic)
                               )[0]
-    #
+    
     loss_ic  = torch.pow(u_ic - A*torch.exp(-torch.pow((r_ic - x0),2)),2)
     loss_ic += torch.pow(u_ic_t - 0.,2)
     return loss_ic
@@ -133,22 +128,29 @@ def random_domain_points(R, T, n=8192):
     r = R*torch.rand(n, 1, device=device, requires_grad=True)
     t = T*torch.rand(n, 1, device=device, requires_grad=True)
     return r, t
+
 def random_BC_points_L(R, T, n=512):
     r = 0*torch.ones((n, 1), dtype=torch.float32, device=device, requires_grad=True)
     t = T*torch.rand(n, 1, device=device, requires_grad=True)
     return r, t
+
 def random_BC_points_R(R, T, n=512):
     r = R*torch.ones((n, 1), dtype=torch.float32, device=device, requires_grad=True)
     t = T*torch.rand(n, 1, device=device, requires_grad=True)
     return r, t
+
 def random_IC_points(R, n=128):
     r = R*torch.rand(n, 1, device=device, requires_grad=True)
     t = torch.zeros(n, 1, device=device, requires_grad=True)
     return r, t
-# layer_sizes
-layer_sizes = [2,64,64,64,1]
+
+# Instantiate the model and move to GPU
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+layer_sizes = [2, 64, 64, 64, 64, 1]  # 4 hidden layers with 256 neurons each
 activation = nn.Tanh()
-model = Model(layer_sizes,activation).to(device)
+model = Model(layer_sizes, activation).to(device)
+# Use DataParallel with specified GPUs
+model = nn.DataParallel(model, device_ids=[0, 1])
 #
 r,      t      = random_domain_points(L,T,n=TRAIN_DOM_POINTS)
 r_bc  , t_bc   = random_BC_points_L(L,T,n=TRAIN_BC_POINTS)
@@ -156,7 +158,7 @@ r_bc_R, t_bc_R = random_BC_points_R(L,T,n=TRAIN_BC_POINTS)
 r_ic,   t_ic   = random_IC_points(L,n=TRAIN_IC_POINTS)
 #
 fig = plt.figure(figsize=(7,6))
-# Fontsize of evething inside the plot
+# Fontsize of everything inside the plot
 plt.rcParams.update({'font.size': 16})
 #
 plt.plot(r.cpu().detach().numpy(),t.cpu().detach().numpy(),'o',ms=1)
@@ -169,7 +171,7 @@ plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
             orientation='portrait', format='png',transparent=True, 
             bbox_inches='tight', pad_inches=0.1, metadata=None)
 plt.close()
-
+#
 filename = os.path.join(save_dir, f'initial_sampling_points')
 np.savez(filename,
          r=r.cpu().detach().numpy(),
@@ -182,47 +184,44 @@ np.savez(filename,
          t_ic=t_ic.cpu().detach().numpy()
         )
 #
+optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
+scheduler = ExponentialLR(optimizer, gamma=DECAY_RATE**(1/DECAY_STEPS))
+# Training loop
+t0 = time()
+EPOCHS = 200000
 loss_dom_list  = []
 loss_bc_L_list = []
 loss_bc_R_list = []
 loss_ic_list   = []
 #
-t0 = time()
-# Initial training set
-stop_criteria = 100.
-best_achieved = 100.
-adapt_step    = 0
-#
-optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
-scheduler = StepLR(optimizer, step_size=10000, gamma=0.8)  # Ensure not to use verbose=True
-#
 for epoch in range(EPOCHS):
     optimizer.zero_grad()
+    # Compute losses (assuming these functions are defined)
     residual = lossRes(r, t)
     loss_dom = torch.mean(torch.pow(residual, 2))
     loss_bc_L = torch.mean(lossBCleft(r_bc, t_bc))
     loss_bc_R = torch.mean(lossBCright(r_bc_R, t_bc_R))
     loss_ic = torch.mean(lossIC(r_ic, t_ic))
+    # Total loss
     loss = loss_dom + GAMMA1 * (loss_bc_L + loss_bc_R) + GAMMA2 * loss_ic
-
+    # Record losses
     loss_dom_list.append(loss_dom.item())
     loss_bc_L_list.append(loss_bc_L.item())
     loss_bc_R_list.append(loss_bc_R.item())
     loss_ic_list.append(loss_ic.item())
-
+    # Backward pass and optimization
     loss.backward(retain_graph=True)
     optimizer.step()
-    scheduler.step()
-
-    if epoch % 2000 == 0:
+    # Update the learning rate
+    if epoch % DECAY_STEPS == 0:
+        scheduler.step()
         current_lr = scheduler.get_last_lr()[0]  # Get the current learning rate
         print(f'Epoch: {epoch} - Loss: {loss.item():>1.3e} - Learning Rate: {current_lr:>1.3e}')
 
 print('Computing time', (time() - t0) / 60, '[min]')
-#
-filename = os.path.join(save_dir, f'final_trained_model')
-torch.save(model.state_dict(), filename)
-#
+# Save the model
+filename = os.path.join(save_dir, 'final_trained_model.pth')
+torch.save(model.module.state_dict(), filename)  # Save when using DataParallel
 filename = os.path.join(save_dir, f'training_losses')
 np.savez(filename,
          loss_dom_list=loss_dom_list,
@@ -232,7 +231,7 @@ np.savez(filename,
         )
 
 fig = plt.figure(figsize=(7,6))
-# Fontsize of evething inside the plot
+# Fontsize of everything inside the plot
 plt.rcParams.update({'font.size': 16})
 #
 plt.plot(r.cpu().detach().numpy(),t.cpu().detach().numpy(),'o',ms=1)
@@ -247,7 +246,7 @@ plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
 plt.close()
 
 fig = plt.figure(figsize=(7,6))
-# Fontsize of evething inside the plot
+# Fontsize of everything inside the plot
 plt.rcParams.update({'font.size': 16})
 #
 plt.semilogy(loss_ic_list, label='IC Loss')
@@ -281,4 +280,4 @@ for t_i in np.linspace(0,T,2*T+1):
             bbox_inches='tight', pad_inches=0.1, metadata=None)
     plt.close()
 
-  #  CUDA_VISIBLE_DEVICES=1 python spherical_wave_eq.py > log_spherical_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
+  # CUDA_VISIBLE_DEVICES=0,1 python spherical_wave_eq.py > log_spherical_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
