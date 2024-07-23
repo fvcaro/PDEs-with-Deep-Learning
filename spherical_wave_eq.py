@@ -31,6 +31,7 @@ TRAIN_IC_POINTS  = 2048   #1024
 LEARNING_RATE = 0.001
 DECAY_RATE = 0.9
 DECAY_STEPS = 2000
+gamma = DECAY_RATE ** (1 / DECAY_STEPS)
 # Define a directory to save the figures
 save_dir = 'Figs_spherical_wave_eq'
 os.makedirs(save_dir, exist_ok=True)
@@ -146,7 +147,7 @@ def random_IC_points(R, n=128):
 
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-layer_sizes = [2, 64, 64, 64, 64, 1]  # 4 hidden layers with 256 neurons each
+layer_sizes = [2, 64, 64, 64, 64, 1]  # 4 hidden layers with 64 neurons each
 activation = nn.Tanh()
 model = Model(layer_sizes, activation).to(device)
 # Use DataParallel with specified GPUs
@@ -185,7 +186,7 @@ np.savez(filename,
         )
 #
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
-scheduler = ExponentialLR(optimizer, gamma=DECAY_RATE**(1/DECAY_STEPS))
+scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=gamma)
 # Training loop
 t0 = time()
 EPOCHS = 200000
@@ -212,9 +213,9 @@ for epoch in range(EPOCHS):
     # Backward pass and optimization
     loss.backward(retain_graph=True)
     optimizer.step()
-    # Update the learning rate
-    if epoch % DECAY_STEPS == 0:
-        scheduler.step()
+    scheduler.step()
+    # Print the current learning rate and loss every 2000 epochs
+    if epoch % 2000 == 0:
         current_lr = scheduler.get_last_lr()[0]  # Get the current learning rate
         print(f'Epoch: {epoch} - Loss: {loss.item():>1.3e} - Learning Rate: {current_lr:>1.3e}')
 
