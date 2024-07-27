@@ -147,7 +147,7 @@ def random_IC_points(R, n=128):
 
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-layer_sizes = [2, 128, 128, 128, 128, 1]  # 4 hidden layers with 64 neurons each
+layer_sizes = [2, 256, 256, 256, 256, 1]  # 4 hidden layers with 256 neurons each
 activation = nn.Tanh()
 model = Model(layer_sizes, activation).to(device)
 # Use DataParallel with specified GPUs
