@@ -30,7 +30,7 @@ TRAIN_IC_POINTS  = 2048   #1024
 # Set up optimizer and scheduler
 LEARNING_RATE = 0.001
 DECAY_RATE = 0.9
-DECAY_STEPS = 2000
+DECAY_STEPS = 5000
 gamma = DECAY_RATE ** (1 / DECAY_STEPS)
 # Define a directory to save the figures
 save_dir = 'Figs_spherical_wave_eq'
@@ -189,7 +189,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=gamma)
 # Training loop
 t0 = time()
-EPOCHS = 200000
+EPOCHS = 300000
 loss_dom_list  = []
 loss_bc_L_list = []
 loss_bc_R_list = []
@@ -246,6 +246,10 @@ plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
             bbox_inches='tight', pad_inches=0.1, metadata=None)
 plt.close()
 
+# Loss Plot
+loss_y_min = 1e-10  # Adjust as necessary based on the expected minimum loss value
+loss_y_max = 1e0  # Adjust as necessary based on the expected maximum loss value
+#
 fig = plt.figure(figsize=(7,6))
 # Fontsize of everything inside the plot
 plt.rcParams.update({'font.size': 16})
@@ -256,6 +260,7 @@ plt.semilogy(loss_bc_L_list, label='Left BC Loss')
 plt.semilogy(loss_dom_list, label='Domain Loss')
 plt.grid(True, which='both', ls='--')
 plt.legend()
+plt.ylim(loss_y_min, loss_y_max)  # Set fixed y-axis limits for loss plot
 #
 filename = os.path.join(save_dir, f'training_losses.png')
 plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
