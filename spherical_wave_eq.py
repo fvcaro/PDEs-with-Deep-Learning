@@ -22,8 +22,8 @@ num_gpus = torch.cuda.device_count()
 print(f'Number of available GPUs: {num_gpus}')
 for i in range(num_gpus):
     print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
-# Set the default tensor type to DoubleTensor for torch.float64
-torch.set_default_dtype(torch.float64)
+# Set the default tensor type to DoubleTensor for torch.float32
+torch.set_default_dtype(torch.float32)
 # Set random seed for reproducibility
 seed = 42
 torch.manual_seed(seed)  
@@ -45,9 +45,6 @@ LEARNING_RATE = 0.001
 DECAY_RATE = 0.9
 DECAY_STEPS = 5000
 gamma = DECAY_RATE ** (1 / DECAY_STEPS)
-# Define a directory to save the figures
-save_dir = 'Figs_spherical_wave_eq'
-os.makedirs(save_dir, exist_ok=True)
 # Define the model class
 class Model(nn.Module):
     def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
@@ -139,30 +136,33 @@ def lossIC(r_ic,t_ic):
     return loss_ic
 
 def random_domain_points(R, T, n=8192):
-    r = R*torch.rand(n, 1, dtype=torch.float64, device=device, requires_grad=True)
-    t = T*torch.rand(n, 1, dtype=torch.float64, device=device, requires_grad=True)
+    r = R*torch.rand(n, 1, dtype=torch.float32, device=device, requires_grad=True)
+    t = T*torch.rand(n, 1, dtype=torch.float32, device=device, requires_grad=True)
     return r, t
 
 def random_BC_points_L(R, T, n=512):
-    r = 0*torch.ones((n, 1), dtype=torch.float64, device=device, requires_grad=True)
-    t = T*torch.rand(n, 1, dtype=torch.float64, device=device, requires_grad=True)
+    r = 0*torch.ones((n, 1), dtype=torch.float32, device=device, requires_grad=True)
+    t = T*torch.rand(n, 1, dtype=torch.float32, device=device, requires_grad=True)
     return r, t
 
 def random_BC_points_R(R, T, n=512):
-    r = R*torch.ones((n, 1), dtype=torch.float64, device=device, requires_grad=True)
-    t = T*torch.rand(n, 1, dtype=torch.float64, device=device, requires_grad=True)
+    r = R*torch.ones((n, 1), dtype=torch.float32, device=device, requires_grad=True)
+    t = T*torch.rand(n, 1, dtype=torch.float32, device=device, requires_grad=True)
     return r, t
 
 def random_IC_points(R, n=128):
-    r = R*torch.rand(n, 1, dtype=torch.float64, device=device, requires_grad=True)
-    t = torch.zeros(n, 1, dtype=torch.float64, device=device, requires_grad=True)
+    r = R*torch.rand(n, 1, dtype=torch.float32, device=device, requires_grad=True)
+    t = torch.zeros(n, 1, dtype=torch.float32, device=device, requires_grad=True)
     return r, t
 
+# Define a directory to save the figures
+save_dir = 'Figs_spherical_wave_eq_128_3'
+os.makedirs(save_dir, exist_ok=True)
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 layer_sizes = [2, 128, 128, 128, 128, 1]  # 4 hidden layers with 128 neurons each
 activation = nn.Tanh()
-model = Model(layer_sizes, activation).to(device, dtype=torch.float64)
+model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs
 model = nn.DataParallel(model, device_ids=[0, 1])
 #
@@ -286,10 +286,10 @@ if not os.path.exists(save_dir):
     os.makedirs(save_dir)
     
 # Initialize x tensor
-x = torch.linspace(0, L, 1024, dtype=torch.float64, device=device).view(-1, 1)
+x = torch.linspace(0, L, 1024, dtype=torch.float32, device=device).view(-1, 1)
     
 # Precompute time steps as a tensor
-time_steps = torch.linspace(0, T, 2*T+1, dtype=torch.float64, device=device)
+time_steps = torch.linspace(0, T, 2*T+1, dtype=torch.float32, device=device)
     
 for t_i in time_steps:
     # Create time tensor
