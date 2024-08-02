@@ -1,16 +1,29 @@
 import torch
 print('torch version: ', torch.__version__)
+assert torch.__version__ is not None, 'Torch not loaded properly'
+
 import torch.nn as nn
+
 import numpy as np
+print('NumPy version: ', np.__version__)
+assert np.__version__ is not None, 'NumPy not loaded properly'
+
 from time import time
 import os
+
+import matplotlib
 from matplotlib import pyplot as plt
+print('Matplotlib version: ', matplotlib.__version__)
+assert matplotlib.__version__ is not None, 'Matplotlib not loaded properly'
+
 from torch.optim.lr_scheduler import ExponentialLR
 # Check available GPUs
 num_gpus = torch.cuda.device_count()
 print(f'Number of available GPUs: {num_gpus}')
 for i in range(num_gpus):
     print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
+# Set the default tensor type to DoubleTensor for torch.float64
+torch.set_default_dtype(torch.float64)
 # Set random seed for reproducibility
 seed = 42
 torch.manual_seed(seed)  
@@ -126,30 +139,30 @@ def lossIC(r_ic,t_ic):
     return loss_ic
 
 def random_domain_points(R, T, n=8192):
-    r = R*torch.rand(n, 1, device=device, requires_grad=True)
-    t = T*torch.rand(n, 1, device=device, requires_grad=True)
+    r = R*torch.rand(n, 1, dtype=torch.float64, device=device, requires_grad=True)
+    t = T*torch.rand(n, 1, dtype=torch.float64, device=device, requires_grad=True)
     return r, t
 
 def random_BC_points_L(R, T, n=512):
-    r = 0*torch.ones((n, 1), dtype=torch.float32, device=device, requires_grad=True)
-    t = T*torch.rand(n, 1, device=device, requires_grad=True)
+    r = 0*torch.ones((n, 1), dtype=torch.float64, device=device, requires_grad=True)
+    t = T*torch.rand(n, 1, dtype=torch.float64, device=device, requires_grad=True)
     return r, t
 
 def random_BC_points_R(R, T, n=512):
-    r = R*torch.ones((n, 1), dtype=torch.float32, device=device, requires_grad=True)
-    t = T*torch.rand(n, 1, device=device, requires_grad=True)
+    r = R*torch.ones((n, 1), dtype=torch.float64, device=device, requires_grad=True)
+    t = T*torch.rand(n, 1, dtype=torch.float64, device=device, requires_grad=True)
     return r, t
 
 def random_IC_points(R, n=128):
-    r = R*torch.rand(n, 1, device=device, requires_grad=True)
-    t = torch.zeros(n, 1, device=device, requires_grad=True)
+    r = R*torch.rand(n, 1, dtype=torch.float64, device=device, requires_grad=True)
+    t = torch.zeros(n, 1, dtype=torch.float64, device=device, requires_grad=True)
     return r, t
 
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-layer_sizes = [2, 256, 256, 256, 256, 1]  # 4 hidden layers with 256 neurons each
+layer_sizes = [2, 128, 128, 128, 128, 1]  # 4 hidden layers with 128 neurons each
 activation = nn.Tanh()
-model = Model(layer_sizes, activation).to(device)
+model = Model(layer_sizes, activation).to(device, dtype=torch.float64)
 # Use DataParallel with specified GPUs
 model = nn.DataParallel(model, device_ids=[0, 1])
 #
@@ -268,22 +281,35 @@ plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
             bbox_inches='tight', pad_inches=0.1, metadata=None)
 plt.close()
 
-x = torch.linspace(0,L,1024).view(-1,1)
-x =x.to(device)
-for t_i in np.linspace(0,T,2*T+1):
-    t = t_i*torch.ones_like(x)
-    t = t.to(device)
-    nn_sol = model(x,t).cpu().detach().numpy()
-    #
+# Ensure the save directory exists
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+    
+# Initialize x tensor
+x = torch.linspace(0, L, 1024, dtype=torch.float64, device=device).view(-1, 1)
+    
+# Precompute time steps as a tensor
+time_steps = torch.linspace(0, T, 2*T+1, dtype=torch.float64, device=device)
+    
+for t_i in time_steps:
+    # Create time tensor
+    t = t_i.expand_as(x)
+        
+    # Model inference
+    nn_sol = model(x, t).cpu().detach().numpy()
+        
+    # Plotting and saving
     plt.figure()
-    plt.plot(x.cpu(),nn_sol,linewidth='2')
-    plt.title(r'$t_i$: '+str(t_i))
-    plt.xlim(0,L)
-    #
-    filename = os.path.join(save_dir, f'pinns_sol_{t_i}.png')
+    plt.plot(x.cpu(), nn_sol, linewidth=2)
+    plt.title(r'$t_i$: ' + str(t_i.item()))
+    plt.xlim(0, L)
+        
+    # Save plot
+    filename = os.path.join(save_dir, f'pinns_sol_{t_i.item():.2f}.png')
+    print(f'Saving plot for t_i = {t_i.item()} at {filename}')  # Debugging statement
     plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
             orientation='portrait', format='png',transparent=True, 
             bbox_inches='tight', pad_inches=0.1, metadata=None)
     plt.close()
-
-  # CUDA_VISIBLE_DEVICES=0,1 python spherical_wave_eq.py > log_spherical_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
+    
+# CUDA_VISIBLE_DEVICES=0,1 python spherical_wave_eq.py > log_spherical_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
