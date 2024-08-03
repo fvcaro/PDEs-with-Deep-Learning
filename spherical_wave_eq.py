@@ -47,7 +47,7 @@ DECAY_STEPS = 5000
 gamma = DECAY_RATE ** (1 / DECAY_STEPS)
 # Define the model class
 class Model(nn.Module):
-    def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
+    def __init__(self, layer_sizes, activation=nn.GELU(),seed=42):
         super(Model, self).__init__()
         self.layers = nn.ModuleList()
         self.activation = activation
@@ -161,7 +161,7 @@ os.makedirs(save_dir, exist_ok=True)
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 layer_sizes = [2, 128, 128, 128, 128, 1]  # 4 hidden layers with 128 neurons each
-activation = nn.Tanh()
+activation = nn.GELU()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs
 model = nn.DataParallel(model, device_ids=[0, 1])

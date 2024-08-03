@@ -10,7 +10,7 @@ dx = 0.05
 
 # Define the model class
 class Model(nn.Module):
-    def __init__(self, layer_sizes, activation=nn.Tanh(), seed=42):
+    def __init__(self, layer_sizes, activation=nn.GELU(), seed=42):
         super(Model, self).__init__()
         self.layers = nn.ModuleList()
         self.activation = activation
@@ -47,7 +47,7 @@ saved_model_path = os.path.join(main_dir, 'final_trained_model.pth')
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 layer_sizes = [2, 128, 128, 128, 128, 1]  # 4 hidden layers with 128 neurons each
-activation = nn.Tanh()
+activation = nn.GELU()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs if multiple GPUs are available
 use_data_parallel = torch.cuda.device_count() > 1
