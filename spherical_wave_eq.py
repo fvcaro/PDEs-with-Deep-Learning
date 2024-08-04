@@ -5,7 +5,6 @@ import torch.nn as nn
 import numpy as np
 from time import time
 import os
-from matplotlib import pyplot as plt
 from torch.optim.lr_scheduler import ExponentialLR
 # Check available GPUs
 num_gpus = torch.cuda.device_count()
@@ -33,9 +32,9 @@ TRAIN_IC_POINTS  = 2048   #1024
 # Set up optimizer and scheduler
 LEARNING_RATE = 0.001
 DECAY_RATE = 0.9
-DECAY_STEPS = 2000
+DECAY_STEPS = 5000
 gamma = DECAY_RATE ** (1 / DECAY_STEPS)
-EPOCHS = 200000
+EPOCHS = 300000
 # Define the model class
 class Model(nn.Module):
     def __init__(self, layer_sizes, activation=nn.GELU(),seed=42):
@@ -147,7 +146,7 @@ def random_IC_points(R, n=128):
     return r, t
 
 # Define a directory to save the figures
-saved_model_dir = 'Figs_spherical_wave_eq_256_2'
+saved_model_dir = 'Figs_spherical_wave_eq_256_3'
 os.makedirs(saved_model_dir, exist_ok=True)
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -155,27 +154,12 @@ layer_sizes = [2, 256, 256, 256, 256, 1]  # 4 hidden layers with 256 neurons eac
 activation = nn.GELU()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs
-model = nn.DataParallel(model, device_ids=[0, 1])
+model = nn.DataParallel(model, device_ids=[0, 1, 2])
 #
 r,      t      = random_domain_points(L,T,n=TRAIN_DOM_POINTS)
 r_bc  , t_bc   = random_BC_points_L(L,T,n=TRAIN_BC_POINTS)
 r_bc_R, t_bc_R = random_BC_points_R(L,T,n=TRAIN_BC_POINTS)
 r_ic,   t_ic   = random_IC_points(L,n=TRAIN_IC_POINTS)
-#
-fig = plt.figure(figsize=(7,6))
-# Fontsize of everything inside the plot
-plt.rcParams.update({'font.size': 16})
-#
-plt.plot(r.cpu().detach().numpy(),t.cpu().detach().numpy(),'o',ms=1)
-plt.plot(r_bc.cpu().detach().numpy(),t_bc.cpu().detach().numpy(),'o',ms=1)
-plt.plot(r_bc_R.cpu().detach().numpy(),t_bc_R.cpu().detach().numpy(),'o',ms=1)
-plt.plot(r_ic.cpu().detach().numpy(),t_ic.cpu().detach().numpy(),'o',ms=1)
-#
-filename = os.path.join(saved_model_dir, f'mesh_initial.png')
-plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
-            orientation='portrait', format='png',transparent=True, 
-            bbox_inches='tight', pad_inches=0.1, metadata=None)
-plt.close()
 #
 filename = os.path.join(saved_model_dir, f'initial_sampling_points')
 np.savez(filename,
@@ -193,7 +177,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=gamma)
 # Training loop
 t0 = time()
-
+#
 loss_dom_list  = []
 loss_bc_L_list = []
 loss_bc_R_list = []
@@ -235,19 +219,4 @@ np.savez(filename,
          loss_ic_list=loss_ic_list
         )
 
-fig = plt.figure(figsize=(7,6))
-# Fontsize of everything inside the plot
-plt.rcParams.update({'font.size': 16})
-#
-plt.plot(r.cpu().detach().numpy(),t.cpu().detach().numpy(),'o',ms=1)
-plt.plot(r_bc.cpu().detach().numpy(),t_bc.cpu().detach().numpy(),'o',ms=1)
-plt.plot(r_bc_R.cpu().detach().numpy(),t_bc_R.cpu().detach().numpy(),'o',ms=1)
-plt.plot(r_ic.cpu().detach().numpy(),t_ic.cpu().detach().numpy(),'o',ms=1)
-#
-filename = os.path.join(saved_model_dir, f'mesh_final.png')
-plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
-            orientation='portrait', format='png',transparent=True, 
-            bbox_inches='tight', pad_inches=0.1, metadata=None)
-plt.close()
-
-# CUDA_VISIBLE_DEVICES=0,1 python spherical_wave_eq.py > log_spherical_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
+# CUDA_VISIBLE_DEVICES=0,1,2 python spherical_wave_eq.py > log_spherical_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
