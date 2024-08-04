@@ -1,0 +1,168 @@
+torch version:  2.2.1
+NumPy version:  1.24.3
+Matplotlib version:  3.7.3
+Number of available GPUs: 2
+GPU 0: NVIDIA L40S
+GPU 1: NVIDIA L40S
+Epoch: 0 - Loss: 7.845e-01 - Learning Rate: 9.999e-04
+Epoch: 2000 - Loss: 1.110e-02 - Learning Rate: 9.000e-04
+Epoch: 4000 - Loss: 4.536e-03 - Learning Rate: 8.100e-04
+Epoch: 6000 - Loss: 1.529e-03 - Learning Rate: 7.290e-04
+Epoch: 8000 - Loss: 7.081e-04 - Learning Rate: 6.561e-04
+Epoch: 10000 - Loss: 8.671e-04 - Learning Rate: 5.905e-04
+Epoch: 12000 - Loss: 3.373e-04 - Learning Rate: 5.314e-04
+Epoch: 14000 - Loss: 2.801e-04 - Learning Rate: 4.783e-04
+Epoch: 16000 - Loss: 1.053e-04 - Learning Rate: 4.304e-04
+Epoch: 18000 - Loss: 6.472e-05 - Learning Rate: 3.874e-04
+Epoch: 20000 - Loss: 2.938e-03 - Learning Rate: 3.487e-04
+Epoch: 22000 - Loss: 2.677e-05 - Learning Rate: 3.138e-04
+Epoch: 24000 - Loss: 1.892e-05 - Learning Rate: 2.824e-04
+Epoch: 26000 - Loss: 4.910e-05 - Learning Rate: 2.542e-04
+Epoch: 28000 - Loss: 5.151e-04 - Learning Rate: 2.288e-04
+Epoch: 30000 - Loss: 2.888e-04 - Learning Rate: 2.059e-04
+Epoch: 32000 - Loss: 1.404e-05 - Learning Rate: 1.853e-04
+Epoch: 34000 - Loss: 1.324e-04 - Learning Rate: 1.668e-04
+Epoch: 36000 - Loss: 3.862e-05 - Learning Rate: 1.501e-04
+Epoch: 38000 - Loss: 4.687e-05 - Learning Rate: 1.351e-04
+Epoch: 40000 - Loss: 8.744e-06 - Learning Rate: 1.216e-04
+Epoch: 42000 - Loss: 1.426e-04 - Learning Rate: 1.094e-04
+Epoch: 44000 - Loss: 4.031e-06 - Learning Rate: 9.847e-05
+Epoch: 46000 - Loss: 3.693e-06 - Learning Rate: 8.862e-05
+Epoch: 48000 - Loss: 3.237e-06 - Learning Rate: 7.976e-05
+Epoch: 50000 - Loss: 2.948e-06 - Learning Rate: 7.179e-05
+Epoch: 52000 - Loss: 4.356e-06 - Learning Rate: 6.461e-05
+Epoch: 54000 - Loss: 7.988e-06 - Learning Rate: 5.815e-05
+Epoch: 56000 - Loss: 3.279e-06 - Learning Rate: 5.233e-05
+Epoch: 58000 - Loss: 6.963e-06 - Learning Rate: 4.710e-05
+Epoch: 60000 - Loss: 2.432e-06 - Learning Rate: 4.239e-05
+Epoch: 62000 - Loss: 2.359e-05 - Learning Rate: 3.815e-05
+Epoch: 64000 - Loss: 2.185e-06 - Learning Rate: 3.434e-05
+Epoch: 66000 - Loss: 2.871e-06 - Learning Rate: 3.090e-05
+Epoch: 68000 - Loss: 1.998e-06 - Learning Rate: 2.781e-05
+Epoch: 70000 - Loss: 3.604e-06 - Learning Rate: 2.503e-05
+Epoch: 72000 - Loss: 1.357e-06 - Learning Rate: 2.253e-05
+Epoch: 74000 - Loss: 2.231e-06 - Learning Rate: 2.027e-05
+Epoch: 76000 - Loss: 1.384e-06 - Learning Rate: 1.825e-05
+Epoch: 78000 - Loss: 1.840e-06 - Learning Rate: 1.642e-05
+Epoch: 80000 - Loss: 1.322e-06 - Learning Rate: 1.478e-05
+Epoch: 82000 - Loss: 2.267e-06 - Learning Rate: 1.330e-05
+Epoch: 84000 - Loss: 1.068e-06 - Learning Rate: 1.197e-05
+Epoch: 86000 - Loss: 1.053e-06 - Learning Rate: 1.077e-05
+Epoch: 88000 - Loss: 1.331e-06 - Learning Rate: 9.697e-06
+Epoch: 90000 - Loss: 1.127e-06 - Learning Rate: 8.728e-06
+Epoch: 92000 - Loss: 1.121e-06 - Learning Rate: 7.855e-06
+Epoch: 94000 - Loss: 1.044e-06 - Learning Rate: 7.069e-06
+Epoch: 96000 - Loss: 8.861e-07 - Learning Rate: 6.362e-06
+Epoch: 98000 - Loss: 8.769e-07 - Learning Rate: 5.726e-06
+Epoch: 100000 - Loss: 8.368e-07 - Learning Rate: 5.154e-06
+Epoch: 102000 - Loss: 8.147e-07 - Learning Rate: 4.638e-06
+Epoch: 104000 - Loss: 8.470e-07 - Learning Rate: 4.174e-06
+Epoch: 106000 - Loss: 7.831e-07 - Learning Rate: 3.757e-06
+Epoch: 108000 - Loss: 7.603e-07 - Learning Rate: 3.381e-06
+Epoch: 110000 - Loss: 7.402e-07 - Learning Rate: 3.043e-06
+Epoch: 112000 - Loss: 7.252e-07 - Learning Rate: 2.739e-06
+Epoch: 114000 - Loss: 7.153e-07 - Learning Rate: 2.465e-06
+Epoch: 116000 - Loss: 6.982e-07 - Learning Rate: 2.218e-06
+Epoch: 118000 - Loss: 7.141e-07 - Learning Rate: 1.997e-06
+Epoch: 120000 - Loss: 6.728e-07 - Learning Rate: 1.797e-06
+Epoch: 122000 - Loss: 7.405e-07 - Learning Rate: 1.617e-06
+Epoch: 124000 - Loss: 6.504e-07 - Learning Rate: 1.456e-06
+Epoch: 126000 - Loss: 6.393e-07 - Learning Rate: 1.310e-06
+Epoch: 128000 - Loss: 6.297e-07 - Learning Rate: 1.179e-06
+Epoch: 130000 - Loss: 6.190e-07 - Learning Rate: 1.061e-06
+Epoch: 132000 - Loss: 6.093e-07 - Learning Rate: 9.550e-07
+Epoch: 134000 - Loss: 6.010e-07 - Learning Rate: 8.595e-07
+Epoch: 136000 - Loss: 5.916e-07 - Learning Rate: 7.735e-07
+Epoch: 138000 - Loss: 5.834e-07 - Learning Rate: 6.962e-07
+Epoch: 140000 - Loss: 5.754e-07 - Learning Rate: 6.265e-07
+Epoch: 142000 - Loss: 5.677e-07 - Learning Rate: 5.639e-07
+Epoch: 144000 - Loss: 5.604e-07 - Learning Rate: 5.075e-07
+Epoch: 146000 - Loss: 5.529e-07 - Learning Rate: 4.568e-07
+Epoch: 148000 - Loss: 5.459e-07 - Learning Rate: 4.111e-07
+Epoch: 150000 - Loss: 5.393e-07 - Learning Rate: 3.700e-07
+Epoch: 152000 - Loss: 5.326e-07 - Learning Rate: 3.330e-07
+Epoch: 154000 - Loss: 5.263e-07 - Learning Rate: 2.997e-07
+Epoch: 156000 - Loss: 5.250e-07 - Learning Rate: 2.697e-07
+Epoch: 158000 - Loss: 5.148e-07 - Learning Rate: 2.427e-07
+Epoch: 160000 - Loss: 5.094e-07 - Learning Rate: 2.185e-07
+Epoch: 162000 - Loss: 5.044e-07 - Learning Rate: 1.966e-07
+Epoch: 164000 - Loss: 4.994e-07 - Learning Rate: 1.770e-07
+Epoch: 166000 - Loss: 4.946e-07 - Learning Rate: 1.593e-07
+Epoch: 168000 - Loss: 4.904e-07 - Learning Rate: 1.433e-07
+Epoch: 170000 - Loss: 4.861e-07 - Learning Rate: 1.290e-07
+Epoch: 172000 - Loss: 4.820e-07 - Learning Rate: 1.161e-07
+Epoch: 174000 - Loss: 4.781e-07 - Learning Rate: 1.045e-07
+Epoch: 176000 - Loss: 4.743e-07 - Learning Rate: 9.404e-08
+Epoch: 178000 - Loss: 4.707e-07 - Learning Rate: 8.464e-08
+Epoch: 180000 - Loss: 4.670e-07 - Learning Rate: 7.617e-08
+Epoch: 182000 - Loss: 4.634e-07 - Learning Rate: 6.856e-08
+Epoch: 184000 - Loss: 4.600e-07 - Learning Rate: 6.170e-08
+Epoch: 186000 - Loss: 4.572e-07 - Learning Rate: 5.553e-08
+Epoch: 188000 - Loss: 4.544e-07 - Learning Rate: 4.998e-08
+Epoch: 190000 - Loss: 4.517e-07 - Learning Rate: 4.498e-08
+Epoch: 192000 - Loss: 4.489e-07 - Learning Rate: 4.048e-08
+Epoch: 194000 - Loss: 4.466e-07 - Learning Rate: 3.643e-08
+Epoch: 196000 - Loss: 4.440e-07 - Learning Rate: 3.279e-08
+Epoch: 198000 - Loss: 4.420e-07 - Learning Rate: 2.951e-08
+Computing time 1009.4934016545614 [min]
+Saving plot for t_i = 0.0 at Figs_spherical_wave_eq_256_2/pinns_sol_0.00.png
+Saving plot for t_i = 0.5 at Figs_spherical_wave_eq_256_2/pinns_sol_0.50.png
+Saving plot for t_i = 1.0 at Figs_spherical_wave_eq_256_2/pinns_sol_1.00.png
+Saving plot for t_i = 1.5 at Figs_spherical_wave_eq_256_2/pinns_sol_1.50.png
+Saving plot for t_i = 2.0 at Figs_spherical_wave_eq_256_2/pinns_sol_2.00.png
+Saving plot for t_i = 2.5 at Figs_spherical_wave_eq_256_2/pinns_sol_2.50.png
+Saving plot for t_i = 3.0 at Figs_spherical_wave_eq_256_2/pinns_sol_3.00.png
+Saving plot for t_i = 3.5 at Figs_spherical_wave_eq_256_2/pinns_sol_3.50.png
+Saving plot for t_i = 4.0 at Figs_spherical_wave_eq_256_2/pinns_sol_4.00.png
+Saving plot for t_i = 4.5 at Figs_spherical_wave_eq_256_2/pinns_sol_4.50.png
+Saving plot for t_i = 5.0 at Figs_spherical_wave_eq_256_2/pinns_sol_5.00.png
+Saving plot for t_i = 5.5 at Figs_spherical_wave_eq_256_2/pinns_sol_5.50.png
+Saving plot for t_i = 6.0 at Figs_spherical_wave_eq_256_2/pinns_sol_6.00.png
+Saving plot for t_i = 6.5 at Figs_spherical_wave_eq_256_2/pinns_sol_6.50.png
+Saving plot for t_i = 7.0 at Figs_spherical_wave_eq_256_2/pinns_sol_7.00.png
+Saving plot for t_i = 7.5 at Figs_spherical_wave_eq_256_2/pinns_sol_7.50.png
+Saving plot for t_i = 8.0 at Figs_spherical_wave_eq_256_2/pinns_sol_8.00.png
+Saving plot for t_i = 8.5 at Figs_spherical_wave_eq_256_2/pinns_sol_8.50.png
+Saving plot for t_i = 9.0 at Figs_spherical_wave_eq_256_2/pinns_sol_9.00.png
+Saving plot for t_i = 9.5 at Figs_spherical_wave_eq_256_2/pinns_sol_9.50.png
+Saving plot for t_i = 10.0 at Figs_spherical_wave_eq_256_2/pinns_sol_10.00.png
+Saving plot for t_i = 10.5 at Figs_spherical_wave_eq_256_2/pinns_sol_10.50.png
+Saving plot for t_i = 11.0 at Figs_spherical_wave_eq_256_2/pinns_sol_11.00.png
+Saving plot for t_i = 11.5 at Figs_spherical_wave_eq_256_2/pinns_sol_11.50.png
+Saving plot for t_i = 12.0 at Figs_spherical_wave_eq_256_2/pinns_sol_12.00.png
+Saving plot for t_i = 12.5 at Figs_spherical_wave_eq_256_2/pinns_sol_12.50.png
+Saving plot for t_i = 13.0 at Figs_spherical_wave_eq_256_2/pinns_sol_13.00.png
+Saving plot for t_i = 13.5 at Figs_spherical_wave_eq_256_2/pinns_sol_13.50.png
+Saving plot for t_i = 14.0 at Figs_spherical_wave_eq_256_2/pinns_sol_14.00.png
+Saving plot for t_i = 14.5 at Figs_spherical_wave_eq_256_2/pinns_sol_14.50.png
+Saving plot for t_i = 15.0 at Figs_spherical_wave_eq_256_2/pinns_sol_15.00.png
+Saving plot for t_i = 15.5 at Figs_spherical_wave_eq_256_2/pinns_sol_15.50.png
+Saving plot for t_i = 16.0 at Figs_spherical_wave_eq_256_2/pinns_sol_16.00.png
+Saving plot for t_i = 16.5 at Figs_spherical_wave_eq_256_2/pinns_sol_16.50.png
+Saving plot for t_i = 17.0 at Figs_spherical_wave_eq_256_2/pinns_sol_17.00.png
+Saving plot for t_i = 17.5 at Figs_spherical_wave_eq_256_2/pinns_sol_17.50.png
+Saving plot for t_i = 18.0 at Figs_spherical_wave_eq_256_2/pinns_sol_18.00.png
+Saving plot for t_i = 18.5 at Figs_spherical_wave_eq_256_2/pinns_sol_18.50.png
+Saving plot for t_i = 19.0 at Figs_spherical_wave_eq_256_2/pinns_sol_19.00.png
+Saving plot for t_i = 19.5 at Figs_spherical_wave_eq_256_2/pinns_sol_19.50.png
+Saving plot for t_i = 20.0 at Figs_spherical_wave_eq_256_2/pinns_sol_20.00.png
+Saving plot for t_i = 20.5 at Figs_spherical_wave_eq_256_2/pinns_sol_20.50.png
+Saving plot for t_i = 21.0 at Figs_spherical_wave_eq_256_2/pinns_sol_21.00.png
+Saving plot for t_i = 21.5 at Figs_spherical_wave_eq_256_2/pinns_sol_21.50.png
+Saving plot for t_i = 22.0 at Figs_spherical_wave_eq_256_2/pinns_sol_22.00.png
+Saving plot for t_i = 22.5 at Figs_spherical_wave_eq_256_2/pinns_sol_22.50.png
+Saving plot for t_i = 23.0 at Figs_spherical_wave_eq_256_2/pinns_sol_23.00.png
+Saving plot for t_i = 23.5 at Figs_spherical_wave_eq_256_2/pinns_sol_23.50.png
+Saving plot for t_i = 24.0 at Figs_spherical_wave_eq_256_2/pinns_sol_24.00.png
+Saving plot for t_i = 24.5 at Figs_spherical_wave_eq_256_2/pinns_sol_24.50.png
+Saving plot for t_i = 25.0 at Figs_spherical_wave_eq_256_2/pinns_sol_25.00.png
+Saving plot for t_i = 25.5 at Figs_spherical_wave_eq_256_2/pinns_sol_25.50.png
+Saving plot for t_i = 26.0 at Figs_spherical_wave_eq_256_2/pinns_sol_26.00.png
+Saving plot for t_i = 26.5 at Figs_spherical_wave_eq_256_2/pinns_sol_26.50.png
+Saving plot for t_i = 27.0 at Figs_spherical_wave_eq_256_2/pinns_sol_27.00.png
+Saving plot for t_i = 27.5 at Figs_spherical_wave_eq_256_2/pinns_sol_27.50.png
+Saving plot for t_i = 28.0 at Figs_spherical_wave_eq_256_2/pinns_sol_28.00.png
+Saving plot for t_i = 28.5 at Figs_spherical_wave_eq_256_2/pinns_sol_28.50.png
+Saving plot for t_i = 29.0 at Figs_spherical_wave_eq_256_2/pinns_sol_29.00.png
+Saving plot for t_i = 29.5 at Figs_spherical_wave_eq_256_2/pinns_sol_29.50.png
+Saving plot for t_i = 30.0 at Figs_spherical_wave_eq_256_2/pinns_sol_30.00.png

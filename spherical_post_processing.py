@@ -2,6 +2,29 @@ import torch
 import torch.nn as nn
 import numpy as np
 import os
+from matplotlib import pyplot as plt
+
+# Ensure torch is loaded
+print('torch version:', torch.__version__)
+assert torch.__version__ is not None, 'Torch not loaded properly'
+
+# Check available GPUs
+num_gpus = torch.cuda.device_count()
+print(f'Number of available GPUs: {num_gpus}')
+for i in range(num_gpus):
+    print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
+
+# Path to the saved model
+model_dir = 'Figs_spherical_wave_eq_256_1'
+saved_model_path = os.path.join(model_dir, 'final_trained_model.pth')
+
+# Define a directory to save the Sols
+Sols = os.path.join(model_dir, 'Sols')
+os.makedirs(Sols, exist_ok=True)
+
+# Define a directory to save the Sols
+Figs = os.path.join(model_dir, 'Figs')
+os.makedirs(Figs, exist_ok=True)
 
 R = 40
 T = 25
@@ -10,7 +33,7 @@ dx = 0.05
 
 # Define the model class
 class Model(nn.Module):
-    def __init__(self, layer_sizes, activation=nn.GELU(), seed=42):
+    def __init__(self, layer_sizes, activation=nn.Tanh(), seed=42):
         super(Model, self).__init__()
         self.layers = nn.ModuleList()
         self.activation = activation
@@ -40,14 +63,10 @@ torch.set_default_dtype(torch.float32)
 seed = 42
 torch.manual_seed(seed)
 
-# Path to the saved model
-main_dir = 'Figs_spherical_wave_eq_128_3'
-saved_model_path = os.path.join(main_dir, 'final_trained_model.pth')
-
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-layer_sizes = [2, 128, 128, 128, 128, 1]  # 4 hidden layers with 128 neurons each
-activation = nn.GELU()
+layer_sizes = [2, 256, 256, 256, 256, 1]  # 4 hidden layers with 256 neurons each
+activation = nn.Tanh()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs if multiple GPUs are available
 use_data_parallel = torch.cuda.device_count() > 1
@@ -65,10 +84,6 @@ if use_data_parallel:
     model.load_state_dict(new_state_dict)
 else:
     model.load_state_dict(state_dict)
-
-# Define a directory to save the files
-save_dir = os.path.join(main_dir, 'Sols')
-os.makedirs(save_dir, exist_ok=True)
 
 # Adjust space discretization
 x = torch.linspace(0, R, int(R/dx)+1, requires_grad=True).view(-1, 1).to(device)
@@ -92,7 +107,67 @@ for idx, t_i in enumerate(time_steps):
     u_x_ = u_x.cpu().detach().numpy()
     u_t_ = u_t.cpu().detach().numpy()  
 
-    filename = os.path.join(save_dir, 'pinn_output_t_{}.txt'.format(idx))
+    filename = os.path.join(Sols, 'pinn_output_t_{}.txt'.format(idx))
     np.savetxt(filename, np.concatenate((x_, u_, u_x_, u_t_), axis=1), fmt='%.18e')
 
-# CUDA_VISIBLE_DEVICES=0,1 python spherical_post_processing.py
+# Load the saved losses
+loss_file = os.path.join(model_dir, 'training_losses.npz')
+if os.path.exists(loss_file):
+    loss_data = np.load(loss_file)
+    print(f"Loss file: '{loss_file}' loaded properly.")
+    loss_dom_list = loss_data['loss_dom_list']
+    loss_bc_R_list = loss_data['loss_bc_R_list']
+    loss_bc_L_list = loss_data['loss_bc_L_list']
+    loss_ic_list = loss_data['loss_ic_list']
+else:
+    raise FileNotFoundError(f"Loss file: '{loss_file}' not found. Ensure it exists and the path is correct.")
+
+# Loss Plot
+loss_y_min = 1e-11  # Adjust as necessary based on the expected minimum loss value
+loss_y_max = 1e1  # Adjust as necessary based on the expected maximum loss value
+fig = plt.figure(figsize=(7,6))
+# Fontsize of everything inside the plot
+plt.rcParams.update({'font.size': 16})
+plt.semilogy(loss_ic_list, label='IC Loss')
+plt.semilogy(loss_bc_R_list, label='Right BC Loss')
+plt.semilogy(loss_bc_L_list, label='Left BC Loss')
+plt.semilogy(loss_dom_list, label='Domain Loss')
+plt.grid(True, which='both', ls='--')
+plt.legend()
+plt.ylim(loss_y_min, loss_y_max)  # Set fixed y-axis limits for loss plot
+#
+filename = os.path.join(Figs, f'training_losses.png')
+plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
+            orientation='portrait', format='png',transparent=True, 
+            bbox_inches='tight', pad_inches=0.1, metadata=None)
+plt.close()
+
+# Initialize x tensor for high-resolution plotting
+x_high_res = torch.linspace(0, R, 1024, dtype=torch.float32, device=device).view(-1, 1)
+
+# Precompute high-resolution time steps
+time_steps_high_res = torch.linspace(0, T, int(2 * T) + 1, dtype=torch.float32, device=device)
+
+# Loop over time steps for high-resolution plots
+for t_i in time_steps_high_res:
+    t = t_i.expand_as(x_high_res)
+
+    # Model inference
+    nn_sol = model(x_high_res, t).cpu().detach().numpy()
+
+    # Plotting
+    plt.figure()
+    plt.plot(x_high_res.cpu(), nn_sol, linewidth=2)
+    plt.title(f't = {t_i.item():.2f}')
+    plt.xlim(0, R)
+    plt.grid(True)
+        
+    # Save plot
+    filename = os.path.join(Figs, f'pinns_sol_{t_i.item():.2f}.png')
+    print(f'Saving plot for t_i = {t_i.item()} at {filename}')  # Debugging statement
+    plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
+            orientation='portrait', format='png',transparent=True, 
+            bbox_inches='tight', pad_inches=0.1, metadata=None)
+    plt.close()
+
+# CUDA_VISIBLE_DEVICES=3,4 python spherical_post_processing.py

@@ -1,21 +1,11 @@
 import torch
 print('torch version: ', torch.__version__)
 assert torch.__version__ is not None, 'Torch not loaded properly'
-
 import torch.nn as nn
-
 import numpy as np
-print('NumPy version: ', np.__version__)
-assert np.__version__ is not None, 'NumPy not loaded properly'
-
 from time import time
 import os
-
-import matplotlib
 from matplotlib import pyplot as plt
-print('Matplotlib version: ', matplotlib.__version__)
-assert matplotlib.__version__ is not None, 'Matplotlib not loaded properly'
-
 from torch.optim.lr_scheduler import ExponentialLR
 # Check available GPUs
 num_gpus = torch.cuda.device_count()
@@ -43,8 +33,9 @@ TRAIN_IC_POINTS  = 2048   #1024
 # Set up optimizer and scheduler
 LEARNING_RATE = 0.001
 DECAY_RATE = 0.9
-DECAY_STEPS = 5000
+DECAY_STEPS = 2000
 gamma = DECAY_RATE ** (1 / DECAY_STEPS)
+EPOCHS = 200000
 # Define the model class
 class Model(nn.Module):
     def __init__(self, layer_sizes, activation=nn.GELU(),seed=42):
@@ -156,11 +147,11 @@ def random_IC_points(R, n=128):
     return r, t
 
 # Define a directory to save the figures
-save_dir = 'Figs_spherical_wave_eq_128_3'
-os.makedirs(save_dir, exist_ok=True)
+saved_model_dir = 'Figs_spherical_wave_eq_256_2'
+os.makedirs(saved_model_dir, exist_ok=True)
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-layer_sizes = [2, 128, 128, 128, 128, 1]  # 4 hidden layers with 128 neurons each
+layer_sizes = [2, 256, 256, 256, 256, 1]  # 4 hidden layers with 256 neurons each
 activation = nn.GELU()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs
@@ -180,13 +171,13 @@ plt.plot(r_bc.cpu().detach().numpy(),t_bc.cpu().detach().numpy(),'o',ms=1)
 plt.plot(r_bc_R.cpu().detach().numpy(),t_bc_R.cpu().detach().numpy(),'o',ms=1)
 plt.plot(r_ic.cpu().detach().numpy(),t_ic.cpu().detach().numpy(),'o',ms=1)
 #
-filename = os.path.join(save_dir, f'mesh_initial.png')
+filename = os.path.join(saved_model_dir, f'mesh_initial.png')
 plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
             orientation='portrait', format='png',transparent=True, 
             bbox_inches='tight', pad_inches=0.1, metadata=None)
 plt.close()
 #
-filename = os.path.join(save_dir, f'initial_sampling_points')
+filename = os.path.join(saved_model_dir, f'initial_sampling_points')
 np.savez(filename,
          r=r.cpu().detach().numpy(),
          t=t.cpu().detach().numpy(),
@@ -202,7 +193,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=gamma)
 # Training loop
 t0 = time()
-EPOCHS = 300000
+
 loss_dom_list  = []
 loss_bc_L_list = []
 loss_bc_R_list = []
@@ -234,9 +225,9 @@ for epoch in range(EPOCHS):
 
 print('Computing time', (time() - t0) / 60, '[min]')
 # Save the model
-filename = os.path.join(save_dir, 'final_trained_model.pth')
+filename = os.path.join(saved_model_dir, 'final_trained_model.pth')
 torch.save(model.module.state_dict(), filename)  # Save when using DataParallel
-filename = os.path.join(save_dir, f'training_losses')
+filename = os.path.join(saved_model_dir, f'training_losses')
 np.savez(filename,
          loss_dom_list=loss_dom_list,
          loss_bc_R_list=loss_bc_R_list,
@@ -253,63 +244,10 @@ plt.plot(r_bc.cpu().detach().numpy(),t_bc.cpu().detach().numpy(),'o',ms=1)
 plt.plot(r_bc_R.cpu().detach().numpy(),t_bc_R.cpu().detach().numpy(),'o',ms=1)
 plt.plot(r_ic.cpu().detach().numpy(),t_ic.cpu().detach().numpy(),'o',ms=1)
 #
-filename = os.path.join(save_dir, f'mesh_final.png')
+filename = os.path.join(saved_model_dir, f'mesh_final.png')
 plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
             orientation='portrait', format='png',transparent=True, 
             bbox_inches='tight', pad_inches=0.1, metadata=None)
 plt.close()
 
-# Loss Plot
-loss_y_min = 1e-10  # Adjust as necessary based on the expected minimum loss value
-loss_y_max = 1e0  # Adjust as necessary based on the expected maximum loss value
-#
-fig = plt.figure(figsize=(7,6))
-# Fontsize of everything inside the plot
-plt.rcParams.update({'font.size': 16})
-#
-plt.semilogy(loss_ic_list, label='IC Loss')
-plt.semilogy(loss_bc_R_list, label='Right BC Loss')
-plt.semilogy(loss_bc_L_list, label='Left BC Loss')
-plt.semilogy(loss_dom_list, label='Domain Loss')
-plt.grid(True, which='both', ls='--')
-plt.legend()
-plt.ylim(loss_y_min, loss_y_max)  # Set fixed y-axis limits for loss plot
-#
-filename = os.path.join(save_dir, f'training_losses.png')
-plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
-            orientation='portrait', format='png',transparent=True, 
-            bbox_inches='tight', pad_inches=0.1, metadata=None)
-plt.close()
-
-# Ensure the save directory exists
-if not os.path.exists(save_dir):
-    os.makedirs(save_dir)
-    
-# Initialize x tensor
-x = torch.linspace(0, L, 1024, dtype=torch.float32, device=device).view(-1, 1)
-    
-# Precompute time steps as a tensor
-time_steps = torch.linspace(0, T, 2*T+1, dtype=torch.float32, device=device)
-    
-for t_i in time_steps:
-    # Create time tensor
-    t = t_i.expand_as(x)
-        
-    # Model inference
-    nn_sol = model(x, t).cpu().detach().numpy()
-        
-    # Plotting and saving
-    plt.figure()
-    plt.plot(x.cpu(), nn_sol, linewidth=2)
-    plt.title(r'$t_i$: ' + str(t_i.item()))
-    plt.xlim(0, L)
-        
-    # Save plot
-    filename = os.path.join(save_dir, f'pinns_sol_{t_i.item():.2f}.png')
-    print(f'Saving plot for t_i = {t_i.item()} at {filename}')  # Debugging statement
-    plt.savefig(filename, dpi=300, facecolor=None, edgecolor=None,
-            orientation='portrait', format='png',transparent=True, 
-            bbox_inches='tight', pad_inches=0.1, metadata=None)
-    plt.close()
-    
 # CUDA_VISIBLE_DEVICES=0,1 python spherical_wave_eq.py > log_spherical_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
