@@ -123,7 +123,7 @@ else:
     raise FileNotFoundError(f"Loss file: '{loss_file}' not found. Ensure it exists and the path is correct.")
 
 # Loss Plot
-loss_y_min = 1e-11  # Adjust as necessary based on the expected minimum loss value
+loss_y_min = 1e-12  # Adjust as necessary based on the expected minimum loss value
 loss_y_max = 1e1  # Adjust as necessary based on the expected maximum loss value
 fig = plt.figure(figsize=(7,6))
 # Fontsize of everything inside the plot
