@@ -37,7 +37,7 @@ gamma = DECAY_RATE ** (1 / DECAY_STEPS)
 EPOCHS = 300000
 # Define the model class
 class Model(nn.Module):
-    def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
+    def __init__(self, layer_sizes, activation=nn.GELU(),seed=42):
         super(Model, self).__init__()
         self.layers = nn.ModuleList()
         self.activation = activation
@@ -146,12 +146,12 @@ def random_IC_points(R, n=128):
     return r, t
 
 # Define a directory to save the figures
-saved_model_dir = 'Figs_spherical_wave_eq_256_1'
+saved_model_dir = 'Figs_spherical_wave_eq_256_7'
 os.makedirs(saved_model_dir, exist_ok=True)
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-layer_sizes = [2, 256, 256, 256, 256, 1]  # 4 hidden layers with 256 neurons each
-activation = nn.Tanh()
+layer_sizes = [2, 256, 256, 256, 256, 256, 1]  # 5 hidden layers with 256 neurons each
+activation = nn.GELU()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs
 model = nn.DataParallel(model, device_ids=[0, 1, 2])
