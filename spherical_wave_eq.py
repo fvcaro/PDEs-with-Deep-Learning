@@ -146,11 +146,11 @@ def random_IC_points(R, n=128):
     return r, t
 
 # Define a directory to save the figures
-saved_model_dir = 'Figs_spherical_wave_eq_256_6'
+saved_model_dir = 'Figs_spherical_wave_eq_256_2'
 os.makedirs(saved_model_dir, exist_ok=True)
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-layer_sizes = [2, 256, 256, 256, 256, 256, 1]  # 5 hidden layers with 256 neurons each
+layer_sizes = [2, 256, 256, 256, 256, 1]  # 4 hidden layers with 256 neurons each
 activation = nn.GELU()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs
