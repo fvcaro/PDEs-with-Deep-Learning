@@ -15,7 +15,7 @@ for i in range(num_gpus):
     print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
 
 # Path to the saved model
-model_dir = 'Figs_spherical_wave_eq_256_7'
+model_dir = 'Figs_spherical_wave_eq_256_6'
 saved_model_path = os.path.join(model_dir, 'final_trained_model.pth')
 
 # Define a directory to save the Sols
@@ -123,7 +123,7 @@ else:
     raise FileNotFoundError(f"Loss file: '{loss_file}' not found. Ensure it exists and the path is correct.")
 
 # Loss Plot
-loss_y_min = 1e-12  # Adjust as necessary based on the expected minimum loss value
+loss_y_min = 1e-11  # Adjust as necessary based on the expected minimum loss value
 loss_y_max = 1e1  # Adjust as necessary based on the expected maximum loss value
 fig = plt.figure(figsize=(7,6))
 # Fontsize of everything inside the plot
