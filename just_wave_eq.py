@@ -146,11 +146,11 @@ def random_IC_points(R, n=128):
     return r, t
 
 # Define a directory to save the figures
-saved_model_dir = 'Figs_spherical_wave_eq_256_0'
+saved_model_dir = 'just_wave_eq_256_4'
 os.makedirs(saved_model_dir, exist_ok=True)
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-layer_sizes = [2, 256, 256, 256, 256, 1]  # 4 hidden layers with 256 neurons each
+layer_sizes = [2, 256, 256, 256, 256, 256, 1]  # 5 hidden layers with 256 neurons each
 activation = nn.Tanh()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs
@@ -219,4 +219,4 @@ np.savez(filename,
          loss_ic_list=loss_ic_list
         )
 
-# CUDA_VISIBLE_DEVICES=0,1,2 python spherical_wave_eq.py > log_spherical_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &
+# CUDA_VISIBLE_DEVICES=0,1,2 python just_wave_eq.py > log_just_wave_eq_$(date +%d-%m-%Y_%H.%M.%S).txt 2>&1 &

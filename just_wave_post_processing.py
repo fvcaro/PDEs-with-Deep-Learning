@@ -15,7 +15,7 @@ for i in range(num_gpus):
     print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
 
 # Path to the saved model
-model_dir = 'Figs_spherical_wave_eq_256_0'
+model_dir = 'just_wave_eq_256_4'
 saved_model_path = os.path.join(model_dir, 'final_trained_model.pth')
 
 # Define a directory to save the Sols
@@ -65,7 +65,7 @@ torch.manual_seed(seed)
 
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-layer_sizes = [2, 256, 256, 256, 256, 1]  # 4 hidden layers with 256 neurons each
+layer_sizes = [2, 256, 256, 256, 256, 256, 1]  # 5 hidden layers with 256 neurons each
 activation = nn.Tanh()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs if multiple GPUs are available
@@ -170,4 +170,4 @@ for t_i in time_steps_high_res:
             bbox_inches='tight', pad_inches=0.1, metadata=None)
     plt.close()
 
-# CUDA_VISIBLE_DEVICES=3,4 python spherical_post_processing.py
+# CUDA_VISIBLE_DEVICES=3,4 python just_wave_post_processing.py
