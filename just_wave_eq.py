@@ -32,9 +32,9 @@ TRAIN_IC_POINTS  = 2048   #1024
 # Set up optimizer and scheduler
 LEARNING_RATE = 0.001
 DECAY_RATE = 0.9
-DECAY_STEPS = 2000
+DECAY_STEPS = 5000
 gamma = DECAY_RATE ** (1 / DECAY_STEPS)
-EPOCHS = 200000
+EPOCHS = 300000
 # Define the model class
 class Model(nn.Module):
     def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
@@ -146,7 +146,7 @@ def random_IC_points(R, n=128):
     return r, t
 
 # Define a directory to save the figures
-saved_model_dir = 'just_wave_eq_256_4'
+saved_model_dir = 'just_wave_eq_256_5'
 os.makedirs(saved_model_dir, exist_ok=True)
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

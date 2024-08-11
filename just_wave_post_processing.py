@@ -15,7 +15,7 @@ for i in range(num_gpus):
     print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
 
 # Path to the saved model
-model_dir = 'just_wave_eq_256_4'
+model_dir = 'just_wave_eq_256_5'
 saved_model_path = os.path.join(model_dir, 'final_trained_model.pth')
 
 # Define a directory to save the Sols
