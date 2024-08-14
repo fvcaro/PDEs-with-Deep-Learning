@@ -15,7 +15,7 @@ for i in range(num_gpus):
     print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
 
 # Path to the saved model
-model_dir = 'just_wave_eq_256_5'
+model_dir = 'wave_eq_kessence'
 saved_model_path = os.path.join(model_dir, 'final_trained_model.pth')
 
 # Define a directory to save the Sols
@@ -170,4 +170,4 @@ for t_i in time_steps_high_res:
             bbox_inches='tight', pad_inches=0.1, metadata=None)
     plt.close()
 
-# CUDA_VISIBLE_DEVICES=3,4 python just_wave_post_processing.py
+# CUDA_VISIBLE_DEVICES=3,4 python post_processing.py
