@@ -22,7 +22,8 @@ T  = 30
 x0 = 15
 A  = 1.
 # c  = 1.
-screened = -5.e-6
+screened = 0.
+# 0. initial_perturbation
 # -5.e-6 # middle_perturbation
 # 1.e-6 # small_perturbation
 # 1.e-5 # bigger_perturbation
@@ -91,8 +92,8 @@ def lossRes(r,t):
                                )[0]
     #
     X = (u_r)**2 - (u_t)**2
-    K_X  = -1./2. - screened*(3./8.)*X**2
-    K_XX = - screened*(3./4.)*X
+    K_X  = -1./2. + screened*(3./8.)*X**2
+    K_XX = screened*(3./4.)*X
     #
     res1 = 2*r*K_XX*(u_rr)*(u_r**2)/K_X
     res2 = 4*r*K_XX*(u_t)*(u_tr)*(u_r)/K_X
@@ -161,23 +162,27 @@ def random_IC_points(R, n=128):
     t = torch.zeros(n, 1, dtype=torch.float32, device=device, requires_grad=True)
     return r, t
 
-# Define a directory to save the figures
-saved_model_dir = 'wave_eq_kessence'
-os.makedirs(saved_model_dir, exist_ok=True)
+# Define a directory to save the results
+outputs_dir = 'wave_eq_kessence_initial_perturbation'
+os.makedirs(outputs_dir, exist_ok=True)
+
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 layer_sizes = [2, 256, 256, 256, 256, 256, 1]  # 5 hidden layers with 256 neurons each
 activation = nn.Tanh()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
+
 # Use DataParallel with specified GPUs
 model = nn.DataParallel(model, device_ids=[0, 1, 2])
-#
+
+# Randomly generate training data
 r,      t      = random_domain_points(L,T,n=TRAIN_DOM_POINTS)
 r_bc  , t_bc   = random_BC_points_L(L,T,n=TRAIN_BC_POINTS)
 r_bc_R, t_bc_R = random_BC_points_R(L,T,n=TRAIN_BC_POINTS)
 r_ic,   t_ic   = random_IC_points(L,n=TRAIN_IC_POINTS)
-#
-filename = os.path.join(saved_model_dir, f'initial_sampling_points')
+
+# Save initial sampling points
+filename = os.path.join(outputs_dir, f'initial_sampling_points')
 np.savez(filename,
          r=r.cpu().detach().numpy(),
          t=t.cpu().detach().numpy(),
@@ -188,17 +193,17 @@ np.savez(filename,
          r_ic=r_ic.cpu().detach().numpy(),
          t_ic=t_ic.cpu().detach().numpy()
         )
-#
+
+# Set up optimizer with different learning rates for different parts of the model
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=gamma)
 # Training loop
-t0 = time()
-#
+start_time = time()
 loss_dom_list  = []
 loss_bc_L_list = []
 loss_bc_R_list = []
 loss_ic_list   = []
-#
+
 for epoch in range(EPOCHS):
     optimizer.zero_grad()
     # Compute losses (assuming these functions are defined)
@@ -223,11 +228,20 @@ for epoch in range(EPOCHS):
         current_lr = scheduler.get_last_lr()[0]  # Get the current learning rate
         print(f'Epoch: {epoch} - Loss: {loss.item():>1.3e} - Learning Rate: {current_lr:>1.3e}')
 
-print('Computing time', (time() - t0) / 60, '[min]')
+    # Print progress
+    if epoch % 2000 == 0:
+        elapsed_time = time() - start_time
+        print(f'Epoch {epoch}: Loss = {loss.item():.6f}, Elapsed Time = {elapsed_time:.2f}s')
+    
+    # Save checkpoint
+    if epoch % 10000 == 0:
+        torch.save(model.module.state_dict(), f"{outputs_dir}/checkpoint_{epoch}.pth")
+
+print('Computing time', (time() - start_time) / 60, '[min]')
 # Save the model
-filename = os.path.join(saved_model_dir, 'final_trained_model.pth')
+filename = os.path.join(outputs_dir, 'final_trained_model.pth')
 torch.save(model.module.state_dict(), filename)  # Save when using DataParallel
-filename = os.path.join(saved_model_dir, f'training_losses')
+filename = os.path.join(outputs_dir, f'training_losses')
 np.savez(filename,
          loss_dom_list=loss_dom_list,
          loss_bc_R_list=loss_bc_R_list,
