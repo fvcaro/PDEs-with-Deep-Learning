@@ -21,7 +21,6 @@ L  = 40
 T  = 30
 x0 = 15
 A  = 1.
-# c  = 1.
 screened = 0.
 # 0. initial_perturbation
 # -5.e-6 # middle_perturbation
@@ -98,7 +97,7 @@ def lossRes(r,t):
     res1 = 2*r*K_XX*(u_rr)*(u_r**2)/K_X
     res2 = 4*r*K_XX*(u_t)*(u_tr)*(u_r)/K_X
     res3 = 2*r*K_XX*(u_t**2)*(u_tt)/K_X
-    res4 = 2*u_r + r*u_rr - r*u_tt 
+    res4 = 2*u_r + r*u_rr - r*u_tt
     residual = res1 - res2 + res3 + res4 
     loss_dom = residual 
     return loss_dom
@@ -231,10 +230,10 @@ for epoch in range(EPOCHS):
     # Print progress
     if epoch % 2000 == 0:
         elapsed_time = time() - start_time
-        print(f'Epoch {epoch}: Loss = {loss.item():.6f}, Elapsed Time = {elapsed_time:.2f}s')
+        print(f'Epoch {epoch}: - Loss: {loss.item():.6f} - Elapsed Time: {elapsed_time:.2f}s')
     
     # Save checkpoint
-    if epoch % 10000 == 0:
+    if epoch % 100000 == 0:
         torch.save(model.module.state_dict(), f"{outputs_dir}/checkpoint_{epoch}.pth")
 
 print('Computing time', (time() - start_time) / 60, '[min]')

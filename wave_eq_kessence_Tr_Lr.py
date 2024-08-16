@@ -21,8 +21,7 @@ L  = 40
 T  = 30
 x0 = 15
 A  = 1.
-# c  = 1.
-screened = 0.
+screened = 1.e-6 # small_perturbation
 # 0. initial_perturbation
 # -5.e-6 # middle_perturbation
 # 1.e-6 # small_perturbation
@@ -163,7 +162,7 @@ def random_IC_points(R, n=128):
     return r, t
 
 # Define a directory to save the results
-outputs_dir = 'wave_eq_kessence_initial_perturbation_Tr_Lr'
+outputs_dir = 'wave_eq_kessence_small_perturbation_Tr_Lr'
 os.makedirs(outputs_dir, exist_ok=True)
 
 # Instantiate the model and move to GPU
@@ -178,7 +177,7 @@ if use_data_parallel:
     model = nn.DataParallel(model, device_ids=[0, 1, 2])
 
 # Path to the saved model
-model_dir = 'just_wave_eq_256_5'
+model_dir = 'wave_eq_kessence_initial_perturbation'
 saved_model_path = os.path.join(model_dir, 'final_trained_model.pth')
 print(f"Model: '{saved_model_path}' loaded properly.")
 
@@ -255,7 +254,7 @@ for epoch in range(EPOCHS):
     # Print progress
     if epoch % 2000 == 0:
         elapsed_time = time() - start_time
-        print(f'Epoch {epoch}: Loss: {loss.item():.6f}, - Elapsed Time: {elapsed_time:.2f}s')
+        print(f'Epoch {epoch} - Loss: {loss.item():.6f} - Elapsed Time: {elapsed_time:.2f}s')
     
     # Save checkpoint
     if epoch % 100000 == 0:

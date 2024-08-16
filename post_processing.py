@@ -15,7 +15,7 @@ for i in range(num_gpus):
     print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
 
 # Path to the saved model
-model_dir = 'wave_eq_kessence_initial_perturbation_Tr_Lr'
+model_dir = 'wave_eq_kessence_small_perturbation_Tr_Lr'
 saved_model_path = os.path.join(model_dir, 'final_trained_model.pth')
 
 # Define a directory to save the Sols
