@@ -24,8 +24,8 @@ A  = 1.
 screened = 0.
 # 0. initial_perturbation
 # -5.e-6 # middle_perturbation
-# 1.e-6 # small_perturbation
-# 1.e-5 # bigger_perturbation
+# -1.e-6 # small_perturbation
+# -1.e-5 # bigger_perturbation
 # Training parameters
 GAMMA1 = 1.
 GAMMA2 = 10.
@@ -223,15 +223,12 @@ for epoch in range(EPOCHS):
     optimizer.step()
     scheduler.step()
     # Print the current learning rate and loss every 2000 epochs
+    # Print the current learning rate and loss every 2000 epochs
     if epoch % 2000 == 0:
+        elapsed_time = (time() - start_time) / 60  # Convert elapsed time to minutes
         current_lr = scheduler.get_last_lr()[0]  # Get the current learning rate
-        print(f'Epoch: {epoch} - Loss: {loss.item():>1.3e} - Learning Rate: {current_lr:>1.3e}')
+        print(f'Epoch: {epoch} - Loss: {loss.item():>1.3e} - Learning Rate: {current_lr:>1.3e} - Elapsed Time: {elapsed_time:.2f} [min]')
 
-    # Print progress
-    if epoch % 2000 == 0:
-        elapsed_time = time() - start_time
-        print(f'Epoch {epoch}: - Loss: {loss.item():.6f} - Elapsed Time: {elapsed_time:.2f}s')
-    
     # Save checkpoint
     if epoch % 100000 == 0:
         torch.save(model.module.state_dict(), f"{outputs_dir}/checkpoint_{epoch}.pth")
