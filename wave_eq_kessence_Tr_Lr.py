@@ -21,7 +21,7 @@ L  = 40
 T  = 30
 x0 = 15
 A  = 1.
-screened = -1.e-6 # small_perturbation
+screened = -5.e-6 # middle_perturbation
 # 0. initial_perturbation
 # -5.e-6 # middle_perturbation
 # -1.e-6 # small_perturbation
@@ -162,7 +162,7 @@ def random_IC_points(R, n=128):
     return r, t
 
 # Define a directory to save the results
-outputs_dir = 'wave_eq_kessence_small_perturbation_Tr_Lr'
+outputs_dir = 'wave_eq_kessence_middle_perturbation_Tr_Lr'
 os.makedirs(outputs_dir, exist_ok=True)
 
 # Instantiate the model and move to GPU
