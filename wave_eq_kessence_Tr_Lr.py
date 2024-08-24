@@ -22,7 +22,7 @@ T  = 30
 x0 = 15
 A  = 1.
 screened = -1.e-5 # bigger_perturbation
-# 0. initial_perturbation
+# 0. # initial_perturbation
 # -5.e-6 # middle_perturbation
 # -1.e-6 # small_perturbation
 # -1.e-5 # bigger_perturbation
@@ -97,7 +97,7 @@ def lossRes(r,t):
     res1 = 2*r*K_XX*(u_rr)*(u_r**2)/K_X
     res2 = 4*r*K_XX*(u_t)*(u_tr)*(u_r)/K_X
     res3 = 2*r*K_XX*(u_t**2)*(u_tt)/K_X
-    res4 = 2*u_r + r*u_rr - r*u_tt 
+    res4 = 2*u_r + r*u_rr - r*u_tt
     residual = res1 - res2 + res3 + res4 
     loss_dom = residual 
     return loss_dom
@@ -215,7 +215,8 @@ np.savez(filename,
          r_bc=r_bc.cpu().detach().numpy(),
          t_bc=t_bc.cpu().detach().numpy(),
          r_ic=r_ic.cpu().detach().numpy(),
-         t_ic=t_ic.cpu().detach().numpy())
+         t_ic=t_ic.cpu().detach().numpy()
+         )
 
 # Set up optimizer with different learning rates for different parts of the model
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)

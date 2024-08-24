@@ -15,7 +15,7 @@ for i in range(num_gpus):
     print(f'GPU {i}: {torch.cuda.get_device_name(i)}')
 
 # Path to the saved model
-model_dir = 'wave_eq_kessence_bigger_perturbation_Tr_Lr'
+model_dir = 'wave_eq_kessence_initial_perturbation'
 saved_model_path = os.path.join(model_dir, 'final_trained_model.pth')
 
 # Define a directory to save the Sols
@@ -33,7 +33,7 @@ dx = 0.05
 
 # Define the model class
 class Model(nn.Module):
-    def __init__(self, layer_sizes, activation=nn.Tanh(), seed=42):
+    def __init__(self, layer_sizes, activation=nn.GELU(), seed=42):
         super(Model, self).__init__()
         self.layers = nn.ModuleList()
         self.activation = activation
@@ -66,7 +66,7 @@ torch.manual_seed(seed)
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 layer_sizes = [2, 256, 256, 256, 256, 256, 1]  # 5 hidden layers with 256 neurons each
-activation = nn.Tanh()
+activation = nn.GELU()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 # Use DataParallel with specified GPUs if multiple GPUs are available
 use_data_parallel = torch.cuda.device_count() > 1

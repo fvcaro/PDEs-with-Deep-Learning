@@ -21,8 +21,8 @@ L  = 40
 T  = 30
 x0 = 15
 A  = 1.
-screened = 0.
-# 0. initial_perturbation
+screened = 0. # initial_perturbation
+# 0. # initial_perturbation
 # -5.e-6 # middle_perturbation
 # -1.e-6 # small_perturbation
 # -1.e-5 # bigger_perturbation
@@ -41,7 +41,7 @@ gamma = DECAY_RATE ** (1 / DECAY_STEPS)
 EPOCHS = 300000
 # Define the model class
 class Model(nn.Module):
-    def __init__(self, layer_sizes, activation=nn.Tanh(),seed=42):
+    def __init__(self, layer_sizes, activation=nn.GELU(),seed=42):
         super(Model, self).__init__()
         self.layers = nn.ModuleList()
         self.activation = activation
@@ -168,17 +168,17 @@ os.makedirs(outputs_dir, exist_ok=True)
 # Instantiate the model and move to GPU
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 layer_sizes = [2, 256, 256, 256, 256, 256, 1]  # 5 hidden layers with 256 neurons each
-activation = nn.Tanh()
+activation = nn.GELU()
 model = Model(layer_sizes, activation).to(device, dtype=torch.float32)
 
 # Use DataParallel with specified GPUs
 model = nn.DataParallel(model, device_ids=[0, 1, 2])
 
 # Randomly generate training data
-r,      t      = random_domain_points(L,T,n=TRAIN_DOM_POINTS)
-r_bc  , t_bc   = random_BC_points_L(L,T,n=TRAIN_BC_POINTS)
-r_bc_R, t_bc_R = random_BC_points_R(L,T,n=TRAIN_BC_POINTS)
-r_ic,   t_ic   = random_IC_points(L,n=TRAIN_IC_POINTS)
+r, t           = random_domain_points(L, T, n=TRAIN_DOM_POINTS)
+r_bc, t_bc     = random_BC_points_L(L, T, n=TRAIN_BC_POINTS)
+r_bc_R, t_bc_R = random_BC_points_R(L, T, n=TRAIN_BC_POINTS)
+r_ic, t_ic     = random_IC_points(L, n=TRAIN_IC_POINTS)
 
 # Save initial sampling points
 filename = os.path.join(outputs_dir, f'initial_sampling_points')
@@ -222,7 +222,6 @@ for epoch in range(EPOCHS):
     loss.backward(retain_graph=True)
     optimizer.step()
     scheduler.step()
-    # Print the current learning rate and loss every 2000 epochs
     # Print the current learning rate and loss every 2000 epochs
     if epoch % 2000 == 0:
         elapsed_time = (time() - start_time) / 60  # Convert elapsed time to minutes
